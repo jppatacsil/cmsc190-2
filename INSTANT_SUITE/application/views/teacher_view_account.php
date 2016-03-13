@@ -11,16 +11,16 @@
     <title>INSTANT SUITE</title>
 
      <!-- Bootstrap CSS -->    
-    <link href="css/bootstrap.min.css"rel="stylesheet">
+    <link href="<?php echo base_url();?>css/bootstrap.min.css"rel="stylesheet">
     <!-- bootstrap theme -->
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>css/bootstrap-theme.css" rel="stylesheet">
     <!--external css-->
     <!-- font icon -->
-    <link href=" css/elegant-icons-style.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="<?php echo base_url();?>css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="<?php echo base_url();?>css/font-awesome.min.css" rel="stylesheet"/>
     <!-- Custom styles -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link href="<?php echo base_url();?>css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>css/style-responsive.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -40,7 +40,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">INSTANT <span class="lite">SUITE</span></a>
+            <a href="#" class="logo">INSTANT <span class="lite">SUITE</span></a>
             <!--logo end-->
 
             <div class="nav search-row" id="top_menu">
@@ -302,31 +302,31 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
                   <li class="active">
-                      <a class="" href="teacher_view_account.html">
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/5')?>" >
                           <i class="icon_profile"></i>
                           <span>My Profile</span>
                       </a>
                   </li>
                   <li class="sub-menu">
-                      <a href="teacher_create_exam.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/1')?>" class="">
                           <i class="icon_document_alt"></i>
                           <span>Create Exam</span>
                       </a>
                   </li> 
                   <li class="sub-menu">
-                      <a href="teacher_create_question.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/2')?>" class="">
                           <i class="icon_document_alt"></i>
                           <span>Create Question</span>
                       </a>
                   </li> 
                   <li class="sub-menu">
-                      <a href="teacher_view_exam_list.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/3')?>"  class="">
                           <i class="icon_desktop"></i>
                           <span>Manage Exams</span>
                       </a>
                   </li>
                   <li>
-                      <a class="" href="widgets.html">
+                      <a class="" href=<?php echo site_url('teachers/teacherActions/4')?>">
                           <i class="icon_genius"></i>
                           <span>Question Bank</span>
                       </a>
@@ -364,7 +364,7 @@
                             <div class="col-lg-2 col-sm-2">
                               <h4>Jenifer Smith</h4>               
                               <div class="follow-ava">
-                                  <img src="img/profile-widget-avatar.jpg" alt="">
+                                  <img src="<?php echo base_url();?>img/profile-widget-avatar.jpg" alt="">
                               </div>
                               <h6>Administrator</h6>
                             </div>

@@ -301,31 +301,31 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
                   <li class="sub-menu">
-                      <a class="" href="teacher_view_account.html">
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/5')?>" >
                           <i class="icon_profile"></i>
                           <span>My Profile</span>
                       </a>
                   </li>
                   <li class="sub-menu">
-                      <a href="teacher_create_exam.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/1')?>" class="">
                           <i class="icon_document_alt"></i>
                           <span>Create Exam</span>
                       </a>
                   </li> 
                   <li class="sub-menu">
-                      <a href="teacher_create_question.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/2')?>"  class="">
                           <i class="icon_document_alt"></i>
                           <span>Create Question</span>
                       </a>
                   </li> 
                   <li class="active">
-                      <a href="teacher_view_exam_list.html" class="">
+                      <a href="<?php echo site_url('teachers/teacherActions/3')?>"  class="">
                           <i class="icon_desktop"></i>
                           <span>Manage Exams</span>
                       </a>
                   </li>
                   <li>
-                      <a class="" href="teacher_manage_question_bank.html">
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/4')?>" >
                           <i class="icon_genius"></i>
                           <span>Question Bank</span>
                       </a>
@@ -337,7 +337,7 @@
                       </a>
                   </li>
                    <li>                     
-                      <a class="" href="viewLogs.html">
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/7')?>" >
                           <i class="icon_ol"></i>
                           <span>View Logs</span>
                       </a>

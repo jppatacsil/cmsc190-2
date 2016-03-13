@@ -11,16 +11,16 @@
     <title>INSTANT SUITE</title>
 
     <!-- Bootstrap CSS -->    
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>css/bootstrap-theme.css" rel="stylesheet">
     <!--external css-->
     <!-- font icon -->
-    <link href="css/elegant-icons-style.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="<?php echo base_url(); ?>css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>css/font-awesome.min.css" rel="stylesheet"/>
     <!-- Custom styles -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css"rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>css/style-responsive.css"rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -35,7 +35,7 @@
 
       <form class="login-form" action="index.html">        
         <div class="login-wrap">
-            <p class="login-img"><img src="img/instant-square.png" alt="Logo" height="75" width="75"></p>
+            <p class="login-img"><img src="<?php echo base_url(); ?>img/instant-square.png" alt="Logo" height="75" width="75"></p>
             <div class="input-group">
               <span class="input-group-addon"><i class="icon_profile"></i></span>
               <input type="text" class="form-control" placeholder="Username" autofocus>

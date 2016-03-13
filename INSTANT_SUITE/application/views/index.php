@@ -16,14 +16,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>INSTANT SUITE</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="homepage-css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>homepage-css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="homepage-css/landing-page.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>homepage-css/landing-page.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-   <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"> 
+    <link href="<?php echo base_url(); ?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   <link href="<?php echo base_url(); ?>http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"> 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,10 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="list-inline intro-social-buttons">
 
                             <li>
-                                <a href="login.php" class="btn btn-default btn-lg"><i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Login</span></a>
+                                <a href="<?php echo site_url('home/login_page'); ?>" class="btn btn-default btn-lg"><i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Login</span></a>
                             </li>
                             <li>
-                                <a href="signup.php" class="btn btn-default btn-lg"><i class="fa fa-user fa-fw"></i> <span class="network-name">Sign Up</span></a>
+                                <a href="<?php echo site_url('home/signUp_page'); ?>" class="btn btn-default btn-lg"><i class="fa fa-user fa-fw"></i> <span class="network-name">Sign Up</span></a>
                             </li>
                             <li>
                                 <a href="#" class="btn btn-default btn-lg"><i class="fa fa-google fa-fw"></i> <span class="network-name">Login via UP Mail</span></a>
