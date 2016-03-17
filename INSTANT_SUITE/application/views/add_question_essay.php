@@ -10,7 +10,7 @@
 
     <title>INSTANT SUITE</title>
 
-    <!-- Bootstrap CSS -->    
+     <!-- Bootstrap CSS -->    
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
     <link href="<?php echo base_url(); ?>css/bootstrap-theme.css" rel="stylesheet">
@@ -41,7 +41,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">Instant <span class="lite">Suite</span></a>
+            <a href="#" class="logo">INSTANT <span class="lite">SUITE</span></a>
             <!--logo end-->
 
             <div class="nav search-row" id="top_menu">
@@ -280,7 +280,7 @@
                                 <a href="#"><i class="icon_chat_alt"></i> Chats</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('home/loginPage/')?>" "><i class="icon_key_alt"></i> Log Out</a>
+                                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
                             </li>
                             <li>
                                 <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
@@ -298,7 +298,7 @@
       <!--header end-->
 
       <!--sidebar start-->
-      <aside>
+     <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
@@ -308,8 +308,8 @@
                           <span>My Profile</span>
                       </a>
                   </li>
-                  <li class="active">
-                      <a href="<?php echo site_url('teachers/teacherActions/1')?>" class="">
+                  <li class="sub-menu">
+                      <a href="<?php echo site_url('teachers/teacherActions/1')?>"  class="">
                           <i class="icon_document_alt"></i>
                           <span>Create Exam</span>
                       </a>
@@ -327,7 +327,7 @@
 								<li><a class="" href="<?php echo site_url('teachers/addQuestion/5'); ?>" >Fill-in-the-blanks</a></li> <li><a class="" href="<?php echo site_url('teachers/addQuestion/6'); ?>" >Essay</a></li>  
 								<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>		  
                       </ul>
-                  </li> 
+                  </li>
                   <li class="sub-menu">
                       <a href="<?php echo site_url('teachers/teacherActions/3')?>"  class="">
                           <i class="icon_desktop"></i>
@@ -335,7 +335,7 @@
                       </a>
                   </li>
                   <li>
-                      <a class="" href="<?php echo site_url('teachers/teacherActions/4')?>" >
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/4')?>" ">
                           <i class="icon_genius"></i>
                           <span>Question Bank</span>
                       </a>
@@ -347,7 +347,7 @@
                       </a>
                   </li>
                    <li>                     
-                      <a class="" href="<?php echo site_url('teachers/teacherActions/7')?>" >
+                      <a class="" href="<?php echo site_url('teachers/teacherActions/7')?>" ">
                           <i class="icon_ol"></i>
                           <span>View Logs</span>
                       </a>
@@ -361,116 +361,60 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-      <div class="row">
-        <div class="col-lg-12">
-          <h3 class="page-header"><i class="fa fa-file-text-o"></i>Create Exam</h3>
-          <ol class="breadcrumb">
-            <li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
-            <li><i class="icon_document_alt"></i>Forms</li>
-            <li><i class="fa fa-file-text-o"></i>Create Exam</li>
-          </ol>
-        </div>
-      </div>
-              <!-- EXAM TEMPLATE FORM -->
+		  <div class="row">
+				<div class="col-lg-12">
+					<h3 class="page-header"><i class="fa fa-file-text-o"></i>Construct Questions</h3>
+					<ol class="breadcrumb">
+						<li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
+						<li><i class="icon_document_alt"></i>Add Question</li>
+						<li><i class="fa fa-file-text-o"></i>Essay</li>
+					</ol>
+				</div>
+			</div>
+              <!-- Basic Forms & Horizontal Forms-->
               <div class="row">
                   <div class="col-lg-6">
                       <section class="panel">
                           <header class="panel-heading">
-                              Exam template
+                              Construct Question
                           </header>
-                    <div class="panel-body">
-                  <form id="bookForm" method="post" class="form-horizontal">
-                      <!-- Course Code -->
-                      <!-- Select Basic -->
-                      <div class="form-group">
-                        <label class="col-md-4 control-label" for="courseCode">Course code</label>
-                        <div class="col-md-4">
-                         <select id="noOfItems" name="noOfItems" class="form-control">
-									  <option value="1">IT 1</option>
-									  <option value="2">CMSC 2</option>
-									  <option value="3">CMSC 11</option>
-									  <option value="4">CMSC 21</option>
-									  <option value="5">CMSC 22</option>
-									  <option value="6">CMSC 100</option>
-									  <option value="7">CMSC 123</option>
-									  <option value="8">CMSC 125</option>
-									  <option value="9">CMSC 127</option>
-									  <option value="10">CMSC 128</option>
-									  <option value="11">CMSC 130</option>
-									  <option value="12">CMSC 131</option>
-									  <option value="13">CMSC 132</option>
-									  <option value="14">CMSC 170</option>
-                         </select>
-                        </div>
-                      </div>
-
-                      <!-- Date of Exam -->
-                      <div class="form-group">
-                        <label class="col-md-4 control-label" for="exam_date">Examination Date</label>
-                        <div class="col-md-4">
-                        <input type="date" name="examinationDate">
-                      </div>
-                      </div>
-
-                      <!-- Description -->
-                      <div class="form-group">
-                        <label class="col-md-4 control-label" placeholder="Exam Description" for="exam_desc">Description</label>
-                        <div class="col-md-4">                     
-                         <textarea class="form-control" id="exam_desc" name="exam_desc">1st Exam, 2nd Exam, etc.</textarea>
-                        </div>
-                      </div>
-							 
-							 <!-- Total number of Items -->
-							 <div class="form-group">
-                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
-                        <div class="col-md-4">                     
-                         <input type="number" name="no_of_items" min="1">
-                        </div>
-                      </div>
-							 
-							 <!-- Setting no. of items per category -->
-							 <div class="form-group">
-									  <label class="col-xs-1 control-label">Book</label>
-									  <div class="col-xs-4">
-											<input type="text" class="form-control" name="book[0].title" placeholder="Title" />
-									  </div>
-									  <div class="col-xs-4">
-											<input type="text" class="form-control" name="book[0].isbn" placeholder="ISBN" />
-									  </div>
-									  <div class="col-xs-2">
-											<input type="text" class="form-control" name="book[0].price" placeholder="Price" />
-									  </div>
-									  <div class="col-xs-1">
-											<button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
-									  </div>
-								 </div>
-
-								 <!-- The template for adding new field -->
-								 <div class="form-group hide" id="bookTemplate">
-									  <div class="col-xs-4 col-xs-offset-1">
-											<input type="text" class="form-control" name="title" placeholder="Title" />
-									  </div>
-									  <div class="col-xs-4">
-											<input type="text" class="form-control" name="isbn" placeholder="ISBN" />
-									  </div>
-									  <div class="col-xs-2">
-											<input type="text" class="form-control" name="price" placeholder="Price" />
-									  </div>
-									  <div class="col-xs-1">
-											<button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
-									  </div>
-								 </div>
-
-								 <div class="form-group">
-									  <div class="col-xs-5 col-xs-offset-1">
-											<button type="submit" class="btn btn-default">Submit</button>
-									  </div>
-								 </div>							 
-
-							 <!-- End of setting no. of items per category -->
-                     </form>
-                  </div>
-					</section>
+                          <div class="panel-body">
+                              <form class="form-horizontal" role="form" id="form2">
+											<!-- Category -->
+											<div class="form-group">
+                                                      <label class="col-md-4 control-label" for="inputCategory">Category</label>
+																		<div class="col-md-4">
+                                                      <input required="true" type="text" class="form-control" id="inputCategory" placeholder="Enter Category">
+																		</div>
+																	</div>
+                                 
+                                                  <div class="form-group">
+                                                      <label class="col-md-4 control-label" for="inputQuestion">Question Proper</label>													 
+																		 <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+																	</div>
+																	  
+																	<div class="form-group">
+                                                      <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
+																		<div class="col-md-4">
+                                                      <input required="true" type="number" min="1" class="form-control" id="inputPoints">
+																		</div>
+																	</div>
+																	
+																	<div class="form-group">	
+																		<label class="col-md-4 control-label" for="inputAnswer">Correct Answer</label>
+																		<div class="col-md-4">
+                                                      <textarea required="true" class="form-control" rows="5" cols="30" id="correctAnswer" name="correctAnswer"></textarea>
+																		</div>
+																	</div>
+																	
+																	<div class="form-group">	
+																		<td><center><button type="submit" href="<?php echo site_url('teachers/teacherActions/1')?>" class="btn btn-primary btn-lg">
+																		Save Question
+																		</button></td></center>
+																	</div>
+                              </form>
+                          </div>
+                      </section>
                       
               <!-- page end-->
           </section>
@@ -509,6 +453,5 @@
     <script src="<?php echo base_url();?>js/scripts.js"></script>
 	 <script src="<?php echo base_url();?>//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	 
-
   </body>
 </html>

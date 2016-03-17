@@ -259,7 +259,7 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
-                                <img alt="" src="img/avatar1_small.jpg">
+                                <img alt="" src="<?php echo base_url()?>img/avatar1_small.jpg">
                             </span>
                             <span class="username">Jenifer Smith</span>
                             <b class="caret"></b>
@@ -314,10 +314,18 @@
                       </a>
                   </li> 
                   <li class="sub-menu">
-                      <a href="<?php echo site_url('teachers/teacherActions/2'); ?>" class="">
+                      <a href="javascript:;" class="">
                           <i class="icon_document_alt"></i>
-                          <span>Create Question</span>
+                          <span>Add Question</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
+                      <ul class="sub">
+                        <li><a class="" href="<?php echo site_url('teachers/addQuestion/1'); ?>" >Multiple Choice </a></li>
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/2'); ?>" >True or False</a></li>
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/3'); ?>" >Matching Type</a></li>  <li><a class="" href="<?php echo site_url('teachers/addQuestion/4'); ?>" >Identification</a></li>
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/5'); ?>" >Fill-in-the-blanks</a></li> <li><a class="" href="<?php echo site_url('teachers/addQuestion/6'); ?>" >Essay</a></li>  
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>		  
+                      </ul>
                   </li> 
                   <li class="sub-menu">
                       <a href="<?php echo site_url('teachers/teacherActions/3'); ?>" class="">
@@ -356,7 +364,7 @@
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+                        <li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
                         <li><i class="icon_documents_alt"></i>Pages</li>
                         <li><i class="fa fa-user-md"></i>Profile</li>
                     </ol>
@@ -512,15 +520,15 @@
   <!-- container section end -->
     <!-- javascripts -->
      <!-- javascripts -->
-    <script src="js/jquery.js" ></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url();?>js/jquery.js" ></script>
+    <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
     <!-- nicescroll -->
-    <script src="js/jquery.scrollTo.min.js");?>"></script>
-    <script src="js/jquery.nicescroll.js");?>" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>js/jquery.scrollTo.min.js"></script>
+    <script src="<?php echo base_url();?>js/jquery.nicescroll.js" type="text/javascript"></script>
     <!--custome script for all page-->
-    <script src="js/scripts.js"></script>
+    <script src="<?php echo base_url();?>js/scripts.js"></script>
      <!-- jquery knob -->
-    <script src="assets/jquery-knob/js/jquery.knob.js"></script>
+    <script src="<?php echo base_url();?>assets/jquery-knob/js/jquery.knob.js"></script>
 
   <script>
 
