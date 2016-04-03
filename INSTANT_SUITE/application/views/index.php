@@ -31,6 +31,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+
+    #modals {
+        background-color: gray;
+    }
+    
+
+
+    </style>
 
 </head>
 
@@ -41,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Header -->
     <a name="about"></a>
     <div class="intro-header">
-        <div class="container">
+        <div class="container" id="index">
 
             <div class="row">
                 <div class="col-lg-12">
@@ -53,10 +62,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="list-inline intro-social-buttons">
 
                             <li>
-                                <a href="<?php echo site_url('home/login_page'); ?>" class="btn btn-default btn-lg"><i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Login</span></a>
+                               
+                                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#loginModal"> 
+                                    <i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Login</span> 
+                                </button>
+
                             </li>
                             <li>
-                                <a href="<?php echo site_url('home/signUp_page'); ?>" class="btn btn-default btn-lg"><i class="fa fa-user fa-fw"></i> <span class="network-name">Sign Up</span></a>
+                                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#signupModal"> 
+                                    <i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Sign Up</span> 
+                                </button>
                             </li>
                             <li>
                                 <a href="#" class="btn btn-default btn-lg"><i class="fa fa-google fa-fw"></i> <span class="network-name">Login via UP Mail</span></a>
@@ -65,18 +80,118 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- /.container -->
 
     </div>
     <!-- /.intro-header -->
 
+    <!-------------------------------------- MODAL FOR LOG IN ------------------------------------>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content col-md-10 col-md-offset-1" >
+
+          <div class="modal-body" id="modals">
+           
+              <form class="login-form" action="<?php echo base_url()."index.php/home/validate_entry_login/"?>" method="post" accept-charset="utf-8">        
+                <?php echo validation_errors(); ?>
+                <div class="login-wrap">
+                  <form class="login-form" action="<?php echo base_url()."index.php/home/validate_entry_login/"?>" method="post" accept-charset="utf-8">
+
+                    <p class="login-img col-xs-offset-5"><img src="<?php echo base_url(); ?>img/instant-square.png" alt="Logo" height="75" width="75"></p>
+                    
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="icon_profile"></i></span>
+                      <input type="text" class="form-control" name="email_address" value="" placeholder="Email Address" />
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="password" class="form-control" name="password" value="" placeholder="Password" />
+                    </div>
+                    <br><br>
+                    <button class="btn btn-primary btn-lg btn-block" name="login_submit" value="Login" type="submit">Login</button>
+     
+                </div>
+              </form>
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-------------------------------------- END MODAL FOR LOG IN ------------------------------------>
+
+
+        <!-------------------------------------- MODAL FOR SIGN UP ------------------------------------>
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content col-md-10 col-md-offset-1" >
+
+          <div class="modal-body" id="modals">
+
+              <form class="login-form" action="<?php echo base_url()."index.php/home/signup_validation/"?>" method="post" accept-charset="utf-8" >        
+                <div class="login-wrap">
+                    <p class="login-img col-xs-offset-5"><img src="<?php echo base_url(); ?>img/instant-square.png" alt="Logo" height="75" width="75"></p>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="icon_profile"></i></span>
+
+                      <input type="text" class="form-control" placeholder="Last Name" name="lastName" value=""  />
+                      <input type="text" class="form-control" placeholder="First Name" name="firstName" value=""  />
+                      <input type="text" class="form-control" placeholder="Middle Name" name="middleName" value=""  />
+
+                    </div>
+                    <br>
+                       <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="text" class="form-control" name="empNo" placeholder="Employee No./ Student No. ">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="text" class="form-control" name="email_address_signup" placeholder="E-mail address">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="password" class="form-control" name="password_signup" placeholder="Password">
+                    </div>
+                   
+
+                    <br><br>
+                   <button type="submit"  name="signup_submit" value="Sign up" class="btn btn-primary btn-lg btn-block" >Sign Up</button>
+
+
+
+                </div>
+              </form>           
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-------------------------------------- END MODAL FOR SIGN UP ------------------------------------>
+
+
+
+
     <!-- jQuery -->
     <script src="homepage-js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="homepage-js/bootstrap.min.js"></script>
+   
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
 
 </body>
+
+
 
 </html>

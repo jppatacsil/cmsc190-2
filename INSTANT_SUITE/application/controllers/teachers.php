@@ -10,6 +10,12 @@ class teachers extends CI_Controller {
 	}
 	
 	//Load the login_page
+	public function addMultipleChoice(){
+		$this->load->view('add_question_mcq');
+
+	}
+
+
 	public function teacherActions($action){
 		
 		switch($action){
@@ -44,38 +50,32 @@ class teachers extends CI_Controller {
 		}
 	}
 	
-	//Load the login_page
-	public function addQuestion($action){
+	//Add exam
+	public function createExam(){
+	
+		$email = $this->session->userdata('email');
+		$courseCode = $this->input->post('course_code');
+		$date = $this->input->post('examinationDate');
+		$desc = $this->input->post('exam_desc');
+		$total = $this->input->post('no_of_items');
 		
-		switch($action){
-			
-			case 1: //Multiple choice
-				$this->load->view('add_question_mcq');
-				break;
-				
-			case 2: //True or false
-				$this->load->view('add_question_tf');
-				break;
-			
-			case 3: //Matching type
-				$this->load->view('add_question_matching');
-				break;
-				
-			case 4: //Identification
-				$this->load->view('add_question_ident');
-				break;
-				
-			case 5: //Fill-in-the-blanks
-				$this->load->view('add_question_fnb');
-				break;
-				
-			case 6: //Essay
-				$this->load->view('add_question_essay');
-				break;
-				
-			case 7: //Programming
-				$this->load->view('add_question_programming');
-				break;
-		}
+		$this->load->model('instant_model');
+		$this->instant_model->createExam($desc, $date, $total, $courseCode, $email);
+		
+		redirect('/home/home_page');
 	}
+	
+	//Bank questions
+	public function bankQuestion(){
+			$type = $this->uri->segment(3);
+			$questionProper = $this->input->post('questionProper');
+			$points = $this->input->post('points');
+			$answer = $this->input->post('answer');
+			
+			$this->load->model('instant_model');
+			$this->instant_model->addQuestion($type,$category,$questionProper,$points,$answer);
+			
+			redirect('/home/home_page');
+	}
+	
 }

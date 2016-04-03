@@ -35,6 +35,7 @@ $config['base_url'] = 'http://localhost/INSTANT_SUITE/';
 | variable so that it is blank.
 |
 */
+//index.php
 $config['index_page'] = 'index.php';
 
 /*
