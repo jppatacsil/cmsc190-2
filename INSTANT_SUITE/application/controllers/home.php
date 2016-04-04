@@ -132,7 +132,6 @@ class home extends CI_Controller {
 
 
 	public function signup_validation(){ //function called when user signs up
-	
 		$this->load->model('instant_model');
 		$key = md5(uniqid());
 		if($this->instant_model->add_user()){
@@ -156,19 +155,9 @@ class home extends CI_Controller {
 			return false;
 		}
 	}
-	
-	public function displayExams(){
-	
-		$email = $this->session->userdata['email'];
-      $this->load->model('instant_model');  
-      $examResult = $this->instant_model->viewExams($email);   
-		return $examResult;
-	
-	}
 
 	public function loadProfile(){ //loads the classes of a user by using his email
 		$this->load->view('teacher_profile');
-		
 	}
 
 	public function loadCreateExam(){
@@ -177,8 +166,7 @@ class home extends CI_Controller {
 	}
 
 	public function loadManageExam(){        
-      $data['examList'] = $this->displayExams();
-		$this->load->view('teacher_manage_exam',$data);
+		$this->load->view('teacher_manage_exam');
 	}
 
 	public function loadQuestionBank(){
@@ -226,8 +214,6 @@ class home extends CI_Controller {
 		echo $courseTitle;
 		echo $section;
 		echo $classCode;
-		
-		
 
 		$this->load->model('instant_model');
 		$this->instant_model->create_class($email, $courseCode, $courseTitle, $section, $classCode);
@@ -252,6 +238,7 @@ class home extends CI_Controller {
 
 	}
 
+	/******************************************ADD QUESTIONS SIDEBAR***************************************/
 	public function addMultipleChoice(){
 		$this->load->view('add_question_mcq');
 	}

@@ -51,29 +51,30 @@
                               Construct Question
                           </header>
                           <div class="panel-body">
-                              <form class="form-horizontal" role="form" id="form2">
+                              <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 6 ?>" method="post" role="form" id="form2">
 											<!-- Category -->
                                                   <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputQuestion">Question Proper</label>													 
+                                                      <label class="col-md-4 control-label" for="inputQuestion">
+																		QUESTION</label>													 
 																		 <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
 																	</div>
 																	  
 																	<div class="form-group">
                                                       <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
 																		<div class="col-md-4">
-                                                      <input required="true" type="number" min="1" class="form-control" id="inputPoints">
+                                                      <input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
 																		</div>
 																	</div>
 																	
 																	<div class="form-group">	
 																		<label class="col-md-4 control-label" for="inputAnswer">Correct Answer</label>
 																		<div class="col-md-4">
-                                                      <textarea required="true" class="form-control" rows="5" cols="30" id="correctAnswer" name="correctAnswer"></textarea>
+                                                      <textarea required="true" class="form-control" rows="5" cols="30" id="correctAnswer" name="answer"></textarea>
 																		</div>
 																	</div>
 																	
 																	<div class="form-group">	
-																		<td><center><button type="submit" href="<?php echo site_url('teachers/teacherActions/1')?>" class="btn btn-primary btn-lg">
+																		<td><center><button type="submit" class="btn btn-primary btn-lg">
 																		Save Question
 																		</button></td></center>
 																	</div>

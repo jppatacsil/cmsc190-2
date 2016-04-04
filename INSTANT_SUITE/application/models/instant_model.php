@@ -183,7 +183,6 @@
 			$query = $this->db->get_where('subject', array('classCode' => $classCode));
 			if ($query->num_rows() > 0)
 			{
-			    
 			   return $query->result();
 			}
 			else{
@@ -359,7 +358,6 @@
 			
 			if ($query->num_rows() > 0)
 			{
-			    
 			   return $query->result();
 			}
 			else{
@@ -415,58 +413,4 @@
 				return false;
 			}
 		}
-
-		/*************************_FUNCTIONS FOR EXAM CREATION AND QUESTIONS_**************************/
-		
-		//Bank the exam in the table
-		public function createExam($desc, $date, $total, $courseCode, $email){
-		
-		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
-		
-		$examDetails = array(
-				'exam_desc' => $desc,
-				'exam_date' => $date,
-				'total_items' => $total,
-				'emp_no' => $empNo,
-				'course_code' => $courseCode,
-			);
-
-			$query = $this->db->insert('exam', $examDetails);
-
-		}
-		
-		//View the exams made by the teacher
-     public function viewExams($email)
-     {
-	  
-			 $empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
-			 $sql = 'SELECT course_code, exam_desc, exam_date, total_items from exam WHERE  exam.emp_no = teacher.emp_no';
-          $query = $this->db->query($sql);
-          $result = $query->result();
-          return $result;
-
-     }
-		
-		public function addQuestion($type, $questionProper, $points, $answer){
-		
-		if($type == 1){
-		
-		$questionDetails = array(
-			'type' => $type,
-			'question' => $questionProper,
-			'weight' => $points,
-			'answer' => $answer,
-			);
-			
-			
-		$query = $this->db->insert('questions',$questionDetails);
-		
-		}
-		
-		}
-		
-		/**********************************************************************************************/
-		
-		
-		
-	}
+}

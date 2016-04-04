@@ -59,21 +59,39 @@ class teachers extends CI_Controller {
 		$desc = $this->input->post('exam_desc');
 		$total = $this->input->post('no_of_items');
 		
-		$this->load->model('instant_model');
-		$this->instant_model->createExam($desc, $date, $total, $courseCode, $email);
+		$this->load->model('exam_model');
+		$this->exam_model->createExam($desc, $date, $total, $courseCode, $email);
 		
 		redirect('/home/home_page');
 	}
 	
-	//Bank questions
+	//Bank questions according to type
 	public function bankQuestion(){
 			$type = $this->uri->segment(3);
-			$questionProper = $this->input->post('questionProper');
-			$points = $this->input->post('points');
-			$answer = $this->input->post('answer');
 			
-			$this->load->model('instant_model');
-			$this->instant_model->addQuestion($type,$category,$questionProper,$points,$answer);
+			if($type != 1){
+				$questionProper = $this->input->post('questionProper');
+				$points = $this->input->post('points');
+				$answer = $this->input->post('answer');
+				
+				$this->load->model('exam_model');
+				$this->exam_model->addQuestion($type,$questionProper,$points,$answer);
+			}
+			
+			else{
+			
+				$questionProper = $this->input->post('questionProper');
+				$points = $this->input->post('points');
+				$choice1 = $this->input->post("choice1");
+				$choice2 = $this->input->post("choice2");
+				$choice3 = $this->input->post("choice3");
+				$choice4 = $this->input->post("choice4");
+				$answer = $this->input->post('answer');
+				
+				$this->load->model('exam_model');
+				$this->exam_model->addMCQ($type,$questionProper,$points,$choice1,$choice2,$choice3,$choice4,$answer);
+			
+			}
 			
 			redirect('/home/home_page');
 	}

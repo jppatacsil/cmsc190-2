@@ -39,7 +39,7 @@
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
                         <li><i class="icon_document_alt"></i>Add Question</li>
-                        <li><i class="fa fa-file-text-o"></i>True or False</li>
+                        <li><i class="fa fa-file-text-o"></i>Multiple Choice</li>
                     </ol>
                 </div>
             </div>
@@ -54,36 +54,54 @@
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 1 ?>" method="post" role="form" id="form2">
                                             <!-- Category -->
                                                   <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputQuestion">Question Proper</label>                                                  
-                                                                         <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
-                                                                    </div>
+																	<div>
+                                                      <label class="col-md-4 control-label" for="inputQuestion">
+																		QUESTION
+																		</label>   
+																	</div>
+																	<div>
+                                                      <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper">
+																		</textarea>
+																	</div>
+                                                  </div>
                                                                       
-                                                                    <div class="form-group">
+																	<div class="form-group">
                                                       <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
                                                                         <div class="col-md-4">
                                                       <input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
                                                                         </div>
                                                                     </div>
                                                                     
-                                                                    <div class="form-group">    
-                                                                        <label class="col-md-4 control-label" for="correctAnswer">Choices</label>
-                                                                        <div class="col-md-4">
-																								<tbody>
-																								<tr>
-                                                                         <td><input type="text" value="" name="choice[]" placeholder="A.)"><input type="radio" name="answer" checked></td>
-																								 <td><input typB.)"><input type="radio" name="answer" ></td>
-																								 <td><input type="text" value="" name="choice[]" placeholdere="text" value="" name="choice[]" placeholder="="C.)"><input type="radio" name="answer" ></td>
-																								 <td><input type="text" value="" name="choice[]" placeholder="D.)"><input type="radio" name="answer" ></td>
-																								</tr>
-																								</tbody>
-                                                                        </div>
-                                                                    </div>
+                                                      <div class="form-group">    
+                                                            <label class="col-md-4 control-label" for="correctAnswer">Choices</label>
+                                                            <div class="col-md-4">
+																					<tbody>
+																						<tr>
+                                                                     <td>
+																								<input type="text" value="" name="choice1" placeholder="A.)">
+																							</td>
+																							<td>
+																								<input type="text" value="" name="choice2" placeholder="B.)">
+																							</td>
+																							<td>
+																								<input type="text" value="" placeholder="C.)" value="" name="choice3">
+																							</td>
+																							<td>
+																								<input type="text" value="" name="choice4" placeholder="D.)">
+																							</td>
+																							<td>
+																								<input type="text" value="" name="answer" placeholder="Correct Answer">
+																							</td>
+																						</tr>
+																					</tbody>
+                                                            </div>
+																			</div>
                                                                     
-                                                                    <div class="form-group">    
-                                                                        <td><center><button type="submit" class="btn btn-primary btn-lg">
-                                                                        Save Question
-                                                                        </button></td></center>
-                                                                    </div>
+                                                   <div class="form-group">    
+                                                      <td><center><button type="submit" class="btn btn-primary btn-lg">
+                                                         Save Question
+                                                          </button></td></center>
+                                                      </div>
                               </form>
                           </div>
                       </section>

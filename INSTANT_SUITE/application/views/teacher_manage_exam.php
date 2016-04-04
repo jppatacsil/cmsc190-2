@@ -74,21 +74,6 @@
                                   </div>
                                   </td>
                               </tr>
-										<?php for ($i = 0; $i < count($examList); ++$i) { ?>
-												<tr>
-													<td><?php echo ($i+1); ?></td>
-													<td><?php echo $examList[$i]->course_code; ?></td>
-													<td><?php echo $examList[$i]->exam_desc; ?></td>
-													<td><?php echo $examList[$i]->exam_date; ?></td>
-													<td><?php echo $examList[$i]->total_items; ?></td>
-													<td>
-														 <div class="btn-group">
-																 <a class="btn btn-success" href="#editExamModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a>
-																 <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
-														 </div>
-													</td>
-												</tr>
-										<?php } ?>
                            </tbody>
                         </table>
                       </section>

@@ -55,8 +55,8 @@
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 5 ?>" method="post" role="form" id="form2">
                                             <!-- Category -->
                                                   <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputQuestion">Question Proper</label>                                                  
-                                                                         <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+                                                      <label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>                                                  
+                                                                         <textarea required="true" class="form-control" rows="5" id="questionProper" name="questionProper"></textarea>
                                                                     </div>
                                                                       
                                                                     <div class="form-group">
