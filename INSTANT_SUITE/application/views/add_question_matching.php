@@ -28,18 +28,48 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
-
+	 
+	<script>
+	//For dynamic adding of questions
+	var counter = 1;
+	function addQuestion(divName){
+		var newdiv = document.createElement('div');
+				 newdiv.innerHTML = "Question " + (counter + 1) + " <br><input type='text' name='questionProper[]'>";
+				 document.getElementById(divName).appendChild(newdiv);
+				 counter++;
+	}
+	
+	//For dynamic adding of choices
+	var ctr = 1;
+	function addChoice(divName){
+		var newdiv = document.createElement('div');
+				 newdiv.innerHTML = "Choice " + (ctr + 1) + " <br><input type='text' name='choice[]'>";
+				 document.getElementById(divName).appendChild(newdiv);
+				 ctr++;
+	}
+	
+	//For setting matching answers to questions
+	var ctr2 = 0;
+	function addMatching(divName){
+			while(ctr2 != counter){
+				var newdiv = document.createElement('div');
+						newdiv.innerHTML = "Answer to question " + (ctr2 + 1) + " <br><input type='text' name='answer[]'>";
+						document.getElementById(divName).appendChild(newdiv);
+						ctr2++;
+				}
+	}
+	
+	</script>
   </head>
   <body>
-
           <section class="wrapper">
           <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa-file-text-o"></i>Construct Questions</h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
+                        <li><i class="fa fa-home"></i>Home</a></li>
                         <li><i class="icon_document_alt"></i>Add Question</li>
-                        <li><i class="fa fa-file-text-o"></i>True or False</li>
+                        <li><i class="fa fa-file-text-o"></i>Matching Type</li>
                     </ol>
                 </div>
             </div>
@@ -51,44 +81,52 @@
                               Construct Question
                           </header>
                           <div class="panel-body">
-                              <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 2 ?>" method="post" role="form" id="form2">
-                                    <!-- Category -->    
+                              <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 3 ?>" method="post" role="form" id="form2">
+                                            <!-- Category -->
 												<div class="form-group">
 													<label class="col-md-4 control-label" for="category">Category</label>
 													<div class="col-md-4">
-														<input class="form-control" required="true" type="text" value="" name="category"></input>
+													<input type="text" required="true" value="" name="category">
 													</div>
 												</div>
-														  
+														
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>	
-													<div class="col-md-4">
-													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+													<label class="col-md-4 control-label" for="questionProper">COLUMN A</label>
+												  <div id="questionInput" class="col-md-4">
+														 Question 1<br><input type="text" name="questionProper[]">
+												  </div>
+												  <input type="button" class="btn btn-success btn-sm" value="Add another question" onClick="addQuestion('questionInput');">
+												</div>
+										                                                                    
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="questionProper">COLUMN B</label>
+												  <div id="choiceInput" class="col-md-4">
+														 Choice 1<br><input type="text" name="choice[]">
+												  </div>
+												  <input type="button" class="btn btn-success btn-sm" value="Add another choice" onClick="addChoice('choiceInput');">
+												</div>
+																		
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="correctAnswer">Correct Matching</label>
+													<input type="button" class="btn btn-success btn-sm" value="Generate matching answers" onClick="addMatching('matchingInput');">
+													<div id="matchingInput" class="col-md-4">
 													</div>
 												</div>
-																                    
-                                    <div class="form-group">    
-                                    <label class="col-md-4 control-label" for="correctAnswer">Correct Answer</label>
-                                   <div class="col-md-4">
-                                     <select id="answer" name="answer" class="form-control">
-                                         <option value="TRUE">TRUE</option>
-                                         <option value="FALSE">FALSE</option>
-                                      </select>
-                                   </div>
-                                 </div>
-											
+												
 												<div class="form-group">
-                                   <label class="col-md-4 control-label" for="inputPoints">Credit</label>
+													<label class="col-md-4 control-label" for="inputPoints">Credit</label>
 													<div class="col-md-4">
-												<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
-                                       </div>
-                                    </div>
+													<input required="true" type="number" min="1" max="3" class="form-control" id="inputPoints" name="points">
+													</div>
+												</div>
                                                                     
-                                 <div class="form-group">    
-                                   <td><center><button type="submit" class="btn btn-primary btn-lg">
-                                    Save Question
-                                   </button></td></center>
-                                 </div>
+												<div class="form-group">    
+													<td><center>
+													<button type="submit" class="btn btn-primary btn-lg">
+													Save Question
+													</button>
+													</td></center>
+												</div>
                               </form>
                           </div>
                       </section>
@@ -127,5 +165,6 @@
     <script src="<?php echo base_url();?>js/form-component.js "></script>
     <!-- custome script for all page -->
     <script src="<?php echo base_url();?>js/scripts.js"></script>
-     <script src="<?php echo base_url();?>//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	  
 </html>

@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<?php 
+$this->load->helper('url'); ?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -62,18 +64,22 @@
                                  <th><i class="icon_question_alt2"></i> No. of Questions </th>
                                  <th><i class="icon_cogs"></i> Action</th>
                               </tr>
-                              <tr>
-                                 <td>CMSC 11</td>
-                                 <td>1ST Long Exam</td>
-                                 <td>50/50</td>
-                                 <td>02/15/2016</td>
-                                 <td>
+										<?php
+										
+										foreach($exams as $row){
+                              echo '<tr>';
+                              echo '<td>'.$row->course_code.' '.$row->section.'</td>';
+                              echo '<td>'.$row->exam_desc.'</td>';
+                              echo '<td>'.$row->exam_date.'</td>';
+                              echo '<td>'.$row->total_items.'</td>';
+										echo
+                                 '<td>
                                   <div class="btn-group">
-                                        <a class="btn btn-success" href="#editExamModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a>
-                                        <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-success" href="'.base_url()."index.php/teachers/loadEditExam/".'"><i class="icon_pencil-edit"></i></a><a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
                                   </div>
-                                  </td>
-                              </tr>
+                                  </td>';
+										echo	'</tr>';
+										} ?>
                            </tbody>
                         </table>
                       </section>

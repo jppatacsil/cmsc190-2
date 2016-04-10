@@ -76,43 +76,39 @@
                     </li> 
 
                     <li class="sub-menu">
-                      <a class="identificationLoader">
-                          <i class="icon_document_alt"></i>
-                          <span>Identification</span>
-                      </a>
-                    </li>  
-
-                    <li class="sub-menu">
                       <a class="matchingTypeLoader">
                           <i class="icon_document_alt"></i>
                           <span>Matching Type</span>
                       </a>
-                    </li>  
+                    </li>						  
 
                     <li class="sub-menu">
                       <a class="fillInTheBlanksLoader">
                           <i class="icon_document_alt"></i>
                           <span>Fill in the Blanks</span>
                       </a>
-                    </li>  
+                    </li>
 
                     <li class="sub-menu">
-                      <a class="programmingLoader">
+                      <a class="identificationLoader">
                           <i class="icon_document_alt"></i>
-                          <span>Programming</span>
+                          <span>Identification</span>
                       </a>
-                    </li>  
+                    </li>
 
                     <li class="sub-menu">
                       <a class="essayLoader">
                           <i class="icon_document_alt"></i>
                           <span>Essay</span>
                       </a>
-                    </li>                                           
-                 
+                    </li>
 
-
-
+						<li class="sub-menu">
+                      <a class="programmingLoader">
+                          <i class="icon_document_alt"></i>
+                          <span>Programming</span>
+                      </a>
+                    </li>  
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -187,15 +183,5 @@
 
 
     });
-
-
-
     </script>
-
-
-
-
-
-
-
 </html>

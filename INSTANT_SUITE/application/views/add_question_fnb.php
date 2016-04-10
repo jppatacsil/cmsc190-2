@@ -52,18 +52,27 @@
                           </header>
                           <div class="panel-body">
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 4 ?>" method="post" role="form" id="form2">
-                                            <!-- Category -->
-                                                  <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>                                                  
-                                                                         <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
-                                                                    </div>
+                                    <!-- Category -->    
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="category">Category</label>
+													<div class="col-md-4">
+														<input class="form-control" required="true" type="text" value="" name="category"></input>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>	
+													<div class="col-md-4">
+													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+													</div>
+												</div>
                                                                       
-                                                                    <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
-                                                                        <div class="col-md-4">
-                                                      <input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
-                                                                        </div>
-                                                                    </div>
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="inputPoints">Credit</label>
+													<div class="col-md-4">
+													<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
+													</div>
+												</div>
                                                                     
                                                                     <div class="form-group">    
                                                                         <label class="col-md-4 control-label" for="inputPoints">Correct Answer</label>

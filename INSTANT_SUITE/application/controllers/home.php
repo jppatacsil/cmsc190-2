@@ -155,6 +155,30 @@ class home extends CI_Controller {
 			return false;
 		}
 	}
+	
+	public function displayExams(){
+	$this->load->model('exam_model');
+		$email = $this->session->userdata('email');
+		if($this->exam_model->loadExams($email)){
+			$query=$this->exam_model->loadExams($email);
+			return $query;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function displayQuestions(){
+	$this->load->model('exam_model');
+	$email = $this->session->userdata('email');
+	if($this->exam_model->loadQuestions($email)){
+			$query=$this->exam_model->loadQuestions($email);
+			return $query;
+		}
+		else{
+			return false;
+		}
+	}
 
 	public function loadProfile(){ //loads the classes of a user by using his email
 		$this->load->view('teacher_profile');
@@ -165,12 +189,18 @@ class home extends CI_Controller {
 		$this->load->view('teacher_create_exam', $data);
 	}
 
-	public function loadManageExam(){        
-		$this->load->view('teacher_manage_exam');
+	public function loadManageExam(){
+		$data['exams'] = $this->displayExams();	
+		$this->load->view('teacher_manage_exam', $data);
 	}
 
 	public function loadQuestionBank(){
-		$this->load->view('teacher_manage_question_bank');
+		$data['questions'] = $this->displayQuestions();
+		$this->load->view('teacher_manage_question_bank', $data);
+	}
+	
+	public function loadEditExam(){
+		$this->load->view('teacher_edit_exam');
 	}
 
 	public function loadLogs(){
@@ -240,29 +270,36 @@ class home extends CI_Controller {
 
 	/******************************************ADD QUESTIONS SIDEBAR***************************************/
 	public function addMultipleChoice(){
-		$this->load->view('add_question_mcq');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_mcq', $data);
 	}
 
 	public function addTrueOrFalse(){
-		$this->load->view('add_question_tf');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_tf',$data);
 	}
 
 	public function addMatching(){
-		$this->load->view('add_question_matching');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_matching',$data);
 	}
 	public function addIdentification(){
-		$this->load->view('add_question_ident');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_ident', $data);
 	}
 
 	public function addFillInTheBlanks(){
-		$this->load->view('add_question_fnb');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_fnb', $data);
 	}
 
 	public function addEssay(){
-		$this->load->view('add_question_essay');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_essay', $data);
 	}
 	public function addProgramming(){
-		$this->load->view('add_question_programming');
+		$data['exams'] = $this->displayExams();
+		$this->load->view('add_question_programming', $data);
 	}
 
 

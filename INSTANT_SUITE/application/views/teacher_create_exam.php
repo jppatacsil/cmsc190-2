@@ -28,6 +28,21 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
+	 
+	<script>	
+	var counter = 1;
+	function addCategory(divName){
+				 var newdiv = document.createElement('div');
+				 newdiv.innerHTML = 
+					"Category " + (counter + 1) + 
+					" <br><input type='text' name='category[]'> Total Items<br><input type='number' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
+					" <option value='1'>EASY</option>" +
+					" <option value='2'>AVERAGE</option>" +
+					" <option value='3'>DIFFICULT</option></select>";
+				 document.getElementById(divName).appendChild(newdiv);
+				 counter++;
+	}
+	</script>
 
   </head>
   <body>
@@ -59,11 +74,14 @@
                         <label class="col-md-4 control-label" for="courseCode">Course code</label>
                         <div class="col-md-4">
                          <select id="course_code" name="course_code" class="form-control">
-                          <?php  foreach($classes as $row): ?><!--Options for each class a user has-->            
-              <!--<button type="button" class="btn btn-success btn-block classAction"><?php echo $row->course_code ,"-", $row->section ; ?> </button>
-              <br>-->
-                                   <option value="<?php echo $row->course_code; ?>"><?php echo $row->course_code ,"-", $row->section ; ?></option>
-                          <?php endforeach ?>
+									<?php 
+										foreach($classes as $row)
+										{ 
+											  echo '<option value="'.$row->course_code.'">
+											  '.$row->course_code.' '.$row->section.'
+											  </option>';
+										}
+									?>
                                      
                          </select>
                         </div>
@@ -85,13 +103,28 @@
                         </div>
                       </div>
                              
-                             <!-- Total number of Items -->
-                             <div class="form-group">
+                      <!-- Total number of Items -->
+                      <div class="form-group">
                         <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
                         <div class="col-md-4">                     
                          <input type="number" name="no_of_items" min="1">
                         </div>
-                      </div>   
+                      </div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label" for="category">Coverage</label>
+									<div id="categoryInput" class="col-md-4">
+										Category 1<br><input type="text" name="category[]">
+										Total Items<br><input type="number" min="1" name="totalItems[]">
+										Difficulty<br>
+										<select name="difficulty[]">
+											<option value="1">EASY</option>
+											<option value="2">AVERAGE</option>
+											<option value="3">DIFFICULT</option>
+										</select>
+									</div>
+									<input type="button" class="btn btn-warning btn-sm" value="Add another category" onClick="addCategory('categoryInput');">
+							</div>							 
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  
@@ -109,7 +142,6 @@
           </section>
       </section>
       <!--main content end-->
-  
 
   </body>
 </html>

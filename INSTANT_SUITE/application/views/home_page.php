@@ -8,7 +8,7 @@
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
     <link rel="shortcut icon" href="img/favicon.png">
 
-    <title>Profile | Creative - Bootstrap 3 Responsive Admin Template</title>
+    <title>INSTANT SUITE: Online Examination and Attendance Monitoring System</title>
 
     <!-- Bootstrap CSS -->    
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css"rel="stylesheet">
@@ -351,10 +351,10 @@
                       </a>
                       <ul class="sub">
                         <li><a class="" href="<?php echo site_url('teachers/addQuestion/1'); ?>" >Multiple Choice </a></li>
-						<li><a class="" href="<?php echo site_url('teachers/addQuestion/2'); ?>" >True or False</a></li>
-						<li><a class="" href="<?php echo site_url('teachers/addQuestion/3'); ?>" >Matching Type</a></li>  <li><a class="" href="<?php echo site_url('teachers/addQuestion/4'); ?>" >Identification</a></li>
-						<li><a class="" href="<?php echo site_url('teachers/addQuestion/5'); ?>" >Fill-in-the-blanks</a></li> <li><a class="" href="<?php echo site_url('teachers/addQuestion/6'); ?>" >Essay</a></li>  
-						<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>		  
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/2'); ?>" >True or False</a></li>
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/3'); ?>" >Matching Type</a></li>  <li><a class="" href="<?php echo site_url('teachers/addQuestion/4'); ?>" >Identification</a></li>
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/5'); ?>" >Fill-in-the-blanks</a></li> <li><a class="" href="<?php echo site_url('teachers/addQuestion/6'); ?>" >Essay</a></li>  
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>		  
                       </ul>
                   </li> 
                   <li class="sub-menu">
@@ -432,14 +432,9 @@
         $("#sidebar").load("loadMainSideBar");
         //--------------------------------------------------------
 
-
-
         //manually activate dropdown 
         $('.dropdown-toggle').dropdown();
-            
 
-
-         
     });
     </script>
 

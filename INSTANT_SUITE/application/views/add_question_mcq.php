@@ -37,7 +37,7 @@
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa-file-text-o"></i>Construct Questions</h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="<?php echo site_url('teachers/teacherActions/2')?>">Home</a></li>
+                        <li><i class="fa fa-home"></i>Home</a></li>
                         <li><i class="icon_document_alt"></i>Add Question</li>
                         <li><i class="fa fa-file-text-o"></i>Multiple Choice</li>
                     </ol>
@@ -53,55 +53,68 @@
                           <div class="panel-body">
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 1 ?>" method="post" role="form" id="form2">
                                             <!-- Category -->
-                                                  <div class="form-group">
-																	<div>
-                                                      <label class="col-md-4 control-label" for="inputQuestion">
-																		QUESTION
-																		</label>   
-																	</div>
-																	<div>
-                                                      <textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper">
-																		</textarea>
-																	</div>
-                                                  </div>
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="category">Category</label>
+													<div class="col-md-4">
+													<input type="text" required="true" value="" name="category">
+													</div>
+												</div>
+														  
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>	
+													<div class="col-md-4">
+													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+													</div>
+												</div>
                                                                       
-																	<div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
-                                                                        <div class="col-md-4">
-                                                      <input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
-                                                                        </div>
-                                                                    </div>
+												<div class="form-group">    
+													<label class="col-md-4 control-label" for="correctAnswer">Choices</label>
+													<div class="col-md-4">
+													<tbody>
+														<tr>
+															<td>
+															<input id="choice1" required="true" type="text" value="" name="choice[]" placeholder="A.)">
+															</td>
+															<td>
+															<input id="choice2" required="true" type="text" value="" name="choice[]" placeholder="B.)">
+															</td>
+															<td>
+															<input id="choice3" required="true" type="text" value="" name="choice[]" placeholder="C.)">
+															</td>
+															<td>
+															<input id="choice4" required="true" type="text" value="" name="choice[]" placeholder="D.)">
+															</td>
+														</tr>
+													</tbody>
+													</div>
+												</div>
+																		
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="correctAnswer">Correct Answer</label>
+													<div class="col-md-4">
+														<select required="true" name="answer" class="form-control">
+															<option value="A">A</option>
+															<option value="B">B</option>
+															<option value="C">C</option>
+															<option value="D">D</option>
+															</select>
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<label class="col-md-4 control-label" for="inputPoints">Credit</label>
+													<div class="col-md-4">
+													<input required="true" type="number" min="1" max="3" class="form-control" id="inputPoints" name="points">
+													</div>
+												</div>
                                                                     
-                                                      <div class="form-group">    
-                                                            <label class="col-md-4 control-label" for="correctAnswer">Choices</label>
-                                                            <div class="col-md-4">
-																					<tbody>
-																						<tr>
-                                                                     <td>
-																								<input type="text" value="" name="choice1" placeholder="A.)">
-																							</td>
-																							<td>
-																								<input type="text" value="" name="choice2" placeholder="B.)">
-																							</td>
-																							<td>
-																								<input type="text" value="" placeholder="C.)" value="" name="choice3">
-																							</td>
-																							<td>
-																								<input type="text" value="" name="choice4" placeholder="D.)">
-																							</td>
-																							<td>
-																								<input type="text" value="" name="answer" placeholder="Correct Answer">
-																							</td>
-																						</tr>
-																					</tbody>
-                                                            </div>
-																			</div>
-                                                                    
-                                                   <div class="form-group">    
-                                                      <td><center><button type="submit" class="btn btn-primary btn-lg">
-                                                         Save Question
-                                                          </button></td></center>
-                                                      </div>
+												<div class="form-group">    
+													<td><center>
+													<button type="submit" class="btn btn-primary btn-lg">
+													Save Question
+													</button>
+													</td></center>
+												</div>
                               </form>
                           </div>
                       </section>
@@ -140,5 +153,8 @@
     <script src="<?php echo base_url();?>js/form-component.js "></script>
     <!-- custome script for all page -->
     <script src="<?php echo base_url();?>js/scripts.js"></script>
-     <script src="<?php echo base_url();?>//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+	  
+	  
 </html>

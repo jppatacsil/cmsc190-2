@@ -10,7 +10,7 @@
 
     <title>INSTANT SUITE</title>
 
-     <!-- Bootstrap CSS -->    
+     <!-- Bootstrap CSS -->
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
     <link href="<?php echo base_url(); ?>css/bootstrap-theme.css" rel="stylesheet">
@@ -31,7 +31,6 @@
   </head>
 
   <body>
-
           <section class="wrapper">
           <div class="row">
                 <div class="col-lg-12">
@@ -55,114 +54,48 @@
                           <table class="table table-striped table-advance table-hover">
                            <tbody>
                               <tr> <!--HEADINGS-->
-                                 <th> #</th>
-                                 <th></i> Subject</th>
-                                 <th> Category</th>
+                                 <th></i>Question ID</th>
                                  <th></i>Type</th>
                                  <th>Question </th>
                                  <th></i>Corresponding Points</th>
                                  <th>Answer</th>
-                                  <th><i class="icon_cogs"></i></th>
+											<th>Referencing Exam</th>
+                                 <th><i class="icon_cogs"></i></th>
                               </tr>
-                              <tr>
-                                 <td>1</td>
-                                 <td>CMSC 127</td>
-                                 <td>Introduction</td>
-                                 <td>TRUE OR FALSE</td>
-                                 <td>DBMS mans Databse Management System</td>
-                                 <td>1</td>
-                                 <td>TRUE</td>
-                                 <td>
+										<?php
+										
+										foreach($questions as $row){
+                              echo '<tr>';
+                              echo '<td>'.$row->question_id.'</td>';
+                              echo '<td>';
+								switch($row->type){
+									case 1: echo 'Multiple Choice';break;
+									case 2: echo 'True or False';break;
+									case 3: echo 'Matching Type';break;
+									case 4: echo 'Fill in the Blanks';break;
+									case 5: echo 'Identification';break;
+									case 6: echo 'Essay';break;
+									case 7: echo 'Programming';break;
+								}
+								
+							  '</td>';
+                              echo '<td>'.$row->question.'</td>';
+                              echo '<td>'.$row->weight.'</td>';
+										echo '<td>'.$row->answer.'</td>';
+										echo '<td>'.$row->course_code.' '.$row->section.' - ' .$row->exam_desc.'</td>';
+										echo
+                                 '<td>
                                   <div class="btn-group">
-                                       <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a>
-                                      <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a><a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
                                   </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                 <td>2</td>
-                                 <td>CMSC 11</td>
-                                 <td>HISTORY </td>
-                                 <td>IDENTIFICATION</td>
-                                 <td>Who is the father of Computer Science</td>
-                                 <td>1</td>
-                                 <td>Allan Turing</td>
-                                 <td>
-                                  <div class="btn-group">
-                                
-                                      <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a>
-                                      <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
-                                  </div>
-                                  </td>
-                                </tr>                     
+                                  </td>';
+										echo	'</tr>';
+										} ?>                    
                            </tbody>
                         </table>
                       </section>
                   </div>
               </div>
-
-              <!--_MODAL EDIT EXAM -->
-  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="editQuestionModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                        <h4 class="modal-title">EDIT Question</h4>
-                </div>
-                
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form" id="form2">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="inputCategory">Category</label>
-                                <div class="col-md-4">
-                                    <input required="true" type="text" class="form-control" id="inputCategory" placeholder="Enter Category">
-                                </div>
-                        </div>
-                                 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="inputType">Question Type</label>
-                                <div class="col-md-4">
-                                    <select id="inputType" name="inputType" class="form-control">
-                                        <option value="1">Multiple Choice</option>
-                                        <option value="2">True or False</option>
-                                        <option value="3">Matching Type</option>
-                                        <option value="4">Fill-in-the-blanks</option>
-                                        <option value="5">Identification</option>
-                                        <option value="6">Essay</option>
-                                        <option value="7">Programming</option>
-                                    </select>
-
-                                    <textarea required="true" class="form-control" rows="5" cols="50" id="questionProper" name="questionProper"></textarea>
-                                </div>
-                        </div>
-                                    
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
-                                <div class="col-md-4">
-                                    <input required="true" type="number" min="1" class="form-control" id="inputPoints">
-                                </div>
-                        </div>
-                                  
-                        <div class="form-group">  
-                            <label class="col-md-4 control-label" for="inputPoints">Correct Answer</label>
-                                <div class="col-md-4">
-                                    <input required="true" type="input" class="form-control" id="correctAnswer">
-                                </div>
-                        </div>
-                                  
-                        <div class="form-group">  
-                            <center><td>
-                                <button type="submit" href="<?php echo site_url('teachers/teacherActions/1')?> " class="btn btn-primary btn-lg">Save Question</button>
-                            </td></center>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-     </div>
-                              
-                <!--END MODAL -->
-              <!-- page end-->
           </section>
 
 

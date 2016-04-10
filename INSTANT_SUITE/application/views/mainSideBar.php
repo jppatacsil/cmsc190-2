@@ -155,8 +155,6 @@
             $("#sidebar").load("loadAddQuestionSideBar").fadeIn();
           });
 
-        
-
         $(".createClassLoader").click(function(){
             $("#main-content").load("loadCreateClass").hide(500).fadeIn();
           });

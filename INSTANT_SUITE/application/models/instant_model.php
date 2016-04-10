@@ -395,7 +395,6 @@
 		
 		}
 		
-
 		public function assignStudentAlphabetically($lastName, $circle_id, $class_id){ //assigns student alphabetically
 		
 			$query = $this->db->query("SELECT * from students WHERE lastName = '$lastName' AND class_id='$class_id';");
