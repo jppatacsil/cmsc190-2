@@ -104,7 +104,7 @@
 		
 		}
 		
-		$question_id = $this->db->query("SELECT question_id from questions WHERE question = '$questionProper["$i"]';")->row()->question_id;
+		$question_id = $this->db->query("SELECT question_id from questions WHERE question = '$questionProper[0]';")->row()->question_id;
 		
 		//Traverse the array of choices to store
 			foreach($choice as $choices => $choices_value) {
