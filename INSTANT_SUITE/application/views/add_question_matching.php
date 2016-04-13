@@ -30,34 +30,41 @@
     <![endif]-->
 	 
 	<script>
-	//For dynamic adding of questions
+	//For dynamic adding of questions and correct matching
 	var counter = 1;
-	function addQuestion(divName){
+	function addQuestion(divName,divName2){
+		//Add the question and matching answer in column a
 		var newdiv = document.createElement('div');
-				 newdiv.innerHTML = "Question " + (counter + 1) + " <br><input type='text' name='questionProper[]'>";
+				 newdiv.innerHTML = "Question " + (counter + 1) + " <br><input type='text' value='' name='questionProper[]'><input type='text' placeholder='Matching answer' value='' name='answer[]' id=answer" + (counter+1) + " onkeyup='updateField(" + (counter+1) +")' >";
 				 document.getElementById(divName).appendChild(newdiv);
+				 
+		//Add the choices in column b
+		var newdiv2 = document.createElement('div');
+				 newdiv2.innerHTML = "<br><input type='text' placeholder='Enter choice here' name='choice[]' id=choice" + (counter+1) + " value=''>";
+				 document.getElementById(divName2).appendChild(newdiv2);
 				 counter++;
 	}
 	
-	//For dynamic adding of choices
-	var ctr = 1;
-	function addChoice(divName){
-		var newdiv = document.createElement('div');
-				 newdiv.innerHTML = "Choice " + (ctr + 1) + " <br><input type='text' name='choice[]'>";
-				 document.getElementById(divName).appendChild(newdiv);
-				 ctr++;
+	//Update the field
+	function updateField(num){
+		var ans = document.getElementById('answer'+num).value;
+		document.getElementById('choice'+num).value = ans;
 	}
 	
-	//For setting matching answers to questions
-	var ctr2 = 0;
-	function addMatching(divName){
-			while(ctr2 != counter){
-				var newdiv = document.createElement('div');
-						newdiv.innerHTML = "Answer to question " + (ctr2 + 1) + " <br><input type='text' name='answer[]'>";
-						document.getElementById(divName).appendChild(newdiv);
-						ctr2++;
-				}
+	//For dynamic adding of new choices
+	function addChoice(divName){
+			var newdiv = document.createElement('div');
+				 newdiv.innerHTML = "<br><input type='text' placeholder='Enter choice here' name='choice[]'>";
+				 document.getElementById(divName).appendChild(newdiv);
 	}
+		
+	//For inserting new category in the list
+	function insertCategory(){
+			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+				alert("Category inserted to list!");
+				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+			}else {alert("No category inserted!");}
+		}
 	
 	</script>
   </head>
@@ -81,41 +88,47 @@
                               Construct Question
                           </header>
                           <div class="panel-body">
-                              <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 3 ?>" method="post" role="form" id="form2">
+                              <form class="form-horizontal" name="matchingForm" id="matchingForm" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 3 ?>" method="post" role="form" id="form2">
                                             <!-- Category -->
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="category">Category</label>
+													<label class="col-md-3 control-label" for="category">Category</label>
 													<div class="col-md-4">
-													<input type="text" required="true" value="" name="category">
+													<select required="true" class="col-lg-12" name="category" id="categoryList">
+													<?php 
+														foreach($categories as $row)
+														{ 
+														echo '<option value="'.$row->category.'">
+																'.$row->category.'
+																</option>';
+														}
+													?>
+													</select>
+													<input class="col-lg-12" type="text" value="" placeholder="New category" id="newCategory">
 													</div>
+													<input class="btn btn-success btn-sm col-lg-4" type="button" id="addCategory" onclick="insertCategory()" value="Insert category"/></center>
 												</div>
 														
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="questionProper">COLUMN A</label>
+													<label class="col-md-3 control-label" for="questionProper">COLUMN A</label>
 												  <div id="questionInput" class="col-md-4">
-														 Question 1<br><input type="text" name="questionProper[]">
+														 Question 1<br><input type="text" name="questionProper[]"/> <input type="text" placeholder="Matching Answer" name="answer[]"/ id="answer1" onkeyup='updateField(1)'>
 												  </div>
-												  <input type="button" class="btn btn-success btn-sm" value="Add another question" onClick="addQuestion('questionInput');">
+												  <input type="button" class="btn btn-success btn-sm col-lg-4" value="Add another question" onClick="addQuestion('questionInput','choiceInput');"/>
 												</div>
 										                                                                    
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="questionProper">COLUMN B</label>
+													<label class="col-md-3 control-label" for="questionProper">COLUMN B</label>
 												  <div id="choiceInput" class="col-md-4">
-														 Choice 1<br><input type="text" name="choice[]">
+														<input type='text' placeholder='Enter choice here' name='choice[]' id="choice1">
 												  </div>
-												  <input type="button" class="btn btn-success btn-sm" value="Add another choice" onClick="addChoice('choiceInput');">
+												  <div class="col-md-3">
+												  <input type="button" class="btn btn-success btn-sm" value="Add new choices" onClick="addChoice('choiceInput');">
+												  </div>
 												</div>
-																		
+																	
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="correctAnswer">Correct Matching</label>
-													<input type="button" class="btn btn-success btn-sm" value="Generate matching answers" onClick="addMatching('matchingInput');">
-													<div id="matchingInput" class="col-md-4">
-													</div>
-												</div>
-												
-												<div class="form-group">
-													<label class="col-md-4 control-label" for="inputPoints">Credit</label>
-													<div class="col-md-4">
+													<label class="col-md-3 control-label" for="inputPoints">Credit</label>
+													<div class="col-md-3">
 													<input required="true" type="number" min="1" max="3" class="form-control" id="inputPoints" name="points">
 													</div>
 												</div>

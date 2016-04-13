@@ -28,10 +28,25 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
+	 
+	 <script language="javascript">
+
+		function insertCategory(){
+			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+				alert("Category inserted to list!");
+				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+			}
+		}
+			
+		function setAnswer(){
+			var ans = document.getElementById('answer').value;
+			document.getElementById('choice1').value = ans;
+		}
+		
+	 </script>
 
   </head>
   <body>
-
           <section class="wrapper">
           <div class="row">
                 <div class="col-lg-12">
@@ -54,57 +69,61 @@
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 1 ?>" method="post" role="form" id="form2">
                                             <!-- Category -->
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="category">Category</label>
+													<label class="col-md-3 control-label" for="category">Category</label>
 													<div class="col-md-4">
-													<input type="text" required="true" value="" name="category">
+													<select required="true" class="col-lg-12" name="category" id="categoryList">
+													<?php 
+														foreach($categories as $row)
+														{ 
+														echo '<option value="'.$row->category.'">
+																'.$row->category.'
+																</option>';
+														}
+													?>
+													</select>
+													<input class="col-lg-12" type="text" value="" placeholder="New category" id="newCategory">
 													</div>
+													<input class="btn btn-success btn-sm col-lg-4" type="button" id="addCategory" onclick="insertCategory();" value="Insert category"/></center>
 												</div>
 														  
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>	
-													<div class="col-md-4">
+													<label class="col-md-2 control-label" for="inputQuestion">QUESTION</label>	
+													<div class="col-lg-10">
 													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
-													</div>
-												</div>
-                                                                      
-												<div class="form-group">    
-													<label class="col-md-4 control-label" for="correctAnswer">Choices</label>
-													<div class="col-md-4">
-													<tbody>
-														<tr>
-															<td>
-															<input id="choice1" required="true" type="text" value="" name="choice[]" placeholder="A.)">
-															</td>
-															<td>
-															<input id="choice2" required="true" type="text" value="" name="choice[]" placeholder="B.)">
-															</td>
-															<td>
-															<input id="choice3" required="true" type="text" value="" name="choice[]" placeholder="C.)">
-															</td>
-															<td>
-															<input id="choice4" required="true" type="text" value="" name="choice[]" placeholder="D.)">
-															</td>
-														</tr>
-													</tbody>
-													</div>
-												</div>
-																		
-												<div class="form-group">
-													<label class="col-md-4 control-label" for="correctAnswer">Correct Answer</label>
-													<div class="col-md-4">
-														<select required="true" name="answer" class="form-control">
-															<option value="A">A</option>
-															<option value="B">B</option>
-															<option value="C">C</option>
-															<option value="D">D</option>
-															</select>
 													</div>
 												</div>
 												
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="inputPoints">Credit</label>
-													<div class="col-md-4">
-													<input required="true" type="number" min="1" max="3" class="form-control" id="inputPoints" name="points">
+													<label class="col-md-3 control-label" for="correctAnswer">Correct Answer</label>
+													<div class="col-md-3">
+														<input type="text" id="answer" required="true" onkeyup="setAnswer()" value="" name="answer"/>
+													</div>
+												</div>
+                                                                      
+												<div class="form-group">    
+													<label class="col-md-3 control-label" for="correctAnswer">Choices</label>
+													<div class="col-md-3">
+													<tbody id="choiceSelection">
+														<tr>
+															<input id="choice1" required="true" type="text" placeholder="Correct Answer" value="" name="choice[]" readonly>
+														</tr>
+														<tr>
+															<input id="choice2" required="true" type="text" value="" name="choice[]"/>
+														</tr>
+														<tr>
+															<input id="choice3" required="true" type="text" value="" name="choice[]"/>
+														</tr>
+														<tr>
+															<input id="choice4" required="true" type="text" value="" name="choice[]"/>
+														</tr>
+													</tbody>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="inputPoints">Credit</label>
+													<div class="col-md-3">
+													<input required="true" type="number" min="1" max="3" class="form-control" id="inputPoints" name="points"/>
 													</div>
 												</div>
                                                                     

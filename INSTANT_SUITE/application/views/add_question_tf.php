@@ -28,6 +28,18 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
+	 
+	<script language="javascript">
+	
+	function insertCategory(){
+				
+			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+				alert("Category inserted to list!");
+				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+			}
+		}
+	
+	</script>
 
   </head>
   <body>
@@ -54,22 +66,33 @@
                               <form class="form-horizontal" action="<?php echo base_url()."index.php/teachers/bankQuestion/". 2 ?>" method="post" role="form" id="form2">
                                     <!-- Category -->    
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="category">Category</label>
+													<label class="col-md-3 control-label" for="category">Category</label>
 													<div class="col-md-4">
-														<input class="form-control" required="true" type="text" value="" name="category"></input>
+													<select required="true" class="col-lg-12" name="category" id="categoryList">
+													<?php 
+														foreach($categories as $row)
+														{ 
+														echo '<option value="'.$row->category.'">
+																'.$row->category.'
+																</option>';
+														}
+													?>
+													</select>
+													<input class="col-lg-12" type="text" value="" placeholder="New category" id="newCategory">
 													</div>
+													<input class="btn btn-success btn-sm col-lg-4" type="button" id="addCategory" onclick="insertCategory()" value="Insert category"/></center>
 												</div>
 														  
 												<div class="form-group">
-													<label class="col-md-4 control-label" for="inputQuestion">QUESTION</label>	
-													<div class="col-md-4">
+													<label class="col-md-2 control-label" for="inputQuestion">QUESTION</label>	
+													<div class="col-lg-10">
 													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
 													</div>
 												</div>
 																                    
                                     <div class="form-group">    
-                                    <label class="col-md-4 control-label" for="correctAnswer">Correct Answer</label>
-                                   <div class="col-md-4">
+                                    <label class="col-md-3 control-label" for="correctAnswer">Correct Answer</label>
+                                   <div class="col-md-6">
                                      <select id="answer" name="answer" class="form-control">
                                          <option value="TRUE">TRUE</option>
                                          <option value="FALSE">FALSE</option>
@@ -78,8 +101,8 @@
                                  </div>
 											
 												<div class="form-group">
-                                   <label class="col-md-4 control-label" for="inputPoints">Credit</label>
-													<div class="col-md-4">
+                                   <label class="col-md-3 control-label" for="inputPoints">Credit</label>
+													<div class="col-md-3">
 												<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
                                        </div>
                                     </div>

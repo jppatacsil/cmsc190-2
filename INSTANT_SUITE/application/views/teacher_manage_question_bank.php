@@ -54,19 +54,19 @@
                           <table class="table table-striped table-advance table-hover">
                            <tbody>
                               <tr> <!--HEADINGS-->
-                                 <th></i>Question ID</th>
+                                 <!--<th></i>Question ID</th>-->
                                  <th></i>Type</th>
                                  <th>Question </th>
                                  <th></i>Corresponding Points</th>
                                  <th>Answer</th>
-											<th>Referencing Exam</th>
+											<!--<th>Referencing Exam</th>-->
                                  <th><i class="icon_cogs"></i></th>
                               </tr>
 										<?php
 										
 										foreach($questions as $row){
                               echo '<tr>';
-                              echo '<td>'.$row->question_id.'</td>';
+                              //echo '<td>'.$row->question_id.'</td>';
                               echo '<td>';
 								switch($row->type){
 									case 1: echo 'Multiple Choice';break;
@@ -80,13 +80,14 @@
 								
 							  '</td>';
                               echo '<td>'.$row->question.'</td>';
-                              echo '<td>'.$row->weight.'</td>';
+                              echo '<td>'.$row->credit.'</td>';
 										echo '<td>'.$row->answer.'</td>';
-										echo '<td>'.$row->course_code.' '.$row->section.' - ' .$row->exam_desc.'</td>';
+										//echo '<td>'.$row->course_code.' '.$row->section.' - ' .$row->exam_desc.'</td>';
 										echo
                                  '<td>
                                   <div class="btn-group">
-                                        <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a><a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a>
+										<a class="btn btn-danger" onclick = "deleteQuestion('.$row->question_id.')"><i class="icon_close_alt2"></i></a>
                                   </div>
                                   </td>';
 										echo	'</tr>';
@@ -101,4 +102,14 @@
 
 
   </body>
+  <script>
+		function deleteQuestion($question_id){
+			if (confirm("Delete this Question?") == true) {
+				document.location.href = "http://localhost/INSTANT_SUITE/index.php/home/deleteQuestion/" + $question_id + "/";
+				alert("Question Deleted!");
+			} else {
+				alert("Question is Unharmed");
+			}
+		}
+</script>
 </html>

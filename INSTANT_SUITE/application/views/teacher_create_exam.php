@@ -35,13 +35,24 @@
 				 var newdiv = document.createElement('div');
 				 newdiv.innerHTML = 
 					"Category " + (counter + 1) + 
-					" <br><input type='text' name='category[]'> Total Items<br><input type='number' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
+					" <br><input type='text' name='category[]'> Total Items<br><input type='number' onchange='findTotal()' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
 					" <option value='1'>EASY</option>" +
 					" <option value='2'>AVERAGE</option>" +
 					" <option value='3'>DIFFICULT</option></select>";
 				 document.getElementById(divName).appendChild(newdiv);
 				 counter++;
 	}
+	
+	//Get total number of items
+	function findTotal(){
+    var arr = document.getElementsByName('totalItems[]');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('no_of_items').value = tot;
+	}
+	
 	</script>
 
   </head>
@@ -102,20 +113,26 @@
                          <textarea class="form-control" id="exam_desc" name="exam_desc">1st Exam, 2nd Exam, etc.</textarea>
                         </div>
                       </div>
+							 
+							 <div class="form-group">
+								<label class="col-md-4 control-label" for="time_start">Time Start</label>
+								<div class="col-md-4">
+									<input type="time" name="time_start">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-4 control-label" for="time_end">Time End</label>
+								<div class="col-md-4">
+									<input type="time" name="time_end">
+								</div>
+							</div>
                              
-                      <!-- Total number of Items -->
-                      <div class="form-group">
-                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
-                        <div class="col-md-4">                     
-                         <input type="number" name="no_of_items" min="1">
-                        </div>
-                      </div>
-
 							<div class="form-group">
 								<label class="col-md-4 control-label" for="category">Coverage</label>
 									<div id="categoryInput" class="col-md-4">
 										Category 1<br><input type="text" name="category[]">
-										Total Items<br><input type="number" min="1" name="totalItems[]">
+										Total Items<br><input type="number" onchange="findTotal()" min="1" name="totalItems[]">
 										Difficulty<br>
 										<select name="difficulty[]">
 											<option value="1">EASY</option>
@@ -123,8 +140,18 @@
 											<option value="3">DIFFICULT</option>
 										</select>
 									</div>
+									<div class="col-md-4">
 									<input type="button" class="btn btn-warning btn-sm" value="Add another category" onClick="addCategory('categoryInput');">
-							</div>							 
+									</div>
+							</div>
+
+                      <!-- Total number of Items -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
+                        <div class="col-md-4">                     
+                         <input type="number" name="no_of_items" id="no_of_items" min="1" readonly>
+                        </div>
+                      </div>							
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  

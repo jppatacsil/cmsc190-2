@@ -65,7 +65,7 @@ $this->load->helper('url'); ?>
                                  <th><i class="icon_cogs"></i> Action</th>
                               </tr>
 										<?php
-										
+										if(count($exams) > 0){
 										foreach($exams as $row){
                               echo '<tr>';
                               echo '<td>'.$row->course_code.' '.$row->section.'</td>';
@@ -75,11 +75,14 @@ $this->load->helper('url'); ?>
 										echo
                                  '<td>
                                   <div class="btn-group">
-                                        <a class="btn btn-success" href="'.base_url()."index.php/teachers/loadEditExam/".'"><i class="icon_pencil-edit"></i></a><a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-success" onclick = "editExam('.$row->exam_no.')"><i class="icon_pencil-edit"></i></a>
+											 <a class="btn btn-danger" onclick = "deleteExam('.$row->exam_no.')"><i class="icon_close_alt2"></i></a>
                                   </div>
                                   </td>';
 										echo	'</tr>';
-										} ?>
+											}						
+										}
+										?>
                            </tbody>
                         </table>
                       </section>
@@ -89,6 +92,23 @@ $this->load->helper('url'); ?>
 
               <!-- page end-->
           </section>
-     
   </body>
+  
+  <script language="javascript">
+
+		function editExam($exam_no){
+			///document.location.href = "<?php echo base_url(); ?>index.php/home/loadEditExam/" + $exam_no + "/";
+			 $("#main-content").load("loadEditExam/"+$exam_no).hide(500).fadeIn();
+		}
+		
+		function deleteExam($exam_no){
+			if (confirm("Delete this Exam?") == true) {
+				document.location.href = "<?php echo base_url(); ?>index.php/home/deleteExam/" + $exam_no + "/";
+				alert("Exam Deleted!");
+			} else {
+				alert("Exam is Unharmed");
+			}
+		}
+		
+	</script>
 </html>

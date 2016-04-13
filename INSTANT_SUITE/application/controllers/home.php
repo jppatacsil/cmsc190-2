@@ -168,6 +168,37 @@ class home extends CI_Controller {
 		}
 	}
 	
+	//Function to display categories
+	public function displayCategories(){
+		$this->load->model('exam_model');
+			$email = $this->session->userdata('email');
+			if($this->exam_model->loadCategories($email)){
+				$query=$this->exam_model->loadCategories($email);
+				return $query;
+			}
+			else{
+				return false;
+			}
+	}
+	
+	public function deleteExam($exam_no){
+		$this->load->model('exam_model');
+		$this->exam_model->deleteExam($exam_no);
+		redirect('/home/home_page');
+	}
+	
+	public function editExam($exam_no){
+		$this->load->model('exam_model');
+		$query = $this->exam_model->editExam($exam_no);
+		return $query;
+	}
+	
+	public function getCategory($exam_no){
+		$this->load->model('exam_model');
+		$query = $this->exam_model->getCategory($exam_no);
+		return $query;
+	}
+	
 	public function displayQuestions(){
 	$this->load->model('exam_model');
 	$email = $this->session->userdata('email');
@@ -178,6 +209,12 @@ class home extends CI_Controller {
 		else{
 			return false;
 		}
+	}
+	
+	public function deleteQuestion($question_id){
+		$this->load->model('exam_model');
+		$this->exam_model->deleteQuestion($question_id);
+		redirect('/home/home_page');
 	}
 
 	public function loadProfile(){ //loads the classes of a user by using his email
@@ -194,13 +231,15 @@ class home extends CI_Controller {
 		$this->load->view('teacher_manage_exam', $data);
 	}
 
+	public function loadEditExam($exam_no){
+		$data['exams'] = $this->editExam($exam_no);	
+		$data['category'] = $this->getCategory($exam_no);	
+		$this->load->view('teacher_edit_exam', $data);
+	}
+	
 	public function loadQuestionBank(){
 		$data['questions'] = $this->displayQuestions();
 		$this->load->view('teacher_manage_question_bank', $data);
-	}
-	
-	public function loadEditExam(){
-		$this->load->view('teacher_edit_exam');
 	}
 
 	public function loadLogs(){
@@ -270,35 +309,35 @@ class home extends CI_Controller {
 
 	/******************************************ADD QUESTIONS SIDEBAR***************************************/
 	public function addMultipleChoice(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_mcq', $data);
 	}
 
 	public function addTrueOrFalse(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_tf',$data);
 	}
 
 	public function addMatching(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_matching',$data);
 	}
 	public function addIdentification(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_ident', $data);
 	}
 
 	public function addFillInTheBlanks(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_fnb', $data);
 	}
 
 	public function addEssay(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_essay', $data);
 	}
 	public function addProgramming(){
-		$data['exams'] = $this->displayExams();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('add_question_programming', $data);
 	}
 

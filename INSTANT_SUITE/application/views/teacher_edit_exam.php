@@ -10,7 +10,7 @@
 
     <title>INSTANT SUITE</title>
 
-     <!-- Bootstrap CSS -->    
+    <!-- Bootstrap CSS -->    
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
     <link href="<?php echo base_url(); ?>css/bootstrap-theme.css" rel="stylesheet">
@@ -28,165 +28,139 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
-  </head>
+	 
+	<script>	
+	var counter = 1;
+	function addCategory(divName){
+				 var newdiv = document.createElement('div');
+				 newdiv.innerHTML = 
+					"Category " + (counter + 1) + 
+					" <br><input type='text' name='category[]'> Total Items<br><input type='number' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
+					" <option value='1'>EASY</option>" +
+					" <option value='2'>AVERAGE</option>" +
+					" <option value='3'>DIFFICULT</option></select>";
+				 document.getElementById(divName).appendChild(newdiv);
+				 counter++;
+	}
+	</script>
 
+  </head>
   <body>
-          <section class="wrapper">
-          <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-table"></i> Table</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-                        <li><i class="fa fa-table"></i>Table</li>
-                        <li><i class="fa fa-th-list"></i>Edit Exam</li>
-                    </ol>
-                </div>
-            </div>
-              <!-- page start-->
-             
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="page-header"><i class="fa fa-file-text-o"></i>Edit Exam</h3>
+          <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i>Home</a></li>
+            <li><i class="icon_document_alt"></i>Forms</li>
+            <li><i class="fa fa-file-text-o"></i>Edit Exam</li>
+          </ol>
+        </div>
+      </div>
+              <!-- EXAM TEMPLATE FORM -->
               <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-6">
                       <section class="panel">
                           <header class="panel-heading">
-                              Exam Details
+                              Exam template
                           </header>
-                          
-                          <table class="table table-striped table-advance table-hover">
-                           <tbody>
-                              <tr> <!--HEADINGS-->
-											<th>Referencing Exam</th>
-											<th>Description</th>
-											<th>Date</th>
-											<th>Number of Questions</th>
-                                 <th>Question ID</th>
-                                 <th>Type</th>
-                                 <th>Question </th>
-                                 <th>Corresponding Points</th>
-                                 <th>Answer</th>
-                                 <th><i class="icon_cogs"></i></th>
-                              </tr>
-										
-										<tr>
-											<td>MSUNIVERSE 101</td>
-											<td>ANG SUBJECT PARA SA MSUNIVERSE</td>
-											<td>4/4/2016</td>
-											<td>100</td>
-											<td>1</td>
-											<td>Identification</td>
-											<td>Sino ang Ms. Universe 2016?</td>
-											<td>10</td>
-											<td>Pia Wurtzbach</td>
-											 <td>
-                                  <div class="btn-group">
-                                        <a class="btn btn-success" href="#editQuestionModal" data-toggle="modal"><i class="icon_pencil-edit"></i></a><a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
-                                  </div>
-                                  </td>
-										</tr>   
-                           </tbody>
+                    <div class="panel-body">
+                  <?php 
+							foreach($exams as $row){
+								$examNo = $row->exam_no;
+							}
+						?>
+                  <form id="examForm" method="post" action="<?php echo base_url()."index.php/teachers/editExam/".$examNo."/"?>" class="form-horizontal">
+                      <!-- Course Code -->
+                      <!-- Select Basic -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="courseCode">Course code</label>
+                        <div class="col-md-4">
+						<?php 
+							foreach($exams as $row){
+								$courseCode = $row->course_code;
+								$section = $row->section;
+								$examDate = $row->exam_date;
+								$examDesc = $row->exam_desc;
+								$totalItems = $row->total_items;
+								$exam_no = $row->exam_no;
+							}
+						?>
+                         <input type="text" name="course_code" readonly="true" value="<?php echo $courseCode.' '.$section; ?>">
+                        </div>
+                      </div>
+
+                      <!-- Date of Exam -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="exam_date">Examination Date</label>
+                        <div class="col-md-4">
+                        <input type="date" name="examinationDate" value="<?php echo $examDate; ?>">
+                      </div>
+                      </div>
+
+                      <!-- Description -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" placeholder="Exam Description" for="exam_desc">Description</label>
+                        <div class="col-md-4">                     
+                         <textarea class="form-control" id="exam_desc" name="exam_desc"><?php echo $examDesc; ?></textarea>
+                        </div>
+                      </div>
+                             
+                      <!-- Total number of Items -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
+                        <div class="col-md-4">                     
+                         <input type="number" name="no_of_items" min="1" value="<?php echo $totalItems; ?>">
+                        </div>
+                      </div>
+
+							<div class="form-group">
+							<!-- table table-striped table-advance table-hover -->
+								<table class="col-md-4">
+								<div class="col-md-4">
+								   <tbody>
+									<center>
+									  <tr>
+										 <th><i class="icon_book"></i> Category</th>
+										 <th><i class="icon_question_alt2"></i> No. of Items </th>
+										 <th><i class="icon_cogs"></i> Difficulty</th>
+									  </tr>
+									<?php
+									foreach($category as $row){
+										echo '<tr>';
+										echo '<td><input type="text" name="category" readonly value="'.$row->category.'"></td>';
+										echo '<td><input type="number" min="1" name="totalItems[]" value ="'.$row->no_of_item.'"></td>';
+										echo '<td>
+											<select name="difficulty[]">
+											<option value="1">EASY</option>
+											<option value="2">AVERAGE</option>
+											<option value="3">DIFFICULT</option>
+										</select>
+										</td>';
+										echo '</tr>';
+									} ?>
+									</center>
+								   </tbody>
+									</div>
                         </table>
-                      </section>
-                  </div>
-              </div>
-				   <!-- EDIT QUESTION START -->
-				  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="editQuestionModal" class="modal fade">
-                                  <div class="modal-dialog">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                              <h4 class="modal-title">Edit Question</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                              <form class="form-horizontal" role="form">
-                                                <div class="form-group">
-																	<label class="col-md-4 control-label" for="examsubject">Exam Description</label>
-																	<div class="col-md-4"> 
-																	<textarea required="true" class="form-control" rows="5" name="exam_desc"></textarea>
-																	</div>
-																</div>
-																
-																<div class="form-group">
-                                                      <label class="col-md-4 control-label" for="exam_date">Exam Date</label>
-																		<div class="col-md-4">
-																		<input type="date" name="exam_date">
-																		</div>
-                                                </div>
-																
-																<div class="form-group">
-																	<label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
-																	<div class="col-md-4">                     
-																	 <input type="number" name="no_of_items" min="1">
-																	</div>
-																 </div> 
-																 
-																 <div class="form-group">
-																	<label class="col-md-4 control-label" for="questionProper">Question</label>
-																	<div class="col-md-4"> 
-																	<textarea required="true" class="form-control" rows="5" name="questionProper"></textarea>
-																	</div>
-																</div>
-																
-																<div class="form-group">
-                                                      <label class="col-md-4 control-label" for="inputPoints">Corresponding Point</label>
-                                                      <div class="col-md-4">
-																			<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
-                                                      </div>
-                                                   </div>
-                                                                    
-                                                   <div class="form-group">    
-                                                      <label class="col-md-4 control-label" for="inputPoints">Correct Answer</label>
-                                                     <div class="col-md-4">
-                                                      <input required="true" type="input" class="form-control" id="correctAnswer" name="answer">
-                                                      </div>
-                                                   </div>
-
-																<div class="form-group">  
-																	<td><center><button type="submit" class="btn btn-success btn-lg">
-																	  Save Edit
-																	</button></td></center>
-																</div>
-                                              </form>
-
-                                          </div>
-
-                                      </div>
-                                  </div>
-					</div>
-				  <!-- EDIT QUESTION END -->
-				  
+							</div>							 
+                          
+                        <!-- SAVE THE EXAM TEMPLATE -->
+                            <div class="form-group">  
+                              <td><center><button type="submit" class="btn btn-primary btn-lg" >
+                                Save Exam
+                              </button></td></center>
+                            </div>
+                          </div>
+                           </div> 
+                               </form>
+                            </div>
+                    </section>
+                      
+              <!-- page end-->
           </section>
-
-
-			 <!-- container section end -->
-    <!-- javascripts -->
-    <script src="<?php echo base_url(); ?>js/jquery.js"></script>
-    <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
-    <!-- nice scroll -->
-    <script src="<?php echo base_url(); ?>js/jquery.scrollTo.min.js"></script>
-    <script src="<?php echo base_url(); ?>js/jquery.nicescroll.js" type="text/javascript"></script>
-
-    <!-- jquery ui -->
-    <script src="<?php echo base_url(); ?>js/jquery-ui-1.9.2.custom.min.js"></script>
-
-    <!--custom checkbox & radio-->
-    <script type="<?php echo base_url(); ?>text/javascript" src="js/ga.js"></script>
-    <!--custom switch-->
-    <script src="<?php echo base_url(); ?>js/bootstrap-switch.js"></script>
-    <!--custom tagsinput-->
-    <script src="<?php echo base_url(); ?>js/jquery.tagsinput.js"></script>
-    
-    <!-- colorpicker -->
-   
-    <!-- bootstrap-wysiwyg -->
-    <script src="<?php echo base_url(); ?>js/jquery.hotkeys.js"></script>
-    <script src="<?php echo base_url(); ?>js/bootstrap-wysiwyg.js"></script>
-    <script src="<?php echo base_url(); ?>js/bootstrap-wysiwyg-custom.js"></script>
-    <!-- ck editor -->
-    <script type="<?php echo base_url(); ?>text/javascript" src="assets/ckeditor/ckeditor.js"></script>
-    <!-- custom form component script for this page-->
-    <script src="<?php echo base_url(); ?>js/form-component.js"></script>
-    <!-- custome script for all page -->
-    <script src="<?php echo base_url(); ?>js/scripts.js"></script>
+      </section>
+      <!--main content end-->
 
   </body>
-  
 </html>

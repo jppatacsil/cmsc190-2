@@ -350,11 +350,13 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
                       <ul class="sub">
+							 <!--
                         <li><a class="" href="<?php echo site_url('teachers/addQuestion/1'); ?>" >Multiple Choice </a></li>
 								<li><a class="" href="<?php echo site_url('teachers/addQuestion/2'); ?>" >True or False</a></li>
 								<li><a class="" href="<?php echo site_url('teachers/addQuestion/3'); ?>" >Matching Type</a></li>  <li><a class="" href="<?php echo site_url('teachers/addQuestion/4'); ?>" >Identification</a></li>
 								<li><a class="" href="<?php echo site_url('teachers/addQuestion/5'); ?>" >Fill-in-the-blanks</a></li> <li><a class="" href="<?php echo site_url('teachers/addQuestion/6'); ?>" >Essay</a></li>  
-								<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>		  
+								<li><a class="" href="<?php echo site_url('teachers/addQuestion/7'); ?>" >Programming</a></li>
+							-->
                       </ul>
                   </li> 
                   <li class="sub-menu">
