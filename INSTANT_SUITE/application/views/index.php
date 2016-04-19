@@ -158,6 +158,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="input-group-addon"><i class="icon_key_alt"></i></span>
                         <input type="password" class="form-control" name="password_signup" placeholder="Password">
                     </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="text" class="form-control" name="type" value="teacher">
+                    </div>
                    
 
                     <br><br>

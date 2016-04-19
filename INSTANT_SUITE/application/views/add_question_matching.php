@@ -30,32 +30,53 @@
     <![endif]-->
 	 
 	<script>
-	//For dynamic adding of questions and correct matching
-	var counter = 1;
-	function addQuestion(divName,divName2){
-		//Add the question and matching answer in column a
-		var newdiv = document.createElement('div');
-				 newdiv.innerHTML = "Question " + (counter + 1) + " <br><input type='text' value='' name='questionProper[]'><input type='text' placeholder='Matching answer' value='' name='answer[]' id=answer" + (counter+1) + " onkeyup='updateField(" + (counter+1) +")' >";
-				 document.getElementById(divName).appendChild(newdiv);
-				 
-		//Add the choices in column b
-		var newdiv2 = document.createElement('div');
-				 newdiv2.innerHTML = "<br><input type='text' placeholder='Enter choice here' name='choice[]' id=choice" + (counter+1) + " value=''>";
-				 document.getElementById(divName2).appendChild(newdiv2);
-				 counter++;
-	}
+	//Function to dynamically add and remove questions
+	var x = 1; //initial question count
+	$(document).ready(function() {
+	      var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+	      var wrapper2		  = $(".input_fields_wrap2"); //Fields wrapper 2
+	      var add_button      = $(".add_field_button"); //Add button ID
+
+	      $(add_button).click(function(e){ //on add input button click
+	          e.preventDefault();
+	          $(wrapper).append('<div><br><input type="text" class="col-lg-12" value="" name="questionProper[]" placeholder="Enter question here"><input type="text" class="col-lg-12" placeholder="Matching answer" value="" name="answer[]" id=answer' + (x+1) + ' onkeyup="updateField(' + (x+1) + ')" > <a href="#" class="remove_field btn btn-danger btn-xs btn-block" onclick="removeChoice(' + (x+1) + ')">Remove</a></div>'); //add input box
+	          $(wrapper2).append('<div><input type="text" class="col-lg-12" name="choice[]" id=choice' + (x+1) + ' value="" readonly></div>');
+	          x++; //question count increment
+	      });
+	      
+	      $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	          e.preventDefault(); 
+	          $(this).parent('div').remove();
+	          x--;
+	      })
+	  });
 	
 	//Update the field
 	function updateField(num){
 		var ans = document.getElementById('answer'+num).value;
 		document.getElementById('choice'+num).value = ans;
 	}
+
+	//Function to remove the choice
+	function removeChoice(num){
+		$("#choice"+num).remove();
+	}
+
+	//Overload function to remove the choice
+	function removeChoice2(num){
+		$("#choice"+num).remove();
+		$("#removeBtn"+num).remove();
+	}
 	
 	//For dynamic adding of new choices
 	function addChoice(divName){
 			var newdiv = document.createElement('div');
-				 newdiv.innerHTML = "<br><input type='text' placeholder='Enter choice here' name='choice[]'>";
+				 newdiv.innerHTML = 
+				 "<input type='text' class='col-lg-12' id=choice" + (x+1) +" placeholder='Enter choice here' name='choice[]'>" +
+				 " <a href='#' id=removeBtn" + (x+1) +" class='remove_field btn btn-danger btn-xs btn-block' onclick=removeChoice2(" + (x+1) + ")>Remove</a>";
+				 
 				 document.getElementById(divName).appendChild(newdiv);
+				 x++;
 	}
 		
 	//For inserting new category in the list
@@ -63,8 +84,9 @@
 			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
 				alert("Category inserted to list!");
 				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
-			}else {alert("No category inserted!");}
-		}
+				document.getElementById('newCategory').value = "";
+			}else {alert("No category to insert!");}
+	}
 	
 	</script>
   </head>
@@ -103,26 +125,30 @@
 														}
 													?>
 													</select>
-													<input class="col-lg-12" type="text" value="" placeholder="New category" id="newCategory">
+													<input class="col-lg-12" type="text" value="" placeholder="New category" name="newCategory" id="newCategory">
 													</div>
 													<input class="btn btn-success btn-sm col-lg-4" type="button" id="addCategory" onclick="insertCategory()" value="Insert category"/></center>
 												</div>
 														
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="questionProper">COLUMN A</label>
-												  <div id="questionInput" class="col-md-4">
-														 Question 1<br><input type="text" name="questionProper[]"/> <input type="text" placeholder="Matching Answer" name="answer[]"/ id="answer1" onkeyup='updateField(1)'>
+												  <div id="questionInput" class="col-md-6 input_fields_wrap">
+													<input type="text" class="col-lg-12" name="questionProper[]" placeholder="Enter question here">
+													<input type="text" class="col-lg-12" placeholder="Matching answer" name="answer[]" id="answer1" onkeyup='updateField(1)'>
 												  </div>
-												  <input type="button" class="btn btn-success btn-sm col-lg-4" value="Add another question" onClick="addQuestion('questionInput','choiceInput');"/>
+												  <div>
+												  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another question"/>
+												  <!-- onClick="addQuestion('questionInput','choiceInput');" -->
+												</div>
 												</div>
 										                                                                    
 												<div class="form-group">
-													<label class="col-md-3 control-label" for="questionProper">COLUMN B</label>
-												  <div id="choiceInput" class="col-md-4">
-														<input type='text' placeholder='Enter choice here' name='choice[]' id="choice1">
+													<label class="col-md-3 control-label" for="choices">COLUMN B</label>
+												  <div id="choiceInput" class="col-md-6 input_fields_wrap2">
+													<input type='text' class="col-lg-12" name='choice[]' id="choice1" readonly>
 												  </div>
-												  <div class="col-md-3">
-												  <input type="button" class="btn btn-success btn-sm" value="Add new choices" onClick="addChoice('choiceInput');">
+												  <div class="col-md-2">
+												  	<input type="button" class="btn btn-success btn-sm" value="Add new choices" onClick="addChoice('choiceInput');">
 												  </div>
 												</div>
 																	

@@ -31,17 +31,39 @@
 	 
 	 <script language="javascript">
 
-		function insertCategory(){
+	//For inserting new category in the list
+	function insertCategory(){
 			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
 				alert("Category inserted to list!");
 				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
-			}
-		}
+				document.getElementById('newCategory').value = "";
+			}else {alert("No category inserted!");}
+	}
 			
-		function setAnswer(){
+	function setAnswer(){
 			var ans = document.getElementById('answer').value;
 			document.getElementById('choice1').value = ans;
-		}
+	}
+
+	//For dynamic adding of new choices
+	var x = 4;
+	function addChoice(divName){
+			var newdiv = document.createElement('div');
+				 newdiv.innerHTML = 
+				 "<input type='text' id=choice" + (x+1) +" placeholder='Enter choice here' value='' name='choice[]'>" +
+				 " <a href='#' id=removeBtn" + (x+1) +" class='remove_field btn btn-danger btn-xs' onclick=removeChoice2(" + (x+1) + ")>Remove</a>";
+				 
+				 document.getElementById(divName).appendChild(newdiv);
+				 x++;
+	}
+
+	//Function to remove choice and button
+	function removeChoice2(num){
+		$("#choice"+num).remove();
+		$("#removeBtn"+num).remove();
+	}
+
+
 		
 	 </script>
 
@@ -102,21 +124,14 @@
                                                                       
 												<div class="form-group">    
 													<label class="col-md-3 control-label" for="correctAnswer">Choices</label>
-													<div class="col-md-3">
-													<tbody id="choiceSelection">
-														<tr>
-															<input id="choice1" required="true" type="text" placeholder="Correct Answer" value="" name="choice[]" readonly>
-														</tr>
-														<tr>
-															<input id="choice2" required="true" type="text" value="" name="choice[]"/>
-														</tr>
-														<tr>
-															<input id="choice3" required="true" type="text" value="" name="choice[]"/>
-														</tr>
-														<tr>
-															<input id="choice4" required="true" type="text" value="" name="choice[]"/>
-														</tr>
-													</tbody>
+													<div id="choiceInput" class="col-md-6">
+														<input id="choice1" required="true" type="text" placeholder="Correct Answer" value="" name="choice[]" readonly>
+														<input id="choice2" required="true" type="text" placeholder="Enter choice here"  value="" name="choice[]"/>
+														<input id="choice3" required="true" type="text" placeholder="Enter choice here" value="" name="choice[]"/>
+														<input id="choice4" required="true" type="text" placeholder="Enter choice here" value="" name="choice[]"/>
+													</div>
+													<div>
+														<input type="button" class="btn btn-success btn-sm" value="Add new choices" onClick="addChoice('choiceInput');">
 													</div>
 												</div>
 

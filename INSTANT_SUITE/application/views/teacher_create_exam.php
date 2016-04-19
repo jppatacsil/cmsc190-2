@@ -29,19 +29,24 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 	 
-	<script>	
-	var counter = 1;
-	function addCategory(divName){
-				 var newdiv = document.createElement('div');
-				 newdiv.innerHTML = 
-					"Category " + (counter + 1) + 
-					" <br><input type='text' name='category[]'> Total Items<br><input type='number' onchange='findTotal()' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
-					" <option value='1'>EASY</option>" +
-					" <option value='2'>AVERAGE</option>" +
-					" <option value='3'>DIFFICULT</option></select>";
-				 document.getElementById(divName).appendChild(newdiv);
-				 counter++;
-	}
+	<script>
+  //Function to dynamically add and remove category fields
+  $(document).ready(function() {
+      var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+      var add_button      = $(".add_field_button"); //Add button ID
+      
+      var x = 1; //initial category count
+      $(add_button).click(function(e){ //on add input button click
+          e.preventDefault();
+          $(wrapper).append('<div><br><input type="text" name="category[]" placeholder="Category"><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items"><br><select name="difficulty[]"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          x++; //category increment
+      });
+      
+      $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+          e.preventDefault(); $(this).parent('div').remove(); x--;
+          findTotal(); //Count new total number of items
+      })
+  });
 	
 	//Get total number of items
 	function findTotal(){
@@ -115,25 +120,18 @@
                       </div>
 							 
 							 <div class="form-group">
-								<label class="col-md-4 control-label" for="time_start">Time Start</label>
+								<label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
 								<div class="col-md-4">
-									<input type="time" name="time_start">
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="time_end">Time End</label>
-								<div class="col-md-4">
-									<input type="time" name="time_end">
+									<input type="number" name="duration" min="30" step="5">
 								</div>
 							</div>
                              
 							<div class="form-group">
 								<label class="col-md-4 control-label" for="category">Coverage</label>
-									<div id="categoryInput" class="col-md-4">
-										Category 1<br><input type="text" name="category[]">
-										Total Items<br><input type="number" onchange="findTotal()" min="1" name="totalItems[]">
-										Difficulty<br>
+									<div id="categoryInput" class="col-md-4 input_fields_wrap">
+										<br><input type="text" name="category[]" placeholder="Category">
+										<br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
+								    <br>
 										<select name="difficulty[]">
 											<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
@@ -141,8 +139,9 @@
 										</select>
 									</div>
 									<div class="col-md-4">
-									<input type="button" class="btn btn-warning btn-sm" value="Add another category" onClick="addCategory('categoryInput');">
-									</div>
+									<input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">
+                  <!-- onClick="addCategory('categoryInput');" -->
+                  </div>
 							</div>
 
                       <!-- Total number of Items -->

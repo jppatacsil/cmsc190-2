@@ -31,20 +31,24 @@
 	 
 	<script language="javascript">
 	
-	function insertCategory(){
-				
-			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
-				alert("Category inserted to list!");
-				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
-			}
-		}
+  //For inserting new category in the list
+  function insertCategory(){
+      if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+        alert("Category inserted to list!");
+        $("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+        document.getElementById('newCategory').value = "";
+      }else {alert("No category inserted!");}
+  }
+
+  //On load, spell checker
+  function spellCheck(){
+    $('correctAnswer').spellAsYouType((defaultDictionary:'English',checkGrammar:true);});
+  }
 	
 	</script>
 
   </head>
-  <body>
-
-
+  <body onload="spellCheck()">
           <section class="wrapper">
           <div class="row">
                 <div class="col-lg-12">
@@ -97,6 +101,14 @@
 													<input required="true" type="input" class="form-control" id="correctAnswer" name="answer">
 													</div>
 												</div>
+
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="considerations">Considerations</label>
+                          <div class="col-md-5">
+                            <input type="checkbox" name="consideration" value="1"> Minor Spelling Errors<br>
+                            <input type="checkbox" name="consideration" value="2"> Synonymous Answers<br>
+                          </div>
+                        </div>
 												                                                                    
 												<div class="form-group">
 														<label class="col-md-3 control-label" for="inputPoints">Credit</label>
@@ -126,6 +138,7 @@
     <!-- nicescroll -->
     <script src="<?php echo base_url();?>js/jquery.scrollTo.min.js"></script>
     <script src="<?php echo base_url();?>js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>/JavaScriptSpellCheck/include.js" type="text/javascript" ></script>
 
     <!-- jquery ui -->
     <script src="<?php echo base_url();?>js/jquery-ui-1.9.2.custom.min.js"></script>

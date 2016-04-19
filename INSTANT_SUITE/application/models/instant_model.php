@@ -73,7 +73,8 @@
 				'firstName' => $this->input->post('firstName'),
 				'middleName' => $this->input->post('middleName'),
 				'email_address' => $this->input->post('email_address_signup'),
-				'password' => md5($this->input->post('password_signup'))
+				'password' => md5($this->input->post('password_signup')),
+				'type' => $this->input->post('type'),
 			);
 
 			$query = $this->db->insert('user', $userData);

@@ -8,7 +8,7 @@
 		/*************************_FUNCTIONS FOR EXAM CREATION AND QUESTIONS_**************************/
 				
 		//Bank the exam in the table
-		public function createExam($desc, $date, $total, $category, $totalItems, $difficulty, $courseCode, $email){
+		public function createExam($desc, $date, $total, $duration, $category, $totalItems, $difficulty, $courseCode, $email){
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 		$courseID = $this->db->query("SELECT course_id from subject WHERE course_code = '$courseCode';")->row()->course_id;
 		
@@ -17,12 +17,13 @@
 				'exam_desc' => $desc,
 				'exam_date' => $date,
 				'total_items' => $total,
+				'duration' => $duration,
 				'emp_no' => $empNo,
 				'course_id' => $courseID,
 			);
 			
 			$query = $this->db->insert('exam', $examDetails);
-			$exam_no = $this->db->query("SELECT exam_no from exam WHERE exam_desc = '$desc';")->row()->exam_no;
+			$exam_no = $this->db->insert_id(); //Get the last inserted exam_no
 
 		//Insert to template
 		for($i=0;$i<count($category);$i++){

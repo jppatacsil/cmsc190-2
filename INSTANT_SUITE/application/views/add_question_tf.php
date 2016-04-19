@@ -31,13 +31,14 @@
 	 
 	<script language="javascript">
 	
-	function insertCategory(){
-				
-			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
-				alert("Category inserted to list!");
-				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
-			}
-		}
+  //For inserting new category in the list
+  function insertCategory(){
+      if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+        alert("Category inserted to list!");
+        $("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+        document.getElementById('newCategory').value = "";
+      }else {alert("No category inserted!");}
+  }
 	
 	</script>
 

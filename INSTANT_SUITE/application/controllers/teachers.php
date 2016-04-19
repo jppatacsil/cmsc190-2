@@ -26,9 +26,10 @@ class teachers extends CI_Controller {
 		$category = $this->input->post('category');
 		$totalItems = $this->input->post('totalItems');
 		$difficulty = $this->input->post('difficulty');
+		$duration = $this->input->post('duration');
 		
 		$this->load->model('exam_model');
-		$this->exam_model->createExam($desc, $date, $total, $category, $totalItems, $difficulty, $courseCode, $email, true, null);
+		$this->exam_model->createExam($desc, $date, $total, $duration, $category, $totalItems, $difficulty, $courseCode, $email);
 		
 		redirect('/home/home_page');
 	}

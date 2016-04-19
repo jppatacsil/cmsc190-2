@@ -31,13 +31,50 @@
 	 
 	<script language="javascript">
 	
-	function insertCategory(){
-				
-			if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
-				alert("Category inserted to list!");
-				$("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
-			}
-		}
+  //For inserting new category in the list
+  function insertCategory(){
+      if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
+        alert("Category inserted to list!");
+        $("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+        document.getElementById('newCategory').value = "";
+      }else {alert("No category to insert!");}
+  }
+
+  //If synonymous answers was checked
+  function tick(divName){
+    if(document.getElementById('synonyms').checked == true){
+      var counter = prompt("How many answers would you consider?", "1");
+      if (counter != null) {
+        addAns(divName,counter);
+      }else{
+        alert("You entered a null value. Unchecking the box.");
+      }
+      
+    }
+    else{
+      alert("Generated textfield/s are removed.");
+    }
+  }
+
+  //For dynamic adding of synonymous answers
+  function addAns(divName,counter){
+      var x = 0;
+      var newdiv = document.createElement('div');
+      while(x != counter){
+         newdiv.innerHTML = 
+         "<br><input type='text' id=synAns" + (x+1) +" placeholder='Considered answer' name='answer[]'>" +
+         " <a href='#' id=removeBtn" + (x+1) +" class='remove_field btn btn-danger btn-xs' onclick=removeAns(" + (x+1) + ")>Remove</a>";
+         
+         document.getElementById(divName).appendChild(newdiv);
+         x++;
+      }
+  }
+
+  //For deleting added textfields
+  function removeAns(num){
+    $("#synAns"+num).remove();
+    $("#removeBtn"+num).remove();
+  }
 	
 	</script>
 
@@ -96,6 +133,14 @@
 													<input required="true" type="input" class="form-control" id="correctAnswer" name="answer">
 													</div>
 												</div>
+
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="considerations">Considerations</label>
+                          <div id="considerationInput" class="col-md-9">
+                            <input type="checkbox" name="consideration" value="ConsiderSpelling"> Minor Spelling Errors<br>
+                            <input id="synonyms" type="checkbox" name="consideration" value="ConsiderSynonyms" onchange="tick('considerationInput')"> Synonymous Answers<br>
+                          </div>
+                        </div>
 												
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="inputPoints">Credit</label>
