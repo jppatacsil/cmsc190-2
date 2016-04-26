@@ -132,19 +132,19 @@
 														
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="questionProper">COLUMN A</label>
-												  <div id="questionInput" class="col-md-6 input_fields_wrap">
+												  <div id="questionInput" class="col-md-5 input_fields_wrap">
 													<input type="text" class="col-lg-12" name="questionProper[]" placeholder="Enter question here">
 													<input type="text" class="col-lg-12" placeholder="Matching answer" name="answer[]" id="answer1" onkeyup='updateField(1)'>
 												  </div>
 												  <div>
 												  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another question"/>
 												  <!-- onClick="addQuestion('questionInput','choiceInput');" -->
-												</div>
+												  </div>
 												</div>
 										                                                                    
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="choices">COLUMN B</label>
-												  <div id="choiceInput" class="col-md-6 input_fields_wrap2">
+												  <div id="choiceInput" class="col-md-5 input_fields_wrap2">
 													<input type='text' class="col-lg-12" name='choice[]' id="choice1" readonly>
 												  </div>
 												  <div class="col-md-2">

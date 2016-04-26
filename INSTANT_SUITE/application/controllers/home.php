@@ -192,6 +192,12 @@ class home extends CI_Controller {
 		$query = $this->exam_model->editExam($exam_no);
 		return $query;
 	}
+
+	public function editQuestion($question_id){
+		$this->load->model('exam_model');
+		$query = $this->exam_model->editQuestion($question_id);
+		return $query;
+	}
 	
 	public function getCategory($exam_no){
 		$this->load->model('exam_model');
@@ -217,12 +223,52 @@ class home extends CI_Controller {
 		redirect('/home/home_page');
 	}
 
+	//Function to show multiple choice question in takeExam
+	public function showMCQ(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveMCQ();	
+		return $query;	
+	}
+
+	//Function to show TF question in takeExam
+	public function showTF(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveTF();	
+		return $query;	
+	}
+
+	//Function to show Matching type questions in takeExam 
+	public function showMatching(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveMatching();
+		return $query;
+	}
+
+	public function getMatchingChoices(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveMatchingChoices();
+		return $query;
+	}
+
+	public function showFnB(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveFnB();
+		return $query;
+	}
+
+	public function showIdentification(){
+		$this->load->model('checker_model');
+		$query = $this->checker_model->retrieveIdentification();
+		return $query;
+	}
+
 	public function loadProfile(){ //loads the classes of a user by using his email
 		$this->load->view('teacher_profile');
 	}
 
 	public function loadCreateExam(){
 		$data['classes'] = $this->displayClasses();
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('teacher_create_exam', $data);
 	}
 
@@ -233,17 +279,27 @@ class home extends CI_Controller {
 
 	public function loadEditExam($exam_no){
 		$data['exams'] = $this->editExam($exam_no);	
-		$data['category'] = $this->getCategory($exam_no);	
+		$data['category'] = $this->getCategory($exam_no);
+		$data['categories'] = $this->displayCategories();
 		$this->load->view('teacher_edit_exam', $data);
 	}
-	
+
 	public function loadQuestionBank(){
 		$data['questions'] = $this->displayQuestions();
 		$this->load->view('teacher_manage_question_bank', $data);
 	}
 
-	public function loadLogs(){
-		$this->load->view('viewLogs');
+	public function loadEditQuestion($question_id){
+		$data['question'] = $this->editQuestion($question_id);
+		$this->load->view('teacher_edit_question', $data);
+	}
+
+	public function loadTakeExam(){
+		//$data['questionDetails'] = $this->showMatching();
+		//$data['choicesDetails'] = $this->getMatchingChoices();
+		//$data['questionDetails'] = $this->showFnB();
+		$data['questionDetails'] = $this->showIdentification();
+		$this->load->view('takeExam', $data);
 	}
 
 	public function loadCreateClass(){

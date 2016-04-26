@@ -40,7 +40,47 @@
 		}
 		
 		//Bank the question according to type
-		public function addQuestion($email, $category, $type, $questionProper, $points, $answer){
+		public function addQuestion1($email, $category, $type, $questionProper, $points, $answer, $cons1, $cons2, $consAns){
+		
+		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
+		
+		//Check the considerations to be considered
+		if($cons1 == 1 && $cons2 == 2){
+			$consideration = 3; //Both spelling and synonyms
+		}
+		else if($cons1 == 1){
+			$consideration = 1; //Spelling errors only
+		}
+		else{
+			$consideration = 2; //Synonyms only
+		}
+
+		$totalConsiderations = count($consAns); //Count the number of considered answers
+
+		//Save the answers to a personal dictionary textfile
+		$myfile = fopen("consideredAnswers.txt", "a") or die("Unable to open file!");
+		for($i=0;$i<$totalConsiderations;$i++){
+			$txt = strtolower($consAns[$i]);
+			fwrite($myfile, PHP_EOL.$txt);
+		}
+		fclose($myfile);
+
+		$questionDetails = array(
+			'type' => $type,
+			'question' => $questionProper,
+			'answer' => strtolower($answer),
+			'credit' => $points,
+			'category' => $category,
+			'emp_no' => $empNo,
+			'consideration' => $consideration, 
+			);
+			
+		$query = $this->db->insert('questions',$questionDetails);
+		
+		}
+
+		//Bank the question according to type
+		public function addQuestion2($email, $category, $type, $questionProper, $points, $answer){
 		
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 		
@@ -101,11 +141,11 @@
 			'emp_no' => $empNo,
 			);
 			
-		$query = $this->db->insert('questions',$questionDetails);
-		
+			$this->db->insert('questions',$questionDetails);
+			$question_id = $this->db->query("SELECT question_id FROM questions WHERE question = '$questionProper[0]';")->row()->question_id;
+			$currQuestion = $questionProper[$i];
+			$this->db->query("UPDATE questions SET matching_id='$question_id' WHERE question = '$currQuestion';");
 		}
-		
-		$question_id = $this->db->query("SELECT question_id from questions WHERE question = '$questionProper[0]';")->row()->question_id;
 		
 		//Traverse the array of choices to store
 			foreach($choice as $choices => $choices_value) {
@@ -170,6 +210,7 @@
 			//Insert to template
 			$query = $this->db->query("delete from template where exam_no = '$exam_no'");
 			for($i=0;$i<count($category);$i++){
+				if($totalItems[$i] != 0){
 				$templateDetails = array(
 					'exam_no' => $exam_no,
 					'category' => $category[$i],
@@ -177,9 +218,9 @@
 					'difficulty' => $difficulty[$i],
 				);
 				
-			$query = $this->db->insert('template',$templateDetails);
+				$query = $this->db->insert('template',$templateDetails);
+				}
 			}
-
 		}
 		
 		//Function to get category
@@ -201,5 +242,10 @@
 		public function deleteQuestion($question_id){
 			$this->db->where('question_id', $question_id);
 			$this->db->delete('questions');
+		}
+		
+		public function editQuestion($question_id){
+			$query = $this->db->query("select * from questions where question_id = '$question_id'");
+			return $query->result();
 		}
 }

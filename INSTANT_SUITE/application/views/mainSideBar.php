@@ -97,9 +97,9 @@
                       </a>
                   </li>
                    <li>                     
-                      <a class="logsLoader">
+                      <a class="checkLoader">
                           <i class="icon_ol"></i>
-                          <span>View Logs</span>
+                          <span>Check Answers</span>
                       </a>
                   </li>
               </ul>
@@ -143,8 +143,8 @@
             $("#main-content").load("loadQuestionBank").hide(500).fadeIn();
           });
 
-        $(".logsLoader").click(function(){
-            $("#main-content").load("loadLogs").hide(500).fadeIn();
+        $(".checkLoader").click(function(){
+            $("#main-content").load("loadTakeExam").hide(500).fadeIn();
           });
 
         $(".classSideBarLoader").click(function(){

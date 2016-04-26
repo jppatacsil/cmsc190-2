@@ -2,22 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class teachers extends CI_Controller {
- 
-	//Load the teacher profile
-	public function index()
-	{
-		$this->load->view('teacher_profile');
-	}
-	
-	//Load the login_page
-	public function addMultipleChoice(){
-		$this->load->view('add_question_mcq');
-
-	}
-	
+ 	
 	//Add exam
 	public function createExam(){
-	
 		$email = $this->session->userdata('email');
 		$courseCode = $this->input->post('course_code');
 		$date = $this->input->post('examinationDate');
@@ -57,7 +44,7 @@ class teachers extends CI_Controller {
 			$type = $this->uri->segment(3);
 			$email = $this->session->userdata('email');
 			
-			if($type == 1){
+			if($type == 1){ //if multiple choice
 				$category = $this->input->post('category');
 				$questionProper = $this->input->post('questionProper');
 				$answer = $this->input->post('answer');
@@ -68,7 +55,7 @@ class teachers extends CI_Controller {
 				$this->exam_model->addMCQ($email,$category,$type,$questionProper,$points,$choice,$answer);
 			}
 			
-			else if($type == 3){
+			else if($type == 3){ //if matching type
 				$category = $this->input->post('category');
 				$questionProper = $this->input->post('questionProper');
 				$answer = $this->input->post('answer');
@@ -79,6 +66,19 @@ class teachers extends CI_Controller {
 				$this->exam_model->addMatching($email,$category,$type,$questionProper,$points,$choice,$answer);
 			}
 			
+			else if($type == 4 || $type == 5){ //for FnB and Identification
+				$category = $this->input->post('category');
+				$questionProper = $this->input->post('questionProper');
+				$answer = $this->input->post('answer');
+				$points = $this->input->post('points');
+				$cons1 = $this->input->post('consideration1');
+				$cons2 = $this->input->post('consideration2');
+				$consAns = $this->input->post('considerations');
+				
+				$this->load->model('exam_model');
+				$this->exam_model->addQuestion1($email,$category,$type,$questionProper,$points,$answer,$cons1, $cons2, $consAns);
+			}
+
 			else{
 				$category = $this->input->post('category');
 				$questionProper = $this->input->post('questionProper');
@@ -86,7 +86,7 @@ class teachers extends CI_Controller {
 				$points = $this->input->post('points');
 				
 				$this->load->model('exam_model');
-				$this->exam_model->addQuestion($email,$category,$type,$questionProper,$points,$answer);
+				$this->exam_model->addQuestion2($email,$category,$type,$questionProper,$points,$answer);
 			}
 			
 			redirect('/home/home_page');

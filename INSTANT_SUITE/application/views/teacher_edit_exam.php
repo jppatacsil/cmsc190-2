@@ -29,23 +29,58 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 	 
-	<script>	
-	var counter = 1;
-	function addCategory(divName){
-				 var newdiv = document.createElement('div');
-				 newdiv.innerHTML = 
-					"Category " + (counter + 1) + 
-					" <br><input type='text' name='category[]'> Total Items<br><input type='number' min='1' name='totalItems[]'> Difficulty<br><select name='difficulty[]'> " +
-					" <option value='1'>EASY</option>" +
-					" <option value='2'>AVERAGE</option>" +
-					" <option value='3'>DIFFICULT</option></select>";
-				 document.getElementById(divName).appendChild(newdiv);
-				 counter++;
-	}
-	</script>
+  <script>
+  //Function to dynamically add and remove category fields
+  $(document).ready(function() {
+      var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+      var add_button      = $(".add_field_button"); //Add button ID
+      
+      var x = 1; //initial category count
+      $(add_button).click(function(e){ //on add input button click
+          e.preventDefault();
+          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          fillCategory(x); //fill the category list
+          x++; //category increment
+      });
+      
+      $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+          e.preventDefault(); $(this).parent('div').remove(); x--;
+          findTotal(); //Count new total number of items
+      })
+  });
+
+  //Fill the dynamically entered fields
+  function fillCategory(classNum){
+    var length = $('#categoryList > option').length; //Get number of categories in the categoryList
+    var categoryMenu = $(".category_fields"+classNum);
+    var list = document.getElementById("categoryList");
+    var value;
+    var text;
+    var i = 0;
+    while(i != length){ //Fill the category with the options
+      value = list.options[i].value;
+      text = list.options[i].text;
+      $(categoryMenu).append('<option value="' + value + '">' + text + '</option>');
+      i++;
+    } 
+  }
+  
+  //Get total number of items
+  function findTotal(){
+    var arr = document.getElementsByName('totalItems[]');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('no_of_items').value = tot;
+  }
+  
+  </script>
 
   </head>
   <body>
+
+  
     <section class="wrapper">
       <div class="row">
         <div class="col-lg-12">
@@ -65,27 +100,23 @@
                               Exam template
                           </header>
                     <div class="panel-body">
-                  <?php 
-							foreach($exams as $row){
-								$examNo = $row->exam_no;
-							}
-						?>
-                  <form id="examForm" method="post" action="<?php echo base_url()."index.php/teachers/editExam/".$examNo."/"?>" class="form-horizontal">
+            					<?php 
+            							foreach($exams as $row){
+            								$courseCode = $row->course_code;
+            								$section = $row->section;
+            								$examDate = $row->exam_date;
+            								$examDesc = $row->exam_desc;
+            								$totalItems = $row->total_items;
+            								$exam_no = $row->exam_no;
+            								$duration = $row->duration;
+            							}
+            						?>
+                  <form id="examForm" method="post" action="<?php echo base_url()."index.php/teachers/editExam/".$exam_no."/"?>" class="form-horizontal">
                       <!-- Course Code -->
                       <!-- Select Basic -->
                       <div class="form-group">
                         <label class="col-md-4 control-label" for="courseCode">Course code</label>
                         <div class="col-md-4">
-						<?php 
-							foreach($exams as $row){
-								$courseCode = $row->course_code;
-								$section = $row->section;
-								$examDate = $row->exam_date;
-								$examDesc = $row->exam_desc;
-								$totalItems = $row->total_items;
-								$exam_no = $row->exam_no;
-							}
-						?>
                          <input type="text" name="course_code" readonly="true" value="<?php echo $courseCode.' '.$section; ?>">
                         </div>
                       </div>
@@ -105,49 +136,60 @@
                          <textarea class="form-control" id="exam_desc" name="exam_desc"><?php echo $examDesc; ?></textarea>
                         </div>
                       </div>
-                             
-                      <!-- Total number of Items -->
-                      <div class="form-group">
-                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
-                        <div class="col-md-4">                     
-                         <input type="number" name="no_of_items" min="1" value="<?php echo $totalItems; ?>">
-                        </div>
-                      </div>
-
-							<div class="form-group">
-							<!-- table table-striped table-advance table-hover -->
-								<table class="col-md-4">
+							 
+							 <div class="form-group">
+								<label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
 								<div class="col-md-4">
-								   <tbody>
-									<center>
-									  <tr>
-										 <th><i class="icon_book"></i> Category</th>
-										 <th><i class="icon_question_alt2"></i> No. of Items </th>
-										 <th><i class="icon_cogs"></i> Difficulty</th>
-									  </tr>
-									<?php
-									foreach($category as $row){
-										echo '<tr>';
-										echo '<td><input type="text" name="category" readonly value="'.$row->category.'"></td>';
-										echo '<td><input type="number" min="1" name="totalItems[]" value ="'.$row->no_of_item.'"></td>';
-										echo '<td>
-											<select name="difficulty[]">
+									<input type="number" name="duration" min="30" step="5" value="<?php echo $duration; ?>">
+								</div>
+							</div>
+                             
+							<div class="form-group">
+								<label class="col-md-4 control-label" for="category">Coverage</label>
+									<div id="categoryInput" class="col-md-4 input_fields_wrap">
+									<?php foreach($category as $row){
+										echo '<br><select name="category[]" class="col-lg-12" id="categoryList"> ';
+														echo '<option selected="true" style="display:none;">'.$row->category.'</option>';
+														foreach($categories as $cat){
+														echo '<option value="'.$cat->category.'">
+																'.$cat->category.'
+														</option>';
+														}
+										echo '</select>
+										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
+								    <br>
+										<select name="difficulty[]" class="col-lg-12">
+											<option selected="true" style="display:none;">';
+											switch($row->difficulty){
+												case 1: echo 'EASY'; break;
+												case 2: echo 'AVERAGE'; break;
+												case 3: echo 'DIFFICULT'; break;
+											}
+											echo '</option>
 											<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
 											<option value="3">DIFFICULT</option>
 										</select>
-										</td>';
-										echo '</tr>';
-									} ?>
-									</center>
-								   </tbody>
+										<br>';
+										}?>
 									</div>
-                        </table>
-							</div>							 
+									<div class="col-md-4">
+									<input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">
+                  <!-- onClick="addCategory('categoryInput');" -->
+                  </div>
+							</div>
+
+                      <!-- Total number of Items -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
+                        <div class="col-md-4">                     
+                         <input type="number" name="no_of_items" id="no_of_items" min="1" value="<?php echo $totalItems; ?>"readonly>
+                        </div>
+                      </div>							
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  
-                              <td><center><button type="submit" class="btn btn-primary btn-lg" >
+                              <td><center><button type="submit" class="btn btn-primary btn-lg">
                                 Save Exam
                               </button></td></center>
                             </div>

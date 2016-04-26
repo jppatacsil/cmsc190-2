@@ -30,6 +30,8 @@
     <![endif]-->
 	 
 	<script language="javascript">
+
+  var ansNum = 0;
 	
   //For inserting new category in the list
   function insertCategory(){
@@ -40,40 +42,89 @@
       }else {alert("No category to insert!");}
   }
 
-  //If synonymous answers was checked
-  function tick(divName){
-    if(document.getElementById('synonyms').checked == true){
-      var counter = prompt("How many answers would you consider?", "1");
+    //If spelling errors was checked
+  function tick1(divName){
+    if(document.getElementById('spelling').checked == true){
+      var counter = prompt("How many spelling errors would you consider?", "1");
       if (counter != null) {
-        addAns(divName,counter);
+        addSpell(divName,counter);
       }else{
         alert("You entered a null value. Unchecking the box.");
       }
       
     }
     else{
+      var y = 0;
+      while(y != ansNum){
+        removeSpell(y+1);
+        y++;
+      }
       alert("Generated textfield/s are removed.");
     }
   }
 
-  //For dynamic adding of synonymous answers
-  function addAns(divName,counter){
+  //If synonymous answers was checked
+  function tick2(divName){
+    if(document.getElementById('synonyms').checked == true){
+      var counter = prompt("How many answers would you consider?", "1");
+      if (counter != null) {
+        addSyn(divName,counter);
+      }else{
+        alert("You entered a null value. Unchecking the box.");
+      }
+      
+    }
+    else{
+      var y = 0;
+      while(y != ansNum){
+        removeSyn(y+1);
+        y++;
+      }
+      alert("Generated textfield/s are removed.");
+    }
+  }
+
+  //For dynamic adding of spelling answers
+  function addSpell(divName,counter){
+      var num = parseInt(counter);
       var x = 0;
-      var newdiv = document.createElement('div');
-      while(x != counter){
+      while(x != num){
+         var newdiv = document.createElement('div');
          newdiv.innerHTML = 
-         "<br><input type='text' id=synAns" + (x+1) +" placeholder='Considered answer' name='answer[]'>" +
-         " <a href='#' id=removeBtn" + (x+1) +" class='remove_field btn btn-danger btn-xs' onclick=removeAns(" + (x+1) + ")>Remove</a>";
+         "<input type='text' id=spellAns" + (x+1) +" class='col-md-8' placeholder='Considered Spelling Error' name='considerations[]'> " +
+         " <a href='#' id=removeBtn1" + (x+1) +" class='remove_field btn btn-danger btn-xs' onclick=removeSpell(" + (x+1) + ")>Remove</a>";
          
          document.getElementById(divName).appendChild(newdiv);
          x++;
       }
+      ansNum = x;
+  }
+
+  //For dynamic adding of synonymous answers
+  function addSyn(divName,counter){
+      var num = parseInt(counter);
+      var x = 0;
+      while(x != num){
+         var newdiv = document.createElement('div');
+         newdiv.innerHTML = 
+         "<input type='text' id=synAns" + (x+1) +" class='col-md-8' placeholder='Synonymous answer' name='considerations[]'>" +
+         " <a href='#' id=removeBtn2" + (x+1) +" class='remove_field btn btn-danger btn-xs' onclick=removeSyn(" + (x+1) + ")>Remove</a>";
+         
+         document.getElementById(divName).appendChild(newdiv);
+         x++;
+      }
+      ansNum = x;
   }
 
   //For deleting added textfields
-  function removeAns(num){
+  function removeSpell(num){
+    $("#spellAns"+num).remove();
+    $("#removeBtn1"+num).remove();
+  }
+
+  function removeSyn(num){
     $("#synAns"+num).remove();
-    $("#removeBtn"+num).remove();
+    $("#removeBtn2"+num).remove();
   }
 	
 	</script>
@@ -137,8 +188,8 @@
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="considerations">Considerations</label>
                           <div id="considerationInput" class="col-md-9">
-                            <input type="checkbox" name="consideration" value="ConsiderSpelling"> Minor Spelling Errors<br>
-                            <input id="synonyms" type="checkbox" name="consideration" value="ConsiderSynonyms" onchange="tick('considerationInput')"> Synonymous Answers<br>
+                            <input id="spelling" type="checkbox" name="consideration1" value="1" onchange="tick1('considerationInput')"> Minor Spelling Errors<br>
+                            <input id="synonyms" type="checkbox" name="consideration2" value="2" onchange="tick2('considerationInput')"> Synonymous Answers<br>
                           </div>
                         </div>
 												

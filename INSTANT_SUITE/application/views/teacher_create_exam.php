@@ -38,7 +38,8 @@
       var x = 1; //initial category count
       $(add_button).click(function(e){ //on add input button click
           e.preventDefault();
-          $(wrapper).append('<div><br><input type="text" name="category[]" placeholder="Category"><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items"><br><select name="difficulty[]"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          fillCategory(x); //fill the category list
           x++; //category increment
       });
       
@@ -47,6 +48,22 @@
           findTotal(); //Count new total number of items
       })
   });
+
+  //Fill the dynamically entered fields
+  function fillCategory(classNum){
+    var length = $('#categoryList > option').length; //Get number of categories in the categoryList
+    var categoryMenu = $(".category_fields"+classNum);
+    var list = document.getElementById("categoryList");
+    var value;
+    var text;
+    var i = 0;
+    while(i != length){ //Fill the category with the options
+      value = list.options[i].value;
+      text = list.options[i].text;
+      $(categoryMenu).append('<option value="' + value + '">' + text + '</option>');
+      i++;
+    } 
+  }
 	
 	//Get total number of items
 	function findTotal(){
@@ -90,15 +107,14 @@
                         <label class="col-md-4 control-label" for="courseCode">Course code</label>
                         <div class="col-md-4">
                          <select id="course_code" name="course_code" class="form-control">
-									<?php 
-										foreach($classes as $row)
-										{ 
-											  echo '<option value="'.$row->course_code.'">
-											  '.$row->course_code.' '.$row->section.'
-											  </option>';
-										}
-									?>
-                                     
+          									<?php 
+          										foreach($classes as $row)
+          										{ 
+          											  echo '<option value="'.$row->course_code.'">
+          											  '.$row->course_code.' '.$row->section.'
+          											  </option>';
+          										}
+          									?>
                          </select>
                         </div>
                       </div>
@@ -129,10 +145,19 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label" for="category">Coverage</label>
 									<div id="categoryInput" class="col-md-4 input_fields_wrap">
-										<br><input type="text" name="category[]" placeholder="Category">
-										<br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
+										<select required="true" class="col-lg-12" name="category" id="categoryList">
+                      <?php 
+                        foreach($categories as $row)
+                        { 
+                          echo '<option value="'.$row->category.'">
+                          '.$row->category.'
+                          </option>';
+                        }
+                      ?>
+                    </select>
+										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
 								    <br>
-										<select name="difficulty[]">
+										<select name="difficulty[]" class="col-lg-12">
 											<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
 											<option value="3">DIFFICULT</option>
