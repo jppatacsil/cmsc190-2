@@ -19,12 +19,12 @@
 
     	//Function to retrieveMatching
     	public function retrieveMatching(){
-    		$query = $this->db->query("SELECT * from questions WHERE type = 3 AND category = 'Course Codes';");
+    		$query = $this->db->query("SELECT * from questions WHERE type = 3 AND category = 'Data Types';");
     		return $query->result();
     	}
 
     	public function retrieveMatchingChoices(){
-    		$query = $this->db->query("SELECT * from choices WHERE question_id = 74;");
+    		$query = $this->db->query("SELECT * from choices WHERE question_id = 102;");
     		return $query->result();
     	}
 

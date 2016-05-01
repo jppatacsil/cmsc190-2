@@ -223,45 +223,6 @@ class home extends CI_Controller {
 		redirect('/home/home_page');
 	}
 
-	//Function to show multiple choice question in takeExam
-	public function showMCQ(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveMCQ();	
-		return $query;	
-	}
-
-	//Function to show TF question in takeExam
-	public function showTF(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveTF();	
-		return $query;	
-	}
-
-	//Function to show Matching type questions in takeExam 
-	public function showMatching(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveMatching();
-		return $query;
-	}
-
-	public function getMatchingChoices(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveMatchingChoices();
-		return $query;
-	}
-
-	public function showFnB(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveFnB();
-		return $query;
-	}
-
-	public function showIdentification(){
-		$this->load->model('checker_model');
-		$query = $this->checker_model->retrieveIdentification();
-		return $query;
-	}
-
 	public function loadProfile(){ //loads the classes of a user by using his email
 		$this->load->view('teacher_profile');
 	}

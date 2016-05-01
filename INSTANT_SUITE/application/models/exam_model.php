@@ -248,4 +248,17 @@
 			$query = $this->db->query("select * from questions where question_id = '$question_id'");
 			return $query->result();
 		}
+
+		/*******************************__FUNCTIONS FOR TAKE EXAM__*********************************/
+
+		public function getExaminee(){
+			$query = $this->db->query("select * from student;");
+			return $query->result();
+		}
+
+		public function getItems(){
+			$query = $this->db->query("select SUM(no_of_item) from template where key = 'CMSC11-asd1212345';");
+			return $query->result();
+		}
+
 }

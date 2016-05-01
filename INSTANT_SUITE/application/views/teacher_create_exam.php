@@ -38,7 +38,7 @@
       var x = 1; //initial category count
       $(add_button).click(function(e){ //on add input button click
           e.preventDefault();
-          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category[]"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
           fillCategory(x); //fill the category list
           x++; //category increment
       });
@@ -145,7 +145,7 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label" for="category">Coverage</label>
 									<div id="categoryInput" class="col-md-4 input_fields_wrap">
-										<select required="true" class="col-lg-12" name="category" id="categoryList">
+										<select required="true" class="col-lg-12" name="category[]" id="categoryList">
                       <?php 
                         foreach($categories as $row)
                         { 
