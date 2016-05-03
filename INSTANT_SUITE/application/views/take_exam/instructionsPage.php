@@ -122,7 +122,8 @@
                         <div class="modal-body">
                         <form class="form-horizontal" role="form" action="<?php echo base_url()."index.php/take_exam/examPage/"?>" method="post">
                         <div class="form-group">
-                            <input type="text" id="keyInput" class="form-control col-lg-12" placeholder="Enter key for exam here">
+                            <input type="number" name="examNo" class="form-control col-lg-12" min="1" placeholder="Enter exam # here">
+                            <input type="text" required id="keyInput" class="form-control col-lg-12" name="examKey" placeholder="Enter key for exam here">
                         </div>
                         <button type="submit" class="btn btn-success btn-block">Take Exam</button>
                         </form>

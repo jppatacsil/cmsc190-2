@@ -114,4 +114,15 @@
             
         }
 
+        public function saveResult($exam_no, $student_no, $computedScore){
+
+            $resultsDetails = array(
+                'exam_no' => $exam_no,
+                'student_no' => $student_no,
+                'score' => $computedScore,
+                );
+
+            $query = $this->db->insert('results',$resultsDetails);
+        }
+
 }
