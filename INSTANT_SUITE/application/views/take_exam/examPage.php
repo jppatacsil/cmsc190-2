@@ -39,10 +39,10 @@
 
     #mainPanel {
         position:absolute;
-        top: 25%;
+        top: 30%;
         left: 15%;
-        width: 1000px;
-        height: 450px;
+        height: 90%;
+        width: 75%;
         background-color: #D2B48C;
         border-radius: 5px;
         padding: 20px;
@@ -51,46 +51,105 @@
 
     #itemsPane {
         position:absolute;
-        top: 75%;
+        top: 80%;
     }
 
     #endExam {
         position:absolute;
-        top: 75%;
+        top: 85%;
         left: 60%;
     }
 
+    #item1 { /*Set the first item as active*/
+        background-color: #4CAF50;
+        color: white;
+    }
 
 </style>
 
+<script>
+
+
+</script>
+
   <body class="login-img3-body">
+
+            <?php //Get the data passed to exam page
+
+                foreach($examinee as $row){ //The examinee information
+                    $student_no = $row->student_no;
+                    $lastName = $row->lastName;
+                    $firstName = $row->firstName;
+                }
+
+                foreach($exam as $row){ //the exam information
+                    $exam_no = $row->exam_no;
+                    $exam_desc = $row->exam_desc;
+                    $duration = $row->duration;
+                    $total_items = $row->total_items;
+                    $total_score = $row->total_score;
+                }
+
+                $index = 0;
+                foreach($template as $j){ //the template
+                    $category[$index] = $j->category;
+                    $no_of_items[$index] = $j->no_of_item;
+                    $difficulty[$index] = $j->difficulty;
+                    $index++;
+                }
+
+            ?>
 
     <!--THE HEADER DIV-->
     <div id="header">
         <div class="col-lg-12">
-            <div class="col-md-8">
-                <img src="<?php echo base_url()."/img/instant.png"?>" height="150" width="800">
+            <div class="col-md-2">
+                <img src="<?php echo base_url()."/img/instant-square.png"?>" height="150" width="200">
+            </div>
+
+            <div class="col-md-2">
+                <?php
+                    echo '<h1 style="color: white">'.$exam_desc;
+                ?>
             </div>
 
             <div class="col-md-4">
-                      <!-- <h1>1908-00001: ACCOUNT,<br>TESTING A</h1> -->
-            <?php
-                foreach($examinee as $row) 
-                echo '<h1 style="color: white">'.$row->student_no.': '.$row->lastName.',<br>'.$row->firstName; 
-            ?>
+                <?php
+                    echo '<h1 id="duration" style="color: white">TIME REMAINING:<br>'.$duration.' mins';
+                ?>
+            </div>
+
+            <div class="col-md-4">
+                <?php
+                    echo '<h1 style="color: white">'.$student_no.': '.$lastName.',<br>'.$firstName; 
+                ?>
             </div>
         </div>
     </div>
 
     <!--THE QUESTION DIV-->
-    <div id="mainPanel">
-        <form method="POST">
+    <section id="mainPanel">
+        <form method="POST" action="<?php echo base_url()."index.php/checker/showResults/"?>">
 
-            <!--Constant Values-->
-            <input type="hidden" name="exam_no" value="47">
-            <input type="hidden" name="stud_no" value="2012-12345">
+            <!--The hidden values necessary for passing data-->
+            <input type="hidden" name="exam_no" value="<?php echo $exam_no; ?>">
+            <input type="hidden" name="exam_desc" value="<?php echo $exam_desc; ?>">
+            <input type="hidden" name="student_no" value="<?php echo $student_no; ?>">
+            <input type="hidden" name="firstName" value="<?php echo $firstName; ?>">
+            <input type="hidden" name="lastName" value="<?php echo $lastName; ?>">
+            <input type="hidden" name="total_score" value="<?php echo $total_score; ?>"> 
+            <input type="hidden" name="computedScore" value="7"> <!--CONSTANT VALUE YET-->
+
+            <?php //Print template
+                for($counter=0;$counter<count($template);$counter++){
+                    echo 'Category: '.$category[$counter].'<br>';
+                    echo 'No of items: '.$no_of_items[$counter].'<br>';
+                    echo 'Difficulty: '.$difficulty[$counter].'<br>';
+                }
+            ?>
 
             <?php
+                /*
                 foreach($questionDetails as $details){
                     $category = $details->category;
                     $type = $details->type;
@@ -98,10 +157,15 @@
                     $question_id = $details->question_id;
                     $credit = $details->credit;
                 }
+                */
             ?>
 
-            <?php if( $type == 1){ //FOR MCQ
+            <?php
+            /*
+            if( $type == 1){ //FOR MCQ
                 echo '<div class="form-group">
+                <input type="hidden" name="question_id" value="'.$question_id.'">
+                <input type="hidden" name="score" value="'.$credit.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <select class="form-control col-lg-12" name="student_answer">';
@@ -115,6 +179,8 @@
                 </div>';
             }else if($type == 2){ //FOR TnF
                 echo '<div class="form-group">
+                <input type="hidden" name="question_id" value="'.$question_id.'">
+                <input type="hidden" name="score" value="'.$credit.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <select class="form-control col-lg-12" name="student_answer">
@@ -125,6 +191,7 @@
                 </div>';
             }else if($type == 3){ //For Matching Type
                 echo '<div class="form-group">
+                        <input type="hidden" name="score" value="'.$credit.'">
                         <center><h1 style="color: white">Match column A with column B</h1></center>
                     <div class="col-md-6">
                         <center><h2 style="color: white">COLUMN A</h2></center>';
@@ -147,6 +214,8 @@
                 </div>';
             }else if($type == 4 || $type == 5){ //For FnB or Identification
                 echo '<div class="form-group">
+                <input type="hidden" name="score" value="'.$credit.'">
+                <input type="hidden" name="question_id" value="'.$question_id.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <div class="col-lg-6" style="left: 25%; top: 200px;">
@@ -155,6 +224,8 @@
                 </center></div>';
             }else if($type == 6){ //For essay
                 echo '<div class="form-group">
+                <input type="hidden" name="score" value="'.$credit.'">
+                <input type="hidden" name="question_id" value="'.$question_id.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <div class="col-lg-6" style="left: 25%; top: 200px;">
@@ -163,6 +234,8 @@
                 </center></div>';
             }else if($type == 7){ //For programming
                 echo '<div class="form-group">
+                <input type="hidden" name="score" value="'.$credit.'">
+                <input type="hidden" name="question_id" value="'.$question_id.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <div class="col-lg-6" style="left: 25%; top: 200px;">
@@ -170,20 +243,19 @@
                 </div>
                 </center></div>';
             }
+            */
             ?>
 
+            <!--THE NAVIGATION PANE -->
             <div id="navPane" class="text-center">
                 <div id="itemsPane" class="col-md-6">
                     <ul class="pagination">
                     <?php
-                     echo '<li><a href="#">«</a></li>';
-                     foreach($items as $i){
-                        $i->sum;
+                     echo '<li><a id="prev" href="#">«</a></li>';
+                     for($j=0;$j<$total_items;$j++){
+                        echo '<li><a id="item'.($j+1).'"  href="#">'.($j+1).'</a></li>';
                      }
-                     for($j=0;$j<($i->sum);$j++){
-                        echo '<li><a href="#">'.($j+1).'</a></li>';
-                     }
-                     echo '<li><a href="#">»</a></li>';
+                     echo '<li><a id="next" href="#">»</a></li>';
                     ?>
                     </ul>
                 </div>
@@ -192,7 +264,7 @@
                 </div>
             </div>
          </form>
-    </div>
+    </section>
 
         <!-- javascripts -->
     <script src="<?php echo base_url(); ?>js/jquery.js"></script>

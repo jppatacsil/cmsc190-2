@@ -8,7 +8,7 @@
 		/*************************_FUNCTIONS FOR EXAM CREATION AND QUESTIONS_**************************/
 				
 		//Bank the exam in the table
-		public function createExam($desc, $date, $total, $duration, $category, $totalItems, $difficulty, $courseCode, $email){
+		public function createExam($desc, $date, $total, $scoreTotal, $duration, $category, $totalItems, $difficulty, $courseCode, $email){
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 		$courseID = $this->db->query("SELECT course_id from subject WHERE course_code = '$courseCode';")->row()->course_id;
 		
@@ -17,6 +17,7 @@
 				'exam_desc' => $desc,
 				'exam_date' => $date,
 				'total_items' => $total,
+				'total_score' => $scoreTotal,
 				'duration' => $duration,
 				'emp_no' => $empNo,
 				'course_id' => $courseID,
@@ -39,7 +40,7 @@
 
 		}
 		
-		//Bank the question according to type
+		//Bank the questions fill-in-the-blank and identification
 		public function addQuestion1($email, $category, $type, $questionProper, $points, $answer, $cons1, $cons2, $consAns){
 		
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
@@ -79,7 +80,7 @@
 		
 		}
 
-		//Bank the question according to type
+		//Bank the tf
 		public function addQuestion2($email, $category, $type, $questionProper, $points, $answer){
 		
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
@@ -87,7 +88,7 @@
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
-			'answer' => $answer,
+			'answer' => strtolower($answer),
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
@@ -105,7 +106,7 @@
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
-			'answer' => $answer,
+			'answer' => strtolower($answer),
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
@@ -119,7 +120,7 @@
 			foreach($choice as $choices => $choices_value) {
 			$choicesDetails = array(
 				'question_id' => $question_id,
-				'choice' => $choices_value,
+				'choice' => strtolower($choices_value),
 			);
 			$query = $this->db->insert('choices',$choicesDetails);
 			}
@@ -135,7 +136,7 @@
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper[$i],
-			'answer' => $answer[$i],
+			'answer' => strtolower($answer[$i]),
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
@@ -151,7 +152,7 @@
 			foreach($choice as $choices => $choices_value) {
 			$choicesDetails = array(
 				'question_id' => $question_id,
-				'choice' => $choices_value,
+				'choice' => strtolower($choices_value),
 			);
 			$query = $this->db->insert('choices',$choicesDetails);
 			}
@@ -251,14 +252,19 @@
 
 		/*******************************__FUNCTIONS FOR TAKE EXAM__*********************************/
 
-		public function getExaminee(){
-			$query = $this->db->query("select * from student;");
+		public function getExaminee($student_no){ //Get the examinee details
+			$query = $this->db->query("select * from student WHERE student_no = '$student_no';");
 			return $query->result();
 		}
 
-		public function getItems(){
-			$query = $this->db->query("select SUM(no_of_item) from template where key = 'CMSC11-asd1212345';");
+		public function getExamDetails($exam_no){ //Get the exam details
+			$query = $this->db->query("select * from exam WHERE exam_no = '$exam_no';");
 			return $query->result();
 		}
 
+		public function getTemplate($exam_no){ //Get template details
+			$query = $this->db->query("select * from template WHERE exam_no = '$exam_no';");
+			return $query->result();
+		}
+		
 }

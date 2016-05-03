@@ -81,9 +81,6 @@ class home extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules($email, 'Email', 'required|trim');
 		$this->form_validation->set_rules($password, 'Password', 'required|trim');
-		
-		
-		
 
 		if($this->form_validation->run()){ //if form is validated correctly
 			
@@ -259,8 +256,8 @@ class home extends CI_Controller {
 		//$data['questionDetails'] = $this->showMatching();
 		//$data['choicesDetails'] = $this->getMatchingChoices();
 		//$data['questionDetails'] = $this->showFnB();
-		$data['questionDetails'] = $this->showIdentification();
-		$this->load->view('takeExam', $data);
+		//$data['questionDetails'] = $this->showIdentification();
+		$this->load->view('takeExam');
 	}
 
 	public function loadCreateClass(){

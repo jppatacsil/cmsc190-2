@@ -27,18 +27,33 @@ class take_exam extends CI_Controller {
 		$this->load->view('take_exam/instructionsPage');
 	}
 
-	public function getExamineeInfo()
-	{
+	/*****************************************************/
+
+	public function getExamInfo($examNo){ //The exam details
 		$this->load->model('exam_model');
-		$query = $this->exam_model->getExaminee();
+		$query = $this->exam_model->getExamDetails($examNo);
 		return $query;
 	}
 
-	public function getTotalItems(){
+	public function getExamTemplate($exam_no){ //The exam template
 		$this->load->model('exam_model');
-		$query = $this->exam_model->getItems();
+		$query = $this->exam_model->getTemplate($exam_no);
 		return $query;
 	}
+
+	public function getExamineeInfo($student_no){ //The examinee information
+		$this->load->model('exam_model');
+		$query = $this->exam_model->getExaminee($student_no);
+		return $query;
+	}
+
+	public function getTotalItems($exam_no){ //The total items
+		$this->load->model('exam_model');
+		$query = $this->exam_model->getItems($exam_no);
+		return $query;
+	}
+
+	/*****************************************************/
 
 	//Function to show multiple choice question in takeExam
 	public function showMCQ(){
@@ -82,15 +97,26 @@ class take_exam extends CI_Controller {
 		return $query;
 	}
 
-	public function examPage(){
-		$data['examinee'] = $this->getExamineeInfo();
-		$data['items'] = $this->getTotalItems();
+	/*****************************************************/
+
+	public function examPage(){ //Function to load the exam page with the data
+
+		$examKey = $this->input->post('examKey'); //Get the exam key
+		$exam_no = $this->input->post('examNo'); //Get the exam no
+
+		$student_no = substr($examKey,10); //parse the exam key and get the student number
+
+		$data['examinee'] = $this->getExamineeInfo($student_no); 	//get the examinee info based from student_no
+		$data['exam'] = $this->getExamInfo($exam_no); 				//get the exam based from exam_no
+		$data['template'] = $this->getExamTemplate($exam_no); 		//get the template of the exam
+
 		//$data['questionDetails'] = $this->showMCQ();
 		//$data['questionDetails'] = $this->showTF();
-		$data['questionDetails'] = $this->showMatching();
-		$data['choicesDetails'] = $this->getMatchingChoices();
+		//$data['questionDetails'] = $this->showMatching();
+		//$data['choicesDetails'] = $this->getMatchingChoices();
 		//$data['questionDetails'] = $this->showFnB();
 		//$data['questionDetails'] = $this->showIdentification();
+
 		$this->load->view('take_exam/examPage', $data);
 	}
 

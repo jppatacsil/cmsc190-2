@@ -32,13 +32,13 @@
 	<script>
   //Function to dynamically add and remove category fields
   $(document).ready(function() {
-      var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-      var add_button      = $(".add_field_button"); //Add button ID
+      var wrapper = $(".input_fields_wrap"); //Fields wrapper
+      var add_button = $(".add_field_button"); //Add button ID
       
       var x = 1; //initial category count
       $(add_button).click(function(e){ //on add input button click
           e.preventDefault();
-          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category[]"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category[]"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" onchange="computeScore()" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><br><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
           fillCategory(x); //fill the category list
           x++; //category increment
       });
@@ -73,14 +73,37 @@
             tot += parseInt(arr[i].value);
     }
     document.getElementById('no_of_items').value = tot;
+
+    computeScore(); //Get total score
+
 	}
+
+  //Get total score
+  function computeScore(){
+    var arr1 = document.getElementsByName('totalItems[]');
+    var arr2 = document.getElementsByName('difficulty[]');
+    var scoreTot=0;
+    for(var i=0; i<arr1.length; i++){
+      scoreTot += (parseInt(arr1[i].value) * parseInt(arr2[i].value));
+    }
+
+    document.getElementById('total_score').value = scoreTot;
+  }
+
+  //For the bootstrap alert
+  $(document).ready(function() {
+    $("#alertSuccess").hide();
+
+    $("#saveExam").click(function() {
+      $("#alertSuccess").show();
+        });
+  });
 	
 	</script>
 
   </head>
-  <body>
 
-  
+  <body>
     <section class="wrapper">
       <div class="row">
         <div class="col-lg-12">
@@ -138,7 +161,7 @@
 							 <div class="form-group">
 								<label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
 								<div class="col-md-4">
-									<input type="number" name="duration" min="30" step="5">
+									<input type="number" name="duration" step="5">
 								</div>
 							</div>
                              
@@ -157,7 +180,7 @@
                     </select>
 										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
 								    <br>
-										<select name="difficulty[]" class="col-lg-12">
+										<select name="difficulty[]" onchange="computeScore()" class="col-lg-12">
 											<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
 											<option value="3">DIFFICULT</option>
@@ -175,11 +198,19 @@
                         <div class="col-md-4">                     
                          <input type="number" name="no_of_items" id="no_of_items" min="1" readonly>
                         </div>
+                      </div>
+
+                      <!-- Total score -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="total_score">Total Score</label>
+                        <div class="col-md-4">                     
+                         <input type="number" name="total_score" id="total_score" readonly>
+                        </div>
                       </div>							
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  
-                              <td><center><button type="submit" class="btn btn-primary btn-lg">
+                              <td><center><button id="saveExam" type="submit" class="btn btn-primary btn-lg">
                                 Save Exam
                               </button></td></center>
                             </div>

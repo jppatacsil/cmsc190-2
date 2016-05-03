@@ -10,13 +10,14 @@ class teachers extends CI_Controller {
 		$date = $this->input->post('examinationDate');
 		$desc = $this->input->post('exam_desc');
 		$total = $this->input->post('no_of_items');
+		$scoreTotal = $this->input->post('total_score');
 		$category = $this->input->post('category');
 		$totalItems = $this->input->post('totalItems');
 		$difficulty = $this->input->post('difficulty');
 		$duration = $this->input->post('duration');
 		
 		$this->load->model('exam_model');
-		$this->exam_model->createExam($desc, $date, $total, $duration, $category, $totalItems, $difficulty, $courseCode, $email);
+		$this->exam_model->createExam($desc, $date, $total, $scoreTotal, $duration, $category, $totalItems, $difficulty, $courseCode, $email);
 		
 		redirect('/home/home_page');
 	}
