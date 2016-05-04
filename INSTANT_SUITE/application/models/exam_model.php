@@ -252,6 +252,34 @@
 
 		/*******************************__FUNCTIONS FOR TAKE EXAM__*********************************/
 
+		public function saveExamSet($examKey, $exam_no, $student_no){
+
+			$query = $this->db->query("select * from template WHERE exam_no = '$exam_no';"); //get the exam template
+
+			foreach ($query->result() as $row) //fetch the result of the template query
+			{
+				//Get questions based from the template
+			    $randQuestions = $this->getQuestions($row->category, $row->no_of_item, $row->difficulty);
+
+			    foreach($randQuestions as $row2){ //fetch the questions that were randomly chosen to fill exam set
+			    	$question_id = $row2->question_id;
+
+			    	$examSetDetails = array( //the exam set details
+					'exam_key' => $examKey,
+					'exam_no' => $exam_no,
+					'student_no' => $student_no,
+					'question_id' => $question_id,
+					);
+
+					$this->db->insert('exam_set', $examSetDetails); //save copy of exam set of student
+			    }  
+			}
+
+			//Get the examSet of student with respective examKey
+			$query = $this->db->query("select * from exam_set WHERE exam_key = '$examKey';");
+			return $query->result();
+		}
+
 		public function getExaminee($student_no){ //Get the examinee details
 			$query = $this->db->query("select * from student WHERE student_no = '$student_no';");
 			return $query->result();
@@ -264,6 +292,11 @@
 
 		public function getTemplate($exam_no){ //Get template details
 			$query = $this->db->query("select * from template WHERE exam_no = '$exam_no';");
+			return $query->result();
+		}
+
+		public function getQuestions($category, $totalItems, $difficulty){ //Get random questions based on template
+			$query = $this->db->query("select question_id from questions WHERE category = '$category' AND credit = '$difficulty' ORDER BY RANDOM() LIMIT $totalItems;");
 			return $query->result();
 		}
 		

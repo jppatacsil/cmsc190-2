@@ -92,11 +92,25 @@
 
                 $index = 0;
                 foreach($template as $j){ //the template
-                    $category[$index] = $j->category;
-                    $no_of_items[$index] = $j->no_of_item;
-                    $difficulty[$index] = $j->difficulty;
+                    $question_id[$index] = $j->question_id;
+                    //$category[$index] = $j->category;
+                    //$no_of_items[$index] = $j->no_of_item;
+                    //$difficulty[$index] = $j->difficulty;
                     $index++;
                 }
+
+                /*$number = 0; //Question number
+                foreach($questions as $k){ //the questions
+                    $question_id[$number] = $k->question_id;
+                    $type[$number] = $k->type;
+                    $question[$number] = $k->question;
+                    $answer[$number] = $k->answer;
+                    $credit[$number] = $k->credit;
+                    $topic[$number] = $k->category;
+                    $matching_id[$number] = $k->mathching_id;
+                    $number++;
+                }
+                */
 
             ?>
 
@@ -141,11 +155,25 @@
             <input type="hidden" name="computedScore" value="7"> <!--CONSTANT VALUE YET-->
 
             <?php //Print template
+            echo 'Question set: <br>';
                 for($counter=0;$counter<count($template);$counter++){
-                    echo 'Category: '.$category[$counter].'<br>';
-                    echo 'No of items: '.$no_of_items[$counter].'<br>';
-                    echo 'Difficulty: '.$difficulty[$counter].'<br>';
+                    echo 'Question id: '.$question_id[$counter].'<br>';
+                    //echo 'Category: '.$category[$counter].'<br>';
+                    //echo 'No of items: '.$no_of_items[$counter].'<br>';
+                    //echo 'Difficulty: '.$difficulty[$counter].'<br><br>';
                 }
+            ?>
+
+            <?php //Print the the questions
+            /*
+                    echo 'Question id: '.$question_id[0].'<br>';
+                    echo 'Type: '.$type[0].'<br>';
+                    echo 'Quesion: '.$question[0].'<br>';
+                    echo 'Correct answer: '.$answer[0].'<br>';
+                    echo 'Credit: '.$credit[0].'<br>';
+                    echo 'Category: '.$topic[0].'<br>';
+                    echo 'Matching id: '.$matching_id[0].'<br>';
+            */
             ?>
 
             <?php

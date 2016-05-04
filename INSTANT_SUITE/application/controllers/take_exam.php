@@ -53,6 +53,12 @@ class take_exam extends CI_Controller {
 		return $query;
 	}
 
+	public function getRandQuestions($category, $totalItems, $difficulty){
+		$this->load->model('exam_model');
+		$query = $this->exam_model->getQuestions($category, $totalItems, $difficulty);
+		return $query;
+	}
+
 	/*****************************************************/
 
 	//Function to show multiple choice question in takeExam
@@ -106,9 +112,15 @@ class take_exam extends CI_Controller {
 
 		$student_no = substr($examKey,10); //parse the exam key and get the student number
 
+		$this->load->model('exam_model');
+		$data['template'] = $this->exam_model->saveExamSet($examKey, $exam_no, $student_no); //save the exam set with the student's examKey
 		$data['examinee'] = $this->getExamineeInfo($student_no); 	//get the examinee info based from student_no
 		$data['exam'] = $this->getExamInfo($exam_no); 				//get the exam based from exam_no
-		$data['template'] = $this->getExamTemplate($exam_no); 		//get the template of the exam
+		//$data['template'] = $this->getExamTemplate($exam_no); 	//get the template of the exam
+
+		//foreach($template as $row){ //Generate questions accdg. to template
+		//	$data['questions'] = $this->getRandQuestions($row->category, $row->totalItems, $row->difficulty);
+		//}
 
 		//$data['questionDetails'] = $this->showMCQ();
 		//$data['questionDetails'] = $this->showTF();
