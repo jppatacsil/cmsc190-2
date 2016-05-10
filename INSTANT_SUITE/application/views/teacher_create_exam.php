@@ -28,8 +28,8 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
-	 
-	<script>
+   
+  <script>
   //Function to dynamically add and remove category fields
   $(document).ready(function() {
       var wrapper = $(".input_fields_wrap"); //Fields wrapper
@@ -64,9 +64,9 @@
       i++;
     } 
   }
-	
-	//Get total number of items
-	function findTotal(){
+  
+  //Get total number of items
+  function findTotal(){
     var arr = document.getElementsByName('totalItems[]');
     var tot=0;
     for(var i=0;i<arr.length;i++){
@@ -76,7 +76,7 @@
 
     computeScore(); //Get total score
 
-	}
+  }
 
   //Get total score
   function computeScore(){
@@ -98,8 +98,8 @@
       $("#alertSuccess").show();
         });
   });
-	
-	</script>
+  
+  </script>
 
   </head>
 
@@ -130,14 +130,14 @@
                         <label class="col-md-4 control-label" for="courseCode">Course code</label>
                         <div class="col-md-4">
                          <select id="course_code" name="course_code" class="form-control">
-          									<?php 
-          										foreach($classes as $row)
-          										{ 
-          											  echo '<option value="'.$row->course_code.'">
-          											  '.$row->course_code.' '.$row->section.'
-          											  </option>';
-          										}
-          									?>
+                            <?php 
+                              foreach($classes as $row)
+                              { 
+                                  echo '<option value="'.$row->course_code.'">
+                                  '.$row->course_code.' '.$row->section.'
+                                  </option>';
+                              }
+                            ?>
                          </select>
                         </div>
                       </div>
@@ -157,18 +157,18 @@
                          <textarea class="form-control" id="exam_desc" name="exam_desc">1st Exam, 2nd Exam, etc.</textarea>
                         </div>
                       </div>
-							 
-							 <div class="form-group">
-								<label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
-								<div class="col-md-4">
-									<input type="number" name="duration" step="5">
-								</div>
-							</div>
+               
+               <div class="form-group">
+                <label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
+                <div class="col-md-4">
+                  <input type="number" name="duration" step="5">
+                </div>
+              </div>
                              
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="category">Coverage</label>
-									<div id="categoryInput" class="col-md-4 input_fields_wrap">
-										<select required="true" class="col-lg-12" name="category[]" id="categoryList">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="category">Coverage</label>
+                  <div id="categoryInput" class="col-md-4 input_fields_wrap">
+                    <select required="true" class="col-lg-12" name="category[]" id="categoryList">
                       <?php 
                         foreach($categories as $row)
                         { 
@@ -178,19 +178,19 @@
                         }
                       ?>
                     </select>
-										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
-								    <br>
-										<select name="difficulty[]" onchange="computeScore()" class="col-lg-12">
-											<option value="1">EASY</option>
-											<option value="2">AVERAGE</option>
-											<option value="3">DIFFICULT</option>
-										</select>
-									</div>
-									<div class="col-md-4">
-									<input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">
+                    <br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
+                    <br>
+                    <select name="difficulty[]" onchange="computeScore()" class="col-lg-12">
+                      <option value="1">EASY</option>
+                      <option value="2">AVERAGE</option>
+                      <option value="3">DIFFICULT</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">
                   <!-- onClick="addCategory('categoryInput');" -->
                   </div>
-							</div>
+              </div>
 
                       <!-- Total number of Items -->
                       <div class="form-group">
@@ -206,7 +206,7 @@
                         <div class="col-md-4">                     
                          <input type="number" name="total_score" id="total_score" readonly>
                         </div>
-                      </div>							
+                      </div>              
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  

@@ -54,6 +54,14 @@
         top: 60%;
     }
 
+    body {
+        font-family: "Georgia";
+    }
+
+    p {
+        font-size: 1.875em; /* 30px/16=1.875em */
+    }
+
 </style>
 
   <body class="login-img3-body">

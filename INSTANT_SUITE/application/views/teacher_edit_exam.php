@@ -29,7 +29,7 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 	 
-  <script>
+	<script>
   //Function to dynamically add and remove category fields
   $(document).ready(function() {
       var wrapper         = $(".input_fields_wrap"); //Fields wrapper
@@ -38,8 +38,9 @@
       var x = 1; //initial category count
       $(add_button).click(function(e){ //on add input button click
           e.preventDefault();
-          $(wrapper).append('<div><br><select required="true" class="col-lg-12 category_fields'+x+'" name="category"></select><br><input type="number" onchange="findTotal()" min="1" name="totalItems[]" class="col-lg-12" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
-          fillCategory(x); //fill the category list
+          $(wrapper).append('<div><br><select name="category[]" class="col-lg-12"><?php 
+		  foreach($categories as $row){ echo '<option value="'.$row->category.'">'.$row->category.'</option>';}
+		  ?></select><br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
           x++; //category increment
       });
       
@@ -48,34 +49,18 @@
           findTotal(); //Count new total number of items
       })
   });
-
-  //Fill the dynamically entered fields
-  function fillCategory(classNum){
-    var length = $('#categoryList > option').length; //Get number of categories in the categoryList
-    var categoryMenu = $(".category_fields"+classNum);
-    var list = document.getElementById("categoryList");
-    var value;
-    var text;
-    var i = 0;
-    while(i != length){ //Fill the category with the options
-      value = list.options[i].value;
-      text = list.options[i].text;
-      $(categoryMenu).append('<option value="' + value + '">' + text + '</option>');
-      i++;
-    } 
-  }
-  
-  //Get total number of items
-  function findTotal(){
+	
+	//Get total number of items
+	function findTotal(){
     var arr = document.getElementsByName('totalItems[]');
     var tot=0;
     for(var i=0;i<arr.length;i++){
             tot += parseInt(arr[i].value);
     }
     document.getElementById('no_of_items').value = tot;
-  }
-  
-  </script>
+	}
+	
+	</script>
 
   </head>
   <body>
@@ -100,17 +85,17 @@
                               Exam template
                           </header>
                     <div class="panel-body">
-            					<?php 
-            							foreach($exams as $row){
-            								$courseCode = $row->course_code;
-            								$section = $row->section;
-            								$examDate = $row->exam_date;
-            								$examDesc = $row->exam_desc;
-            								$totalItems = $row->total_items;
-            								$exam_no = $row->exam_no;
-            								$duration = $row->duration;
-            							}
-            						?>
+					<?php 
+							foreach($exams as $row){
+								$courseCode = $row->course_code;
+								$section = $row->section;
+								$examDate = $row->exam_date;
+								$examDesc = $row->exam_desc;
+								$totalItems = $row->total_items;
+								$exam_no = $row->exam_no;
+								$duration = $row->duration;
+							}
+						?>
                   <form id="examForm" method="post" action="<?php echo base_url()."index.php/teachers/editExam/".$exam_no."/"?>" class="form-horizontal">
                       <!-- Course Code -->
                       <!-- Select Basic -->
@@ -148,7 +133,7 @@
 								<label class="col-md-4 control-label" for="category">Coverage</label>
 									<div id="categoryInput" class="col-md-4 input_fields_wrap">
 									<?php foreach($category as $row){
-										echo '<br><select name="category[]" class="col-lg-12" id="categoryList"> ';
+										echo '<br><select class="col-lg-12" name="category[]"> ';
 														echo '<option selected="true" style="display:none;">'.$row->category.'</option>';
 														foreach($categories as $cat){
 														echo '<option value="'.$cat->category.'">
@@ -156,17 +141,15 @@
 														</option>';
 														}
 										echo '</select>
-										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
+										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
 								    <br>
-										<select name="difficulty[]" class="col-lg-12">
-											<option selected="true" style="display:none;">';
+										<select name="difficulty[]" class="col-lg-12">';
 											switch($row->difficulty){
-												case 1: echo 'EASY'; break;
-												case 2: echo 'AVERAGE'; break;
-												case 3: echo 'DIFFICULT'; break;
+												case 1: echo '<option value = "1" selected="true" style="display:none;">EASY</option>'; break;
+												case 1: echo '<option value = "1" selected="true" style="display:none;">AVERAGE</option>'; break;
+												case 1: echo '<option value = "3" selected="true" style="display:none;">DIFFICULT</option>'; break;
 											}
-											echo '</option>
-											<option value="1">EASY</option>
+											echo '<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
 											<option value="3">DIFFICULT</option>
 										</select>

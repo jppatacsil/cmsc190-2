@@ -189,12 +189,6 @@ class home extends CI_Controller {
 		$query = $this->exam_model->editExam($exam_no);
 		return $query;
 	}
-
-	public function editQuestion($question_id){
-		$this->load->model('exam_model');
-		$query = $this->exam_model->editQuestion($question_id);
-		return $query;
-	}
 	
 	public function getCategory($exam_no){
 		$this->load->model('exam_model');
@@ -209,6 +203,18 @@ class home extends CI_Controller {
 			$query=$this->exam_model->loadQuestions($email);
 			return $query;
 		}
+		else{
+			return false;
+		}
+	}
+	
+	public function filterQuestions($type, $category, $difficulty){
+		$this->load->model('exam_model');
+		$email = $this->session->userdata('email');
+		if($this->exam_model->filterQuestions($email, $type, $category, $difficulty)){
+				$query=$this->exam_model->filterQuestions($email, $type, $category, $difficulty);
+				return $query;
+			}
 		else{
 			return false;
 		}
@@ -241,15 +247,23 @@ class home extends CI_Controller {
 		$data['categories'] = $this->displayCategories();
 		$this->load->view('teacher_edit_exam', $data);
 	}
-
+	
 	public function loadQuestionBank(){
 		$data['questions'] = $this->displayQuestions();
+		$data['categories'] = $this->displayCategories();
+		$data['type'] = "ALL";
+		$data['category'] = "ALL";
+		$data['difficulty'] = "ALL";
 		$this->load->view('teacher_manage_question_bank', $data);
 	}
-
-	public function loadEditQuestion($question_id){
-		$data['question'] = $this->editQuestion($question_id);
-		$this->load->view('teacher_edit_question', $data);
+	
+	public function filterQuestionBank($type, $category, $difficulty){
+		$data['questions'] = $this->filterQuestions($type, $category, $difficulty);
+		$data['categories'] = $this->displayCategories();
+		$data['type'] = $type;
+		$data['category'] = $category;
+		$data['difficulty'] = $difficulty;
+		$this->load->view('teacher_manage_question_bank', $data);
 	}
 
 	public function loadTakeExam(){

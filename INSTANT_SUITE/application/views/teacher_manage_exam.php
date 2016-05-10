@@ -62,16 +62,18 @@ $this->load->helper('url'); ?>
                                  <th><i class="icon_"></i> Description</th>
                                  <th><i class="icon_calendar"></i> Date of Exam</th>
                                  <th><i class="icon_question_alt2"></i> No. of Questions </th>
-                                 <th><i class="icon_cogs"></i> Action</th>
+                                 <th><i class="icon_"></i> Duration</th>
+								 <th><i class="icon_cogs"></i> Action</th>
                               </tr>
 										<?php
-										if(count($exams) > 0){
+										if($exams != NULL){
 										foreach($exams as $row){
                               echo '<tr>';
                               echo '<td>'.$row->course_code.' '.$row->section.'</td>';
                               echo '<td>'.$row->exam_desc.'</td>';
                               echo '<td>'.$row->exam_date.'</td>';
                               echo '<td>'.$row->total_items.'</td>';
+							  echo '<td>'.$row->duration.'</td>';
 										echo
                                  '<td>
                                   <div class="btn-group">

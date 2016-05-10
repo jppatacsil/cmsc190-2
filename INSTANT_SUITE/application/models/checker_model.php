@@ -5,121 +5,84 @@
         	parent::__construct();
     	}
 
-    	//Function to retrieveMCQ
-    	public function retrieveMCQ(){
-    		$query = $this->db->query("SELECT * from questions inner join choices on (questions.question_id = choices.question_id) WHERE type = 1;");
-    		return $query->result();
-    	}
-
-    	//Function to retrieveTF
-    	public function retrieveTF(){
-    		$query = $this->db->query("SELECT * from questions WHERE type = 2;");
-    		return $query->result();
-    	}
-
-    	//Function to retrieveMatching
-    	public function retrieveMatching(){
-    		$query = $this->db->query("SELECT * from questions WHERE type = 3 AND category = 'Data Types';");
-    		return $query->result();
-    	}
-
-    	public function retrieveMatchingChoices(){
-    		$query = $this->db->query("SELECT * from choices WHERE question_id = 102;");
-    		return $query->result();
-    	}
-
-        public function retrieveFnB(){
-            $query = $this->db->query("SELECT * from questions WHERE type = 4;");
-            return $query->result();
-        }
-
-        public function retrieveIdentification(){
-            $query = $this->db->query("SELECT * from questions WHERE type = 5;");
-            return $query->result();
-        }
-
-    	public function saveAnswer($type, $exam_no, $stud_no, $question_id, $student_answer, $score){
+    	public function saveAnswer($exam_key, $stud_no, $question_id, $type, $student_answer, $score){
 
             $student_answer = strtolower($student_answer); //for convention
 
-    		if($type != 3){
-		    	$answerDetails = array(
-					'exam_no' => $exam_no,
-					'student_no' => $stud_no,
-					'question_id' => $question_id,
-					'answer' => $student_answer,
-					);
-					
-				$query = $this->db->insert('answers',$answerDetails);
-				$this->automateChecking($question_id, $student_answer, $score);
+            //Update the answer of the student in the question in the exam_set given to him/her
+                $this->updateAnswer($exam_key, $question_id, $student_answer);
+                //$this->db->query("UPDATE exam_set SET answer = '$student_answer' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
 
-                //Check if question has considerations
-                $consType = $this->db->query("SELECT consideration from questions WHERE question_id = '$question_id';")->row()->consideration;
-                $initScore = $this->db->query("SELECT score from answers WHERE question_id = '$question_id' AND answer = '$student_answer';")->row()->score;
+            //Check the question automatically
+                $this->automateChecking($exam_key, $question_id, $student_answer, $score); 
+
+            //Check if question has considerations
+                $consType = $this->db->query("SELECT consideration from questions WHERE question_id = '$question_id';")->row()->consideration; //Fetch the consideration column
+                $initScore = $this->db->query("SELECT score from exam_set WHERE question_id = '$question_id' AND answer = '$student_answer';")->row()->score; //Fetch the score column
 
                 if($consType != NULL && $initScore == 0){ //If there is considerations and initial score is 0
-                    $this->considerChecking($question_id, $student_answer, $score); //Recheck answer
+                    $this->considerChecking($exam_key, $question_id, $student_answer, $score); //Recheck answer
                 }
-
-			}else{
-
-				$totalQuestions = count($question_id); //Count the number of questions
-		
-				for($i=0;$i<$totalQuestions;$i++){ //Insert all matching questions and answers
-				$answerDetails = array(
-					'exam_no' => $exam_no,
-					'student_no' => $stud_no,
-					'question_id' => $question_id[$i],
-					'answer' => $student_answer[$i],
-					);
-					
-				$query = $this->db->insert('answers',$answerDetails);
-				$this->automateChecking($question_id[$i], $student_answer[$i], $score);
-				}
-
-			}
     	}
+
+        //Update answer of student
+        public function updateAnswer($exam_key, $question_id, $student_answer){
+            $this->db->query("UPDATE exam_set SET answer = '$student_answer' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
+        }
 
         //Automatically check the student's answer
-    	public function automateChecking($question_id, $student_answer, $score){
+    	public function automateChecking($exam_key, $question_id, $student_answer, $score){
 
+            //Fetch the correct answer for the question
     		$correctAns = $this->db->query("SELECT answer from questions WHERE question_id = '$question_id';")->row()->answer;
 
-    		if($student_answer == $correctAns){ //If correct answer, then update the score field in the answers table
-    			$this->db->query("UPDATE answers SET score = '$score' WHERE question_id = '$question_id' AND answer = '$student_answer';");
+            //If correct answer, then update the score field in the answers table
+    		if($student_answer == $correctAns){ 
+    			$this->db->query("UPDATE exam_set SET score = '$score' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
     		}
+            //Else then give 0 as score
     		else{
-    			$this->db->query("UPDATE answers SET score = 0 WHERE question_id = '$question_id' AND answer = '$student_answer';");
+    			$this->db->query("UPDATE exam_set SET score = 0 WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
     		}
     	}
 
-        //If there is a consideration
-        public function considerChecking($question_id, $student_answer, $score){
+        //If there is a consideration in marking
+        public function considerChecking($exam_key, $question_id, $student_answer, $score){
 
-            //Read the personal dictionary consideredAnswers.txt
-            $myfile = fopen("consideredAnswers.txt", "r") or die("Unable to open file!");
+            $txtfile = $question_id."considerations.txt";
 
-            if($myfile){ //Get all considered answers
-                $consAns = explode(PHP_EOL, fread($myfile, filesize("consideredAnswers.txt")));
+            //Read the personal dictionary "consideredAnswers.txt"
+            $myfile = fopen($txtfile, "r") or die("Unable to open file!");
+
+            if($myfile){ //Get all considered answers from the dictionary
+                $consAns = explode(PHP_EOL, fread($myfile, filesize($txtfile)));
             }
             fclose($myfile);
 
             //Check whether student's answer is within the considered answers list
             for($i=0;$i<count($consAns);$i++){
                 if($student_answer == $consAns[$i]){
-                    $this->db->query("UPDATE answers SET score = '$score' WHERE question_id = '$question_id' AND answer = '$student_answer';");
+                    $this->db->query("UPDATE exam_set SET score = '$score' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
                     break; //Exit from loop
                 }
             }
-            
         }
 
-        public function saveResult($exam_no, $student_no, $computedScore){
+        //Compute the accumulated points of the student
+        public function computeTotalScore($exam_key, $student_no){
+            //Compute for total score
+            $sum = $this->db->query("SELECT sum(score) from exam_set WHERE student_no = '$student_no' AND exam_key = '$exam_key';")->row()->sum;
+
+            return $sum;
+        }
+
+        //Function to save total score of student in a given exam
+        public function saveResult($exam_key, $student_no, $computedScore){
 
             $resultsDetails = array(
-                'exam_no' => $exam_no,
+                'exam_key' => $exam_key,
                 'student_no' => $student_no,
-                'score' => $computedScore,
+                'total_score' => $computedScore,
                 );
 
             $query = $this->db->insert('results',$resultsDetails);

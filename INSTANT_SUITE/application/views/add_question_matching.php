@@ -31,24 +31,26 @@
 	 
 	<script>
 	//Function to dynamically add and remove questions
+
+	var limit = 10;
 	var x = 1; //initial question count
 	$(document).ready(function() {
 	      var wrapper         = $(".input_fields_wrap"); //Fields wrapper
 	      var wrapper2		  = $(".input_fields_wrap2"); //Fields wrapper 2
 	      var add_button      = $(".add_field_button"); //Add button ID
 
-	      $(add_button).click(function(e){ //on add input button click
-	          e.preventDefault();
-	          $(wrapper).append('<div><br><input type="text" class="col-lg-12" value="" name="questionProper[]" placeholder="Enter question here"><input type="text" class="col-lg-12" placeholder="Matching answer" value="" name="answer[]" id=answer' + (x+1) + ' onkeyup="updateField(' + (x+1) + ')" > <a href="#" class="remove_field btn btn-danger btn-xs btn-block" onclick="removeChoice(' + (x+1) + ')">Remove</a></div>'); //add input box
-	          $(wrapper2).append('<div><input type="text" class="col-lg-12" name="choice[]" id=choice' + (x+1) + ' value="" readonly></div>');
-	          x++; //question count increment
-	      });
-	      
-	      $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-	          e.preventDefault(); 
-	          $(this).parent('div').remove();
-	          x--;
-	      })
+			$(add_button).click(function(e){ //on add input button click
+				e.preventDefault();
+				$(wrapper).append('<div><br><input type="text" class="col-lg-12" value="" name="questionProper[]" placeholder="Enter question here"><input type="text" class="col-lg-12" placeholder="Matching answer" value="" name="answer[]" id=answer' + (x+1) + ' onkeyup="updateField(' + (x+1) + ')" > <a href="#" class="remove_field btn btn-danger btn-xs btn-block" onclick="removeChoice(' + (x+1) + ')">Remove</a></div>'); //add input box
+				$(wrapper2).append('<div><input type="text" class="col-lg-12" name="choice[]" id=choice' + (x+1) + ' value="" readonly></div>');
+				x++; //question count increment
+			});
+		      
+			$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+				e.preventDefault(); 
+				$(this).parent('div').remove();
+				x--;
+			})
 	  });
 	
 	//Update the field

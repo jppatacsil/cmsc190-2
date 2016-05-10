@@ -58,14 +58,6 @@
 
 		$totalConsiderations = count($consAns); //Count the number of considered answers
 
-		//Save the answers to a personal dictionary textfile
-		$myfile = fopen("consideredAnswers.txt", "a") or die("Unable to open file!");
-		for($i=0;$i<$totalConsiderations;$i++){
-			$txt = strtolower($consAns[$i]);
-			fwrite($myfile, PHP_EOL.$txt);
-		}
-		fclose($myfile);
-
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
@@ -77,6 +69,17 @@
 			);
 			
 		$query = $this->db->insert('questions',$questionDetails);
+		$question_id = $this->db->insert_id(); //Get the last inserted exam_no
+
+		$txtfile = $question_id."considerations.txt";
+
+		//Save the answers to a personal dictionary textfile based on the question_id
+		$myfile = fopen($txtfile, "a") or die("Unable to open file!");
+		for($i=0;$i<$totalConsiderations;$i++){
+			$txt = strtolower($consAns[$i]);
+			fwrite($myfile, PHP_EOL.$txt);
+		}
+		fclose($myfile);
 		
 		}
 
@@ -164,7 +167,7 @@
 		
 			$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 			
-			$query = $this->db->query("select subject.course_code, subject.section, exam.exam_no, exam.exam_desc, exam_date, exam.total_items, subject.section from subject inner join exam on (subject.course_id = exam.course_id) where exam.emp_no = '$empNo'");
+			$query = $this->db->query("select * from subject inner join exam on (subject.course_id = exam.course_id) where exam.emp_no = '$empNo'");
 			if ($query->num_rows() > 0)
 			{
 			   return $query->result();
@@ -232,10 +235,23 @@
 		
 		//Function to load questions
 		public function loadQuestions($email){
+			
 			$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 			
-			/*$query = $this->db->query("select questions.question_id, questions.type, questions.question, questions.answer, questions.weight, subject.course_code, subject.section, exam.exam_desc from subject inner join exam on (subject.course_id = exam.course_id) inner join questions on (exam.exam_no = questions.exam_no) where exam.emp_no = '$empNo'");*/
 			$query = $this->db->query("select * from questions where emp_no = '$empNo'");
+			return $query->result();
+		}
+		
+		//Function to filter questions
+		public function filterQuestions($email, $type, $category, $difficulty){
+			$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
+			if($type != 0)$filterType = "and type=$type";
+			else $filterType ="";
+			if($category != 'ALL')$filterCategory = "and category='$category'";
+			else $filterCategory ="";
+			if($difficulty != 0)$filterDifficulty = "and credit=$difficulty";
+			else $filterDifficulty ="";
+			$query = $this->db->query("select * from questions where emp_no = '$empNo' $filterType $filterCategory $filterDifficulty");
 			return $query->result();
 		}
 		
@@ -269,6 +285,7 @@
 					'exam_no' => $exam_no,
 					'student_no' => $student_no,
 					'question_id' => $question_id,
+					'score' => 0,
 					);
 
 					$this->db->insert('exam_set', $examSetDetails); //save copy of exam set of student
@@ -276,12 +293,32 @@
 			}
 
 			//Get the examSet of student with respective examKey
-			$query = $this->db->query("select * from exam_set WHERE exam_key = '$examKey';");
+			$query = $this->db->query("select * from exam_set inner join questions on exam_set.question_id = questions.question_id WHERE exam_set.exam_key = '$examKey';");
+
 			return $query->result();
+		}
+
+		/***************************************************************************************/
+		//GETTER FUNCTIONS FOR FETCHING DATA
+
+		public function getKey($examKey){ //Get the exam key entered by student
+			$query = $this->db->query("select exam_key from keys WHERE exam_key = '$examKey';");
+
+			if($query->num_rows() > 0){
+				return $query->result();
+			}
+			else{
+				return false;
+			}
 		}
 
 		public function getExaminee($student_no){ //Get the examinee details
 			$query = $this->db->query("select * from student WHERE student_no = '$student_no';");
+			return $query->result();
+		}
+
+		public function getExamNo($examKey){ //Get the exam no referenced from the keys
+			$query = $this->db->query("select exam_no from keys WHERE exam_key = '$examKey';");
 			return $query->result();
 		}
 
@@ -290,14 +327,64 @@
 			return $query->result();
 		}
 
-		public function getTemplate($exam_no){ //Get template details
-			$query = $this->db->query("select * from template WHERE exam_no = '$exam_no';");
-			return $query->result();
-		}
-
 		public function getQuestions($category, $totalItems, $difficulty){ //Get random questions based on template
 			$query = $this->db->query("select question_id from questions WHERE category = '$category' AND credit = '$difficulty' ORDER BY RANDOM() LIMIT $totalItems;");
 			return $query->result();
 		}
-		
+
+		public function getChoices($examKey){ //Get choices from the generated MCQ and Matching questions in the exam_set
+			$query = $this->db->query("SELECT *
+			FROM choices
+			LEFT JOIN exam_set ON (exam_set.question_id = choices.question_id)
+			WHERE exam_set.exam_key = '$examKey'
+			ORDER BY RANDOM();");
+
+			return $query->result();
+		}
+
+		public function getMatching($examKey){ //Get all the matching type questions
+			$query = $this->db->query("SELECT *
+			FROM questions
+			INNER JOIN exam_set ON (questions.question_id = exam_set.question_id)
+			WHERE exam_set.exam_key = '$examKey' AND questions.type = 3
+			ORDER BY questions.question_id;");
+
+			return $query->result();
+		}
+
+		public function checkIfUsed($examKey){ //check if the exam_key has already been activated
+			$query = $this->db->query("select * from exam_set where exam_key = '$examKey';");
+			
+			if($query->num_rows() > 0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+
+		public function checkResults($examKey){ //check if there is already a result
+			$query = $this->db->query("SELECT DISTINCT total_score from results WHERE exam_key = '$examKey';");
+			if($query->num_rows() > 0){
+				return $query->row()->total_score;
+			}else{
+				return false;
+			}
+		}
+
+		public function reloadExamSet($examKey){ //if exam_key is already existent in exam_set, just reload the exam
+			$query = $this->db->query("SELECT * from exam_set 
+					inner join questions on (exam_set.question_id = questions.question_id) 
+					WHERE exam_set.exam_key = '$examKey'
+					ORDER BY exam_set.exam_set_id;");
+					
+			return $query->result();
+		}
+
+		public function reloadExamDetails($examKey){
+			$query = $this->db->query("SELECT distinct exam_no, student_no from exam_set WHERE exam_key = '$examKey';");
+
+			return $query->result();
+		}
+
 }

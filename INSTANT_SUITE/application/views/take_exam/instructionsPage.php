@@ -77,13 +77,22 @@
         text-align: center;
     }
 
+    body {
+        font-family: "Georgia";
+    }
+
+    p {
+        font-size: 1.875em; /* 30px/16=1.875em */
+    }
+
+
 </style>
 
   <body class="login-img3-body">
 
         <!--THE HEADER DIV-->
         <div id="header">
-            <center><img src="img/instant.png" height="150" width="400"></center>
+            <center><img src="<?php echo base_url(); ?>img/instant.png" height="150" width="400"></center>
         </div>
 
         <div id="instructionPanel">
@@ -122,7 +131,6 @@
                         <div class="modal-body">
                         <form class="form-horizontal" role="form" action="<?php echo base_url()."index.php/take_exam/examPage/"?>" method="post">
                         <div class="form-group">
-                            <input type="number" name="examNo" class="form-control col-lg-12" min="1" placeholder="Enter exam # here">
                             <input type="text" required id="keyInput" class="form-control col-lg-12" name="examKey" placeholder="Enter key for exam here">
                         </div>
                         <button type="submit" class="btn btn-success btn-block">Take Exam</button>

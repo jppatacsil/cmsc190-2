@@ -18,7 +18,7 @@ class teachers extends CI_Controller {
 		
 		$this->load->model('exam_model');
 		$this->exam_model->createExam($desc, $date, $total, $scoreTotal, $duration, $category, $totalItems, $difficulty, $courseCode, $email);
-		
+
 		redirect('/home/home_page');
 	}
 	
@@ -37,6 +37,8 @@ class teachers extends CI_Controller {
 		$this->load->model('exam_model');
 		$this->exam_model->updateExam($desc, $date, $total, $category, $totalItems, $difficulty, $courseCode, $email, $exam_no);
 		
+		echo '<script type="text/javascript">alert("EXAM EDITED SUCCESSFULLY!");</script>';
+
 		redirect('/home/home_page');
 	}
 	
@@ -44,6 +46,8 @@ class teachers extends CI_Controller {
 	public function bankQuestion(){
 			$type = $this->uri->segment(3);
 			$email = $this->session->userdata('email');
+
+			echo '<script type="text/javascript">alert("QUESTION BANKED SUCCESSFULLY!");</script>';
 			
 			if($type == 1){ //if multiple choice
 				$category = $this->input->post('category');
@@ -51,6 +55,10 @@ class teachers extends CI_Controller {
 				$answer = $this->input->post('answer');
 				$choice = $this->input->post('choice');
 				$points = $this->input->post('points');
+
+				//Add <pre></pre> tags in between the question before saving to database to preserve formatting
+				$questionProper = "<pre>".$questionProper;
+				$questionProper = $questionProper."</pre>";
 
 				$this->load->model('exam_model');
 				$this->exam_model->addMCQ($email,$category,$type,$questionProper,$points,$choice,$answer);
@@ -75,6 +83,10 @@ class teachers extends CI_Controller {
 				$cons1 = $this->input->post('consideration1');
 				$cons2 = $this->input->post('consideration2');
 				$consAns = $this->input->post('considerations');
+
+				//Add <pre></pre> tags in between the question before saving to database to preserve formatting
+				$questionProper = "<pre>".$questionProper;
+				$questionProper = $questionProper."</pre>";
 				
 				$this->load->model('exam_model');
 				$this->exam_model->addQuestion1($email,$category,$type,$questionProper,$points,$answer,$cons1, $cons2, $consAns);
@@ -85,6 +97,10 @@ class teachers extends CI_Controller {
 				$questionProper = $this->input->post('questionProper');
 				$answer = $this->input->post('answer');
 				$points = $this->input->post('points');
+
+				//Add <pre></pre> tags in between the question before saving to database to preserve formatting
+				$questionProper = "<pre>".$questionProper;
+				$questionProper = $questionProper."</pre>";
 				
 				$this->load->model('exam_model');
 				$this->exam_model->addQuestion2($email,$category,$type,$questionProper,$points,$answer);
