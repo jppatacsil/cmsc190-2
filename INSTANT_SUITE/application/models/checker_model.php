@@ -18,7 +18,7 @@
 
             //Check if question has considerations
                 $consType = $this->db->query("SELECT consideration from questions WHERE question_id = '$question_id';")->row()->consideration; //Fetch the consideration column
-                $initScore = $this->db->query("SELECT score from exam_set WHERE question_id = '$question_id' AND answer = '$student_answer';")->row()->score; //Fetch the score column
+                $initScore = $this->db->query("SELECT score from exam_set WHERE question_id = '$question_id' AND stud_answer = '$student_answer';")->row()->score; //Fetch the score column
 
                 if($consType != NULL && $initScore == 0){ //If there is considerations and initial score is 0
                     $this->considerChecking($exam_key, $question_id, $student_answer, $score); //Recheck answer
@@ -27,7 +27,7 @@
 
         //Update answer of student
         public function updateAnswer($exam_key, $question_id, $student_answer){
-            $this->db->query("UPDATE exam_set SET answer = '$student_answer' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
+            $this->db->query("UPDATE exam_set SET stud_answer = '$student_answer' WHERE exam_key = '$exam_key' AND question_id = '$question_id';");
         }
 
         //Automatically check the student's answer

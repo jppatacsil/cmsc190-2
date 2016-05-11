@@ -21,6 +21,7 @@ class checker extends CI_Controller {
 		$firstName = $this->uri->segment(10);
 		$lastName = $this->uri->segment(11);
 		$total_score = $this->uri->segment(12);
+		$next_item = $this->uri->segment(13);
 
 			if($student_answer != "%20"){ //If user has answer, then check for spaces
 				if (strpos($student_answer, '%20') != false){ //If the substring %20 is found, which means that the parameter has some spaces then replace that substring
@@ -42,7 +43,6 @@ class checker extends CI_Controller {
 		    
 			$this->load->model('checker_model');
 			$this->checker_model->saveAnswer($exam_key, $student_no, $question_id, $type, $student_answer, $score);
-			echo '<script type="text/javascript">alert("EXAM ANSWER SAVED!");</script>';
 
 			}
 
@@ -57,6 +57,7 @@ class checker extends CI_Controller {
 			$firstName = $this->uri->segment(10);
 			$lastName = $this->uri->segment(11);
 			$total_score = $this->uri->segment(12);
+			$next_item = $this->uri->segment(13);
 
 			$questions = explode("_",$question_id);
 			$answers = explode("_",$student_answer);
@@ -88,6 +89,7 @@ class checker extends CI_Controller {
 
 		/*************************RELOAD THE EXAM PAGE AGAIN****************************/
 		$this->load->model('exam_model');
+		$this->exam_model->next_item($exam_key, $next_item);
 		
 		$data['items'] = $this->exam_model->reloadExamSet($exam_key); //Reload exam items
 

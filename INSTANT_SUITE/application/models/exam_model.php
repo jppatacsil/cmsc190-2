@@ -271,29 +271,35 @@
 		public function saveExamSet($examKey, $exam_no, $student_no){
 
 			$query = $this->db->query("select * from template WHERE exam_no = '$exam_no';"); //get the exam template
-
+			$i = 0;//counter
 			foreach ($query->result() as $row) //fetch the result of the template query
 			{
 				//Get questions based from the template
 			    $randQuestions = $this->getQuestions($row->category, $row->no_of_item, $row->difficulty);
 
 			    foreach($randQuestions as $row2){ //fetch the questions that were randomly chosen to fill exam set
-			    	$question_id = $row2->question_id;
-
+					$question_id = $row2->question_id;
+					if($i == 0){
+						$stat = "t";
+					}else{
+						$stat = "f";
+					}
 			    	$examSetDetails = array( //the exam set details
 					'exam_key' => $examKey,
 					'exam_no' => $exam_no,
 					'student_no' => $student_no,
 					'question_id' => $question_id,
 					'score' => 0,
+					'active_item' => $stat,
 					);
 
-					$this->db->insert('exam_set', $examSetDetails); //save copy of exam set of student
+					$this->db->insert('exam_set', $examSetDetails); //save copy of exam set of student	
+					$i = $i + 1;
 			    }  
 			}
 
 			//Get the examSet of student with respective examKey
-			$query = $this->db->query("select * from exam_set inner join questions on exam_set.question_id = questions.question_id WHERE exam_set.exam_key = '$examKey';");
+			$query = $this->db->query("select * from exam_set inner join questions on exam_set.question_id = questions.question_id WHERE exam_set.exam_key = '$examKey' ORDER BY exam_set.exam_set_id;");
 
 			return $query->result();
 		}
@@ -370,6 +376,11 @@
 			}else{
 				return false;
 			}
+		}
+
+		public function next_item($examKey, $next_item){
+			$this->db->query("update exam_set set active_item='f' where exam_key='$examKey'");
+			$this->db->query("update exam_set set active_item='t' where exam_key='$examKey' and question_id='$next_item'");
 		}
 
 		public function reloadExamSet($examKey){ //if exam_key is already existent in exam_set, just reload the exam
