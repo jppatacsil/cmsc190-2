@@ -25,7 +25,7 @@ class take_exam extends CI_Controller {
 		if($foundkey != null){ //If key is found
 
 			if($this->exam_model->checkResults($examKey) != NULL ){ //If there is already a result for his/her exam
-				echo '<script type="text/javascript">alert("LOADING YOUR EXAM RESULTS!");</script>'; //Alert invalid key
+				//echo '<script type="text/javascript">alert("LOADING YOUR EXAM RESULTS!");</script>'; //Alert invalid key
 				
 				$student_no = substr($examKey,-7); //parse the exam key and get the student number
 				$examno = $this->exam_model->getExamNo($examKey); //get exam no
@@ -73,12 +73,13 @@ class take_exam extends CI_Controller {
 				}
 
 				//Reload other necessary informations
+					$data['timeleft'] = $this->exam_model->getTimeLeft($examKey);
 					$data['matching'] = $this->exam_model->getMatching($examKey); //get the matching type questions based from exam_key
 					$data['choices'] = $this->exam_model->getchoices($examKey);	//get the choices for the generated MCQ and Matching questions
 					$data['examinee'] = $this->exam_model->getExaminee($student_no);
 					$data['exam'] = $this->exam_model->getExamDetails($exam_no);
 
-				echo '<script type="text/javascript">alert("RELOADING EXAM!");</script>'; //Alert invalid key
+				//echo '<script type="text/javascript">alert("RELOADING EXAM!");</script>'; //Alert invalid key
 				$this->load->view('take_exam/examPage', $data); //Reload back to instructions page
 			}
 
@@ -91,6 +92,7 @@ class take_exam extends CI_Controller {
 				$exam_no = $row->exam_no;
 			}
 
+			$data['timeleft'] = $this->exam_model->getTimeLeft($examKey);
 			$data['items'] = $this->exam_model->saveExamSet($examKey, $exam_no, $student_no); //save the exam set with the student's examKey and get the items
 			$data['matching'] = $this->exam_model->getMatching($examKey); //get the matching type questions based from exam_key
 			$data['choices'] = $this->exam_model->getchoices($examKey);	//get the choices for the generated MCQ and Matching questions

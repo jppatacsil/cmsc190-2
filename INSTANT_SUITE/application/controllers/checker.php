@@ -22,6 +22,7 @@ class checker extends CI_Controller {
 		$lastName = $this->uri->segment(11);
 		$total_score = $this->uri->segment(12);
 		$next_item = $this->uri->segment(13);
+		$timeleft = $this->uri->segment(14);
 
 			if($student_answer != "%20"){ //If user has answer, then check for spaces
 				if (strpos($student_answer, '%20') != false){ //If the substring %20 is found, which means that the parameter has some spaces then replace that substring
@@ -58,6 +59,7 @@ class checker extends CI_Controller {
 			$lastName = $this->uri->segment(11);
 			$total_score = $this->uri->segment(12);
 			$next_item = $this->uri->segment(13);
+			$timeleft = $this->uri->segment(14);
 
 			$questions = explode("_",$question_id);
 			$answers = explode("_",$student_answer);
@@ -84,12 +86,12 @@ class checker extends CI_Controller {
 				$this->checker_model->saveAnswer($exam_key, $student_no, $questions[$i], $type, $answers[$i], $score);
 			}
 
-			echo '<script type="text/javascript">alert("MATCHING SUCCESSFULLY SAVED!");</script>';
+			//echo '<script type="text/javascript">alert("MATCHING SUCCESSFULLY SAVED!");</script>';
 		}
 
 		/*************************RELOAD THE EXAM PAGE AGAIN****************************/
 		$this->load->model('exam_model');
-		$this->exam_model->next_item($exam_key, $next_item);
+		$this->exam_model->next_item($exam_key, $next_item, $timeleft);
 		
 		$data['items'] = $this->exam_model->reloadExamSet($exam_key); //Reload exam items
 
@@ -101,6 +103,7 @@ class checker extends CI_Controller {
 		}
 
 		//Reload other necessary informations
+			$data['timeleft'] = $this->exam_model->getTimeLeft($exam_key);
 			$data['matching'] = $this->exam_model->getMatching($exam_key); //get the matching type questions based from exam_key
 			$data['choices'] = $this->exam_model->getchoices($exam_key);	//get the choices for the generated MCQ and Matching questions
 			$data['examinee'] = $this->exam_model->getExaminee($student_no);

@@ -358,6 +358,12 @@
 			return $query->result();
 		}
 
+		public function getTimeLeft($examKey){ //Get all the matching type questions
+			$query = $this->db->query("select * from logs where exam_key='$examKey'");
+
+			return $query->result();
+		}
+		
 		public function checkIfUsed($examKey){ //check if the exam_key has already been activated
 			$query = $this->db->query("select * from exam_set where exam_key = '$examKey';");
 			
@@ -378,7 +384,8 @@
 			}
 		}
 
-		public function next_item($examKey, $next_item){
+		public function next_item($examKey, $next_item, $timeleft){
+			$this->db->query("update logs set time_left='$timeleft' where exam_key='$examKey'");
 			$this->db->query("update exam_set set active_item='f' where exam_key='$examKey'");
 			$this->db->query("update exam_set set active_item='t' where exam_key='$examKey' and question_id='$next_item'");
 		}

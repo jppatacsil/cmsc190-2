@@ -38,20 +38,27 @@
 			//Check if user set an answer in previous
 			if(document.getElementById("student_answer"+document.getElementById("oldItem").value).value != ""){
             //Pass the question_id, the student's answer, the exam_key, the type, the corresponding point, and stud_no
-			alert(document.getElementById("type"+document.getElementById("oldItem").value).value);
+			//alert(document.getElementById("type"+document.getElementById("oldItem").value).value);
 				if(document.getElementById("type"+document.getElementById("oldItem").value).value != 3){ //If the type is not matching
-					document.location.href = "<?php echo base_url(); ?>index.php/checker/submitAnswer/" + document.getElementById("oldItem").value + "/" + document.getElementById("student_answer"+document.getElementById("oldItem").value).value + "/" + document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/";
+					document.location.href = "<?php echo base_url(); ?>index.php/checker/submitAnswer/" + document.getElementById("oldItem").value + "/" + document.getElementById("student_answer"+document.getElementById("oldItem").value).value + "/" + document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/" + document.getElementById("timeleft").value + "/";
 				}
 				else{ //If matching, do the submit quantity times
-					var questions = document.getElementById("oldItem").value + "_" + (parseInt(document.getElementById("oldItem").value)+1) + "_" + (parseInt(document.getElementById("oldItem").value)+2) + "_" + (parseInt(document.getElementById("oldItem").value)+3);
-                        
-                    var answers = document.getElementById("student_answer"+(parseInt(document.getElementById("oldItem").value))).value + "_" + document.getElementById("student_answer"+(parseInt(document.getElementById("oldItem").value) + 1)).value + "_" + document.getElementById("student_answer"+(parseInt(document.getElementById("oldItem").value) + 2)).value + "_" + document.getElementById("student_answer"+(parseInt(document.getElementById("oldItem").value) + 3)).value;
 
-                    alert("Question numbers: "+questions);
-                    alert("Answers :"+answers);
+                    //Get the quantity of questions and answers for matching type
+                    var num = document.getElementById("quantity").value;
+                    var i = 0; //counter
+                    var questions = new Array(); //the questions to be passed
+                    var answers = new Array(); //the respective answers to the questions to be passed
 
-                        //var i = 0;
-                    document.location.href = "<?php echo base_url();?>index.php/checker/submitAnswer/"+questions+"/"+answers+"/"+ document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/";
+                    for(i=0;i<num;i++){ //Get the set questions and set answers for the matching 
+                        questions.push(parseInt(document.getElementById("oldItem").value)+i);
+                        answers.push(document.getElementById("student_answer"+(parseInt(document.getElementById("oldItem").value) + i)).value);
+                    }
+
+                    //get arrays as string with '_' as separator
+                    var setQuestions = questions.join("_"); 
+                    var setAnswers = answers.join("_");
+                    document.location.href = "<?php echo base_url();?>index.php/checker/submitAnswer/"+setQuestions+"/"+setAnswers+"/"+ document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/" + document.getElementById("timeleft").value + "/";
 				}//end of else   
 			}//end of checking if previous item has been answered
 			document.getElementById(document.getElementById("oldItem").value).style.display = 'none';
@@ -63,7 +70,9 @@
 	}
 
    //Function for setting the mins remaining
-   function countdown(mins, secs){
+   function countdown(timeleft){
+		var secs = timeleft%60;
+		var mins = parseInt(timeleft/60);
         var duration = document.getElementById("duration");
         duration.innerHTML = mins+" m "+secs+" s";
                 
@@ -78,8 +87,11 @@
             }
         }
         else secs--;
-                
-        var timer = setTimeout('countdown('+mins+', '+secs+')', 1000);
+		
+		timeleft = (mins * 60) + secs;
+		var time = document.getElementById("timeleft");
+		time.value = timeleft;
+        var timer = setTimeout('countdown('+timeleft+')', 1000);
    }
 
 </script>
@@ -155,9 +167,9 @@
                     $exam_key = $key->exam_key;
                 }
 				
-				/*foreach($timeleft as $time){ //get the exam_key of the exam_set
+				foreach($timeleft as $time){ //get the exam_key of the exam_set
                     $timeleft = $time->time_left;
-                }*/
+                }
 
             ?>
 
@@ -176,9 +188,10 @@
 
             <div class="col-md-4">
                 <?php //The time remaining in minutes
-                    echo '<h1 style="color: white">TIME REMAINING:<br>';
-                    echo '<h1 id="duration" style="color: white">'.$duration.':00';
-                    echo '<script type="text/javascript">countdown('.$duration.', 0);</script>';
+                    echo '<h1 style="color:white">TIME REMAINING:<br>';
+					echo '<h1 style="color:white" id="duration"></h1>';
+					echo '<input type="hidden" id="timeleft" value="">';
+                    echo '<script type="text/javascript">countdown('.$timeleft.');</script>';
                 ?>
             </div>
 
@@ -204,8 +217,9 @@
             <input type="hidden" id="total_score" name="total_score" value="<?php echo $total_score; ?>">
 			<input type="hidden" id="oldItem" value=""> <!--Hidden value to update item-->
 			
-			<input type="hidden" id="stat" value="">
+			<input type="hidden" id="stat" value=""> <!--Hidden value to update active item-->
 			<input type="hidden" id="question_id" value="">
+            <input type="hidden" id="quantity" value="">
 			
             <div class="form-group">
 			<?php 
@@ -276,34 +290,39 @@
                         <center><h1 style="color: white">Match column A with column B</h1></center>
                     <div class="col-md-6">
                         <center><h2 style="color: white">COLUMN A</h2></center>';
-                                        $quantity = 0; //Count how many questions in the category
+                                    $quantity = 0; //Count how many questions in the category
                                         foreach($matching as $matches){
                                           if($matches->matching_id == $question_id){ //Get only the matching questions together with the category
                                             echo '<input type="hidden" name="question_id[]" value="'.$matches->question_id.'">'; //The question_id of the matching type question
                                             echo '<input type="text" style:"font-size: 24px" class="form-control" value="'.$matches->question.'" readonly>'; //The question proper
                                             $quantity++;
+                                            echo '<script>document.getElementById("quantity").value = '.$quantity.'</script>';
+                                            //echo '<script>alert(document.getElementById("quantity").value)</script>';
                                           }
                                         }
+                                    //echo '<script>alert('.$quantity.')</script>';
                                     echo '</div>
                                     <div class="col-md-6">
-                                    <input type="hidden" id="quantity" value="'.$quantity.'">
                                     <center><h2 style="color: white">COLUMN B</h2></center>';
-                                        for($i=0;$i<$quantity;$i++){
-                                          echo '<select class="form-control col-md-6" id="student_answer'.($question_id+$i).'">';
-										  if($answer != NULL){
-											echo '<option selected="true" style="display:none;">'.$answer.'</option>';
-											}
-										else{
-											echo '<option  style:"font-size: 24px" selected="true" value="" style="display:none;">Select matching answer</option>';
-										}
-                                          foreach($choices as $c){
-                                            if($c->question_id == $question_id){ //If question_id of choices is same with the matching_id
-											  echo '<option style:"font-size: 24px" value="'.$c->choice.'">'.$c->choice.'
-                                                    </option>';
+                                    for($i=0;$i<$quantity;$i++){
+                                        foreach($items as $matchAns){ //Retrieve matching answers
+                                            if($matchAns->question_id == ($question_id+$i)){ //If the question_id is within the matching scope
+                                                echo '<select class="form-control col-md-6" id="student_answer'.($question_id+$i).'">';
+                                                if($matchAns->stud_answer != NULL){
+                                                    echo '<option selected="true" style="display:none;">'.$matchAns->stud_answer.'</option>';
+                                                }else{
+                                                    echo '<option  style:"font-size: 24px" selected="true" value="" style="display:none;">Select matching answer</option>';
                                                 }
-                                          }
-                                          echo '</select>';
+                                                foreach($choices as $c){
+                                                    if($c->question_id == $question_id){ //If question_id of choices is same with the matching_id
+                                                        echo '<option style:"font-size: 24px" value="'.$c->choice.'">'.$c->choice.'
+                                                        </option>';
+                                                    }
+                                                }
+                                                echo '</select>';
+                                            }//end of matching question_id condition
                                         }
+                                    }
                 echo '</div>
                 </div>';
             }else if($type == 4 || $type == 5){ //For FnB or Identification
