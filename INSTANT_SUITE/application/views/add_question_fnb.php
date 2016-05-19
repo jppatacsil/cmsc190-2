@@ -156,7 +156,7 @@
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="category">Category</label>
 													<div class="col-md-4">
-													<select required="true" class="col-lg-12" name="category" id="categoryList">
+													<select required="true" class="col-lg-12" name="category" id="categoryList" required>
 													<?php 
 														foreach($categories as $row)
 														{ 
@@ -174,14 +174,14 @@
 												<div class="form-group">
 													<label class="col-md-2 control-label" for="inputQuestion">QUESTION</label>	
 													<div class="col-lg-10">
-													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper"></textarea>
+													<textarea required="true" class="form-control" rows="5" cols="30" id="questionProper" name="questionProper" required></textarea>
 													</div>
 												</div>
                                            
 												<div class="form-group">    
 													<label class="col-md-3 control-label" for="inputPoints">Correct Answer</label>
 													<div class="col-lg-9">
-													<input required="true" type="input" class="form-control" id="correctAnswer" name="answer">
+													<input required="true" type="input" class="form-control" id="correctAnswer" name="answer" required>
 													</div>
 												</div>
 
@@ -196,7 +196,7 @@
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="inputPoints">Credit</label>
 													<div class="col-md-3">
-													<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points">
+													<input required="true" type="number" min="1" class="form-control" id="inputPoints" name="points" required>
 													</div>
 												</div>
                                                                     

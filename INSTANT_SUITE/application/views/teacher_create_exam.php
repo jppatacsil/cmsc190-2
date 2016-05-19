@@ -129,7 +129,7 @@
                       <div class="form-group">
                         <label class="col-md-4 control-label" for="courseCode">Course code</label>
                         <div class="col-md-4">
-                         <select id="course_code" name="course_code" class="form-control">
+                         <select id="course_code" name="course_code" class="form-control" required>
                             <?php 
                               foreach($classes as $row)
                               { 
@@ -146,7 +146,7 @@
                       <div class="form-group">
                         <label class="col-md-4 control-label" for="exam_date">Examination Date</label>
                         <div class="col-md-4">
-                        <input type="date" name="examinationDate">
+                        <input type="date" name="examinationDate" required>
                       </div>
                       </div>
 
@@ -154,14 +154,14 @@
                       <div class="form-group">
                         <label class="col-md-4 control-label" placeholder="Exam Description" for="exam_desc">Description</label>
                         <div class="col-md-4">                     
-                         <textarea class="form-control" id="exam_desc" name="exam_desc">1st Exam, 2nd Exam, etc.</textarea>
+                         <textarea class="form-control" id="exam_desc" name="exam_desc" required>1st Exam, 2nd Exam, etc.</textarea>
                         </div>
                       </div>
                
                <div class="form-group">
                 <label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
                 <div class="col-md-4">
-                  <input type="number" name="duration" step="5">
+                  <input type="number" name="duration" step="5" required>
                 </div>
               </div>
                              
@@ -180,14 +180,14 @@
                     </select>
                     <br><input type="number" class="col-lg-12" onchange="findTotal()" min="1" name="totalItems[]" placeholder="Total Items">
                     <br>
-                    <select name="difficulty[]" onchange="computeScore()" class="col-lg-12">
+                    <select name="difficulty[]" onchange="computeScore()" class="col-lg-12" required>
                       <option value="1">EASY</option>
                       <option value="2">AVERAGE</option>
                       <option value="3">DIFFICULT</option>
                     </select>
                   </div>
                   <div class="col-md-4">
-                  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">
+                  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category" required>
                   <!-- onClick="addCategory('categoryInput');" -->
                   </div>
               </div>
@@ -196,7 +196,7 @@
                       <div class="form-group">
                         <label class="col-md-4 control-label" for="no_of_items">Total number of items</label>
                         <div class="col-md-4">                     
-                         <input type="number" name="no_of_items" id="no_of_items" min="1" readonly>
+                         <input type="number" name="no_of_items" id="no_of_items" min="1" readonly required>
                         </div>
                       </div>
 
@@ -204,7 +204,7 @@
                       <div class="form-group">
                         <label class="col-md-4 control-label" for="total_score">Total Score</label>
                         <div class="col-md-4">                     
-                         <input type="number" name="total_score" id="total_score" readonly>
+                         <input type="number" name="total_score" id="total_score" readonly required>
                         </div>
                       </div>              
                           

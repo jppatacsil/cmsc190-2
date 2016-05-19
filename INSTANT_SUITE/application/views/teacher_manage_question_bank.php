@@ -121,6 +121,7 @@
 						   <tbody>
                               <tr> <!--HEADINGS-->
                                  <!--<th></i>Question ID</th>-->
+                                 <th>Question ID</th>
                                  <th>Type</th>
                                  <th>Category </th>
 								 <th>Corresponding Points</th>
@@ -133,6 +134,7 @@
 						if($questions != NULL){
 							foreach($questions as $row){
 								echo '<tr>';
+								echo '<td>'.$row->question_id.'</td>';
 								echo '<td>';
 								switch($row->type){
 									case 1: echo 'Multiple Choice';break;

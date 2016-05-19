@@ -61,9 +61,10 @@ $this->load->helper('url'); ?>
                                  <th><i class="icon_book"></i> Subject</th>
                                  <th><i class="icon_"></i> Description</th>
                                  <th><i class="icon_calendar"></i> Date of Exam</th>
+                                 <th><i class="icon_time"></i> Duration</th>
                                  <th><i class="icon_question_alt2"></i> No. of Questions </th>
-                                 <th><i class="icon_"></i> Duration</th>
-								 <th><i class="icon_cogs"></i> Action</th>
+                                 <th><i class="icon_"></i> Total Score</th>
+								                 <th><i class="icon_cogs"></i> Action</th>
                               </tr>
 										<?php
 										if($exams != NULL){
@@ -72,16 +73,17 @@ $this->load->helper('url'); ?>
                               echo '<td>'.$row->course_code.' '.$row->section.'</td>';
                               echo '<td>'.$row->exam_desc.'</td>';
                               echo '<td>'.$row->exam_date.'</td>';
+                              echo '<td>'.$row->duration.'</td>';
                               echo '<td>'.$row->total_items.'</td>';
-							  echo '<td>'.$row->duration.'</td>';
-										echo
+							                echo '<td>'.$row->total_score.'</td>';
+										          echo
                                  '<td>
                                   <div class="btn-group">
                                         <a class="btn btn-success" onclick = "editExam('.$row->exam_no.')"><i class="icon_pencil-edit"></i></a>
-											 <a class="btn btn-danger" onclick = "deleteExam('.$row->exam_no.')"><i class="icon_close_alt2"></i></a>
+											                  <a class="btn btn-danger" onclick = "deleteExam('.$row->exam_no.')"><i class="icon_close_alt2"></i></a>
                                   </div>
                                   </td>';
-										echo	'</tr>';
+										          echo	'</tr>';
 											}						
 										}
 										?>

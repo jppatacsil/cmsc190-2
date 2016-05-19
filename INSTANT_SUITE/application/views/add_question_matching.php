@@ -41,8 +41,8 @@
 
 			$(add_button).click(function(e){ //on add input button click
 				e.preventDefault();
-				$(wrapper).append('<div><br><input type="text" class="col-lg-12" value="" name="questionProper[]" placeholder="Enter question here"><input type="text" class="col-lg-12" placeholder="Matching answer" value="" name="answer[]" id=answer' + (x+1) + ' onkeyup="updateField(' + (x+1) + ')" > <a href="#" class="remove_field btn btn-danger btn-xs btn-block" onclick="removeChoice(' + (x+1) + ')">Remove</a></div>'); //add input box
-				$(wrapper2).append('<div><input type="text" class="col-lg-12" name="choice[]" id=choice' + (x+1) + ' value="" readonly></div>');
+				$(wrapper).append('<div><br><input type="text" class="col-lg-12" value="" name="questionProper[]" placeholder="Enter question here" required><input type="text" class="col-lg-12" placeholder="Matching answer" required value="" name="answer[]" id=answer' + (x+1) + ' onkeyup="updateField(' + (x+1) + ')" > <a href="#" class="remove_field btn btn-danger btn-xs btn-block" onclick="removeChoice(' + (x+1) + ')">Remove</a></div>'); //add input box
+				$(wrapper2).append('<div><input type="text" required class="col-lg-12" name="choice[]" id=choice' + (x+1) + ' value="" readonly></div>');
 				x++; //question count increment
 			});
 		      
@@ -74,7 +74,7 @@
 	function addChoice(divName){
 			var newdiv = document.createElement('div');
 				 newdiv.innerHTML = 
-				 "<input type='text' class='col-lg-12' id=choice" + (x+1) +" placeholder='Enter choice here' name='choice[]'>" +
+				 "<input type='text' required class='col-lg-12' id=choice" + (x+1) +" placeholder='Enter choice here' name='choice[]'>" +
 				 " <a href='#' id=removeBtn" + (x+1) +" class='remove_field btn btn-danger btn-xs btn-block' onclick=removeChoice2(" + (x+1) + ")>Remove</a>";
 				 
 				 document.getElementById(divName).appendChild(newdiv);
@@ -135,8 +135,8 @@
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="questionProper">COLUMN A</label>
 												  <div id="questionInput" class="col-md-5 input_fields_wrap">
-													<input type="text" class="col-lg-12" name="questionProper[]" placeholder="Enter question here">
-													<input type="text" class="col-lg-12" placeholder="Matching answer" name="answer[]" id="answer1" onkeyup='updateField(1)'>
+													<input type="text" class="col-lg-12" name="questionProper[]" placeholder="Enter question here" required>
+													<input type="text" class="col-lg-12" placeholder="Matching answer" required name="answer[]" id="answer1" onkeyup='updateField(1)'>
 												  </div>
 												  <div>
 												  <input type="button" class="btn btn-success btn-sm add_field_button" value="Add another question"/>

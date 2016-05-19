@@ -40,7 +40,7 @@
           e.preventDefault();
           $(wrapper).append('<div><br><select name="category[]" class="col-lg-12"><?php 
 		  foreach($categories as $row){ echo '<option value="'.$row->category.'">'.$row->category.'</option>';}
-		  ?></select><br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items"><br><select name="difficulty[]" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
+		  ?></select><br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items"><br><select name="difficulty[]" onchange="computeScore()" class="col-lg-12"><option value="1">EASY</option><option value="2">AVERAGE</option><option value="3">DIFFICULT</option></select><a href="#" class="remove_field btn btn-danger btn-xs btn-block">Remove</a></div>'); //add input box
           x++; //category increment
       });
       
@@ -58,7 +58,21 @@
             tot += parseInt(arr[i].value);
     }
     document.getElementById('no_of_items').value = tot;
+
+    computeScore(); //Get total score
 	}
+
+    //Get total score
+  function computeScore(){
+    var arr1 = document.getElementsByName('totalItems[]');
+    var arr2 = document.getElementsByName('difficulty[]');
+    var scoreTot=0;
+    for(var i=0; i<arr1.length; i++){
+      scoreTot += (parseInt(arr1[i].value) * parseInt(arr2[i].value));
+    }
+
+    document.getElementById('total_score').value = scoreTot;
+  }
 	
 	</script>
 
@@ -94,6 +108,7 @@
 								$totalItems = $row->total_items;
 								$exam_no = $row->exam_no;
 								$duration = $row->duration;
+                $totalScore = $row->total_score;
 							}
 						?>
                   <form id="examForm" method="post" action="<?php echo base_url()."index.php/teachers/editExam/".$exam_no."/"?>" class="form-horizontal">
@@ -125,7 +140,7 @@
 							 <div class="form-group">
 								<label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
 								<div class="col-md-4">
-									<input type="number" name="duration" min="30" step="5" value="<?php echo $duration; ?>">
+									<input type="number" name="duration" min="5" step="5" value="<?php echo $duration; ?>">
 								</div>
 							</div>
                              
@@ -143,11 +158,11 @@
 										echo '</select>
 										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
 								    <br>
-										<select name="difficulty[]" class="col-lg-12">';
+										<select name="difficulty[]" onchange="computeScore()" class="col-lg-12">';
 											switch($row->difficulty){
 												case 1: echo '<option value = "1" selected="true" style="display:none;">EASY</option>'; break;
-												case 1: echo '<option value = "1" selected="true" style="display:none;">AVERAGE</option>'; break;
-												case 1: echo '<option value = "3" selected="true" style="display:none;">DIFFICULT</option>'; break;
+												case 2: echo '<option value = "2" selected="true" style="display:none;">AVERAGE</option>'; break;
+												case 3: echo '<option value = "3" selected="true" style="display:none;">DIFFICULT</option>'; break;
 											}
 											echo '<option value="1">EASY</option>
 											<option value="2">AVERAGE</option>
@@ -168,7 +183,15 @@
                         <div class="col-md-4">                     
                          <input type="number" name="no_of_items" id="no_of_items" min="1" value="<?php echo $totalItems; ?>"readonly>
                         </div>
-                      </div>							
+                      </div>
+
+                      <!-- Total score -->
+                      <div class="form-group">
+                        <label class="col-md-4 control-label" for="total_score">Total Score</label>
+                        <div class="col-md-4">                     
+                         <input type="number" name="total_score" id="total_score" value="<?php echo $totalScore; ?>" readonly>
+                        </div>
+                      </div> 						
                           
                         <!-- SAVE THE EXAM TEMPLATE -->
                             <div class="form-group">  
