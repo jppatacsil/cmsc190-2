@@ -96,12 +96,6 @@
                           <span>Attendance</span>
                       </a>
                   </li>
-                   <li>                     
-                      <a class="checkLoader">
-                          <i class="icon_ol"></i>
-                          <span>Check Answers</span>
-                      </a>
-                  </li>
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -138,10 +132,6 @@
 
         $(".questionBankLoader").click(function(){
             $("#main-content").load("loadQuestionBank").hide(500).fadeIn();
-          });
-
-        $(".checkLoader").click(function(){
-            $("#main-content").load("loadTakeExam").hide(500).fadeIn();
           });
 
         $(".classSideBarLoader").click(function(){

@@ -266,14 +266,6 @@ class home extends CI_Controller {
 		$this->load->view('teacher_manage_question_bank', $data);
 	}
 
-	public function loadTakeExam(){
-		//$data['questionDetails'] = $this->showMatching();
-		//$data['choicesDetails'] = $this->getMatchingChoices();
-		//$data['questionDetails'] = $this->showFnB();
-		//$data['questionDetails'] = $this->showIdentification();
-		$this->load->view('takeExam');
-	}
-
 	public function loadCreateClass(){
 		$this->load->view('teacher_create_class');
 	}

@@ -149,12 +149,6 @@
                           <span>Attendance</span>
                       </a>
                   </li>
-                   <li>                     
-                      <a class="logsLoader">
-                          <i class="icon_ol"></i>
-                          <span>View Logs</span>
-                      </a>
-                  </li>
               </ul>
               <!-- sidebar menu end-->
           </div>

@@ -101,6 +101,7 @@
 
         <?php //Compute for percentage
            $scorePercent = ($computedScore/$total_score)*100;
+           $scorePercent = round($scorePercent,2);
         ?>
 
         <h2 id="scorePercent" style="color: white; text-align: center;">That's right. Your score percentage is <?php echo $scorePercent.'%';?>. You may now close this window.</h2>

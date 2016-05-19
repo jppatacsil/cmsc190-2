@@ -46,17 +46,9 @@
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 		
 		//Check the considerations to be considered
-		if($cons1 == 1 && $cons2 == 2){
-			$consideration = 3; //Both spelling and synonyms
+		if($cons1 == 1 || $cons2 == 2){
+			$consideration = 1; //Question considers other answers
 		}
-		else if($cons1 == 1){
-			$consideration = 1; //Spelling errors only
-		}
-		else{
-			$consideration = 2; //Synonyms only
-		}
-
-		$totalConsiderations = count($consAns); //Count the number of considered answers
 
 		$questionDetails = array(
 			'type' => $type,
@@ -69,17 +61,21 @@
 			);
 			
 		$query = $this->db->insert('questions',$questionDetails);
-		$question_id = $this->db->insert_id(); //Get the last inserted exam_no
 
-		$txtfile = $question_id."considerations.txt";
+		if($consideration != null){
+			$question_id = $this->db->insert_id(); //Get the last inserted exam_no
+			$totalConsiderations = count($consAns); //Count the number of considered answers
 
-		//Save the answers to a personal dictionary textfile based on the question_id
-		$myfile = fopen($txtfile, "a") or die("Unable to open file!");
-		for($i=0;$i<$totalConsiderations;$i++){
-			$txt = strtolower($consAns[$i]);
-			fwrite($myfile, PHP_EOL.$txt);
+			$txtfile = $_SERVER['DOCUMENT_ROOT']."INSTANT_SUITE/consideredAnswers/".$question_id."considerations.txt";
+
+			//Save the answers to a personal dictionary textfile based on the question_id
+			$myfile = fopen($txtfile, "a") or die("Unable to open file!");
+			for($i=0;$i<$totalConsiderations;$i++){
+				$txt = strtolower($consAns[$i]);
+				fwrite($myfile, PHP_EOL.$txt);
+			}
+			fclose($myfile);
 		}
-		fclose($myfile);
 		
 		}
 
@@ -205,11 +201,11 @@
 		}
 		
 		//Bank the exam in the table
-		public function updateExam($desc, $date, $total, $category, $totalItems, $difficulty, $courseCode, $email, $exam_no){
+		public function updateExam($desc, $date, $total, $category, $totalItems, $difficulty, $courseCode, $email, $exam_no, $scoreTotal, $duration){
 			$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
 		
 			//Insert to exam
-			$query = $this->db->query("update exam set exam_desc='$desc' , exam_date='$date', total_items='$total' where exam_no = '$exam_no'");
+			$query = $this->db->query("update exam set exam_desc='$desc' , exam_date='$date', total_items='$total', duration='$duration', total_score='$scoreTotal' where exam_no = '$exam_no'");
 
 			//Insert to template
 			$query = $this->db->query("delete from template where exam_no = '$exam_no'");

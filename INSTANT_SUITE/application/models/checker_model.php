@@ -49,7 +49,7 @@
         //If there is a consideration in marking
         public function considerChecking($exam_key, $question_id, $student_answer, $score){
 
-            $txtfile = $question_id."considerations.txt";
+            $txtfile = $_SERVER['DOCUMENT_ROOT']."INSTANT_SUITE/consideredAnswers/".$question_id."considerations.txt";
 
             //Read the personal dictionary "consideredAnswers.txt"
             $myfile = fopen($txtfile, "r") or die("Unable to open file!");

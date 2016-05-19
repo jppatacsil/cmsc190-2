@@ -30,6 +30,10 @@ class checker extends CI_Controller {
 				}
 			}
 
+			if(strpos($student_answer, '_') != false){
+				$student_answer = str_replace("_",".",$student_answer);
+			} 
+
 			if(strpos($firstName, '%20') != false){ //If first name has spaces
 				$firstName = str_replace("%20"," ",$firstName);
 			}
@@ -60,11 +64,12 @@ class checker extends CI_Controller {
 			$total_score = $this->uri->segment(12);
 			$next_item = $this->uri->segment(13);
 			$timeleft = $this->uri->segment(14);
+			$quantity = $this->uri->segment(15);
 
 			$questions = explode("_",$question_id);
 			$answers = explode("_",$student_answer);
 
-			for($i=0;$i<4;$i++){
+			for($i=0;$i<$quantity;$i++){
 				if(strpos($answers[$i], '%20') != false) $answers[$i] = str_replace("%20"," ",$answers[$i]);
 			}
 
@@ -82,7 +87,7 @@ class checker extends CI_Controller {
 
 			$this->load->model('checker_model');
 
-			for($i=0;$i<4;$i++){
+			for($i=0;$i<$quantity;$i++){
 				$this->checker_model->saveAnswer($exam_key, $student_no, $questions[$i], $type, $answers[$i], $score);
 			}
 
@@ -113,17 +118,14 @@ class checker extends CI_Controller {
 	}
 
 	//Function to get results of exam
-	public function showResults($exam_key, $student_no, $exam_desc, $firstName, $lastName, $total_score){
+	public function showResults(){
 
-		//If form came from submit then get POST values
-		if ($_SERVER['REQUEST_METHOD'] == "POST"){
-		    $exam_key = $this->input->post('exam_key');
-			$exam_desc = $this->input->post('exam_desc');
-			$student_no = $this->input->post('student_no');
-			$firstName = $this->input->post('firstName');
-			$lastName = $this->input->post('lastName');
-			$total_score = $this->input->post('total_score');
-		 }
+		$exam_key = $this->input->post('exam_key');
+		$exam_desc = $this->input->post('exam_desc');
+		$student_no = $this->input->post('student_no');
+		$firstName = $this->input->post('firstName');
+		$lastName = $this->input->post('lastName');
+		$total_score = $this->input->post('total_score');
 
 		$this->load->model('checker_model');
 		$computedScore = $this->checker_model->computeTotalScore($exam_key, $student_no);

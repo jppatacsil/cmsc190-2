@@ -36,15 +36,12 @@
        //if(document.getElementById("oldItem").value != ""){
 		if(document.getElementById("oldItem").value != $question_id){ //If not same item clicked, hide the div
 			//Check if user set an answer in previous
-			if(document.getElementById("student_answer"+document.getElementById("oldItem").value).value != document.getElementById("old_answer"+document.getElementById("oldItem").value).value){
+			if(document.getElementById("student_answer"+document.getElementById("oldItem").value).value != ""){
             //Pass the question_id, the student's answer, the exam_key, the type, the corresponding point, and stud_no
+			//alert(document.getElementById("type"+document.getElementById("oldItem").value).value);
 				if(document.getElementById("type"+document.getElementById("oldItem").value).value != 3){ //If the type is not matching
-                    var answer = document.getElementById("student_answer"+document.getElementById("oldItem").value).value;
-
-                    answer = answer.replace(/\./g, "_");
-
-                    document.location.href = "<?php echo base_url(); ?>index.php/checker/submitAnswer/" + document.getElementById("oldItem").value + "/" + answer + "/" + document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/" + document.getElementById("timeleft").value + "/";
-                }
+					document.location.href = "<?php echo base_url(); ?>index.php/checker/submitAnswer/" + document.getElementById("oldItem").value + "/" + document.getElementById("student_answer"+document.getElementById("oldItem").value).value + "/" + document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/" + document.getElementById("timeleft").value + "/";
+				}
 				else{ //If matching, do the submit quantity times
 
                     //Get the quantity of questions and answers for matching type
@@ -67,7 +64,6 @@
                     document.location.href = "<?php echo base_url();?>index.php/checker/submitAnswer/"+setQuestions+"/"+setAnswers+"/"+ document.getElementById("exam_key").value + "/" + document.getElementById("type"+document.getElementById("oldItem").value).value + "/" + document.getElementById("score"+document.getElementById("oldItem").value).value + "/" + document.getElementById("stud_no").value + "/" + document.getElementById("exam_desc").value + "/" + document.getElementById("firstName").value + "/" + document.getElementById("lastName").value + "/" + document.getElementById("total_score").value + "/" + $question_id + "/" + document.getElementById("timeleft").value + "/" + document.getElementById("quantity"+document.getElementById("oldItem").value).value + "/";
 				}//end of else   
 			}//end of checking if previous item has been answered
-            document.getElementById("question"+document.getElementById("oldItem").value).removeAttribute("class"); //Remove indicator of active item
 			document.getElementById(document.getElementById("oldItem").value).style.display = 'none';
 			var e = document.getElementById($question_id);
 			e.style.display = 'block';
@@ -131,12 +127,7 @@
     #endExam {
         position:absolute;
         top: 85%;
-        left: 65%;
-    }
-
-    .pagination a{
-        background-color: green;
-        color: white;
+        left: 60%;
     }
 
     body {
@@ -253,7 +244,6 @@
                 <input type="hidden" id="question_number" name="question_id" value="'.$question_id.'">
                 <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                 <input type="hidden" id="score'.$question_id.'" name="score" value="'.$credit.'">
-				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white"><script type="text/javascript">document.getElementById()</script>'.$question.'</h1>
                 <select class="form-control col-lg-12" id="student_answer'.$question_id.'" name="student_answer">';
@@ -279,7 +269,6 @@
 				<input type="hidden" id="stat'.$question_id.'" value='.$stat.'>
                 <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                 <input type="hidden" id="score'.$question_id.'" name="score" value="'.$credit.'">
-				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <select class="form-control col-lg-12" id="student_answer'.$question_id.'" name="student_answer">';
@@ -300,11 +289,8 @@
                 echo '<div class="form-group" style="display:none;" id='.$question_id.'>
                         <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                         <input type="hidden" id="score'.$question_id.'" name="score" value="'.$credit.'">
-						<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                         <input type="hidden" id="quantity'.$question_id.'" value="">
-                        <center><h1 style="color:white">Match Column A with Column B</h2></center>
-                    <div class="col-md-6">
-                        <center><h2 style="color:white">Column A</h2></center>';
+                    <div class="col-md-6">';
                                     $quantity = 0; //Count how many questions in the category
                                         foreach($matching as $matches){
                                           if($matches->matching_id == $question_id){ //Get only the matching questions together with the category
@@ -312,14 +298,12 @@
                                             echo '<input type="text" style:"font-size: 24px" class="form-control" value="'.$matches->question.'" readonly>'; //The question proper
                                             $quantity++;
                                             echo '<script>document.getElementById("quantity"+'.$question_id.').value = '.$quantity.'</script>';
-                                            //echo '<script>alert(document.getElementById("quantity").value)</script>';
+                                            //echo '<script>alert(document.getElementById("quantity"+'.$question_id.').value)</script>';
                                           }
                                         }
                                     //echo '<script>alert('.$quantity.')</script>';
                                     echo '</div>
-                                    <div class="col-md-6">
-                                    <center><h2 style="color:white">Column B</h2></center>';
-                                    echo '<script>'.$quantity.' = document.getElementById("quantity"+'.$question_id.').value</script>';
+                                    <div class="col-md-6">';
                                     for($i=0;$i<$quantity;$i++){
                                         foreach($items as $matchAns){ //Retrieve matching answers
                                             if($matchAns->question_id == ($question_id+$i)){ //If the question_id is within the matching scope
@@ -346,7 +330,6 @@
                 <input type="hidden" name="question_id" value="'.$question_id.'">
                 <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                 <input type="hidden" id="score'.$question_id.'" name="score" value="'.$credit.'">
-				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
                 <div class="col-lg-12">';
@@ -363,10 +346,9 @@
                 <input type="hidden" name="question_id" value="'.$question_id.'">
                 <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                 <input type="hidden" name="score" value="'.$credit.'">
-				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
-                <div class="col-lg-12">
+                <div class="col-lg-6" style="left: 25%; top: 200px;">
                     <center><textarea class="form-control col-lg-12" value="" name="student_answer"></textarea></center>
                 </div>
                 </center></div>';
@@ -375,21 +357,20 @@
                 <input type="hidden" name="question_id" value="'.$question_id.'">
                 <input type="hidden" id="type'.$question_id.'" name="type" value="'.$type.'">
                 <input type="hidden" name="score" value="'.$credit.'">
-				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white">'.$question.'</h1>
-                <div class="col-lg-12">
+                <div class="col-lg-6" style="left: 25%; top: 200px;">
                     <center><textarea class="form-control col-lg-12" value="" name="student_answer"></textarea></center>
                 </div>
                 </center></div>';
                 }
 				
 				echo '<script>
-    					if(document.getElementById("stat").value == "t"){
-    					document.getElementById(document.getElementById("question_id").value).style.display = "block";
-    					document.getElementById("oldItem").value = document.getElementById("question_id").value;
-                        }
-				    </script>';
+					if(document.getElementById("stat").value == "t"){
+					document.getElementById(document.getElementById("question_id").value).style.display = "block";
+					document.getElementById("oldItem").value = document.getElementById("question_id").value;
+					}
+				</script>';
             }
 			
             ?>
@@ -404,39 +385,39 @@
 					 foreach($items as $item){
                         switch($item->type){
                             case 1: //MCQ
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
 
                             case 2: //True or False
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
 
                             case 3: //Matching Type
                                 if($item->question_id == $item->matching_id){ //Else if matching type, then gather all the questions for the matching_id
-                                    echo '<li id="question'.$item->question_id.'"><a  value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                    echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                     $counter++;
                                 }
                                 break;
 
                             case 4: //Fill-in-the-blanks
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
 
                             case 5: //Identification
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
 
                             case 6: //Essay
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
 
                             case 7: //Programming
-                                echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
+                                echo '<li><a id="question'.$counter.'" value="'.$item->question_id.'" onClick="showItem('.$item->question_id.')">'.$counter.'</a></li>';
                                 $counter++;
                                 break;
                         }
@@ -444,14 +425,14 @@
                     ?>
                     </ul>
                 </div>
-                <div id="endExam" class="col-md-4">
+                <div id="endExam" class="col-md-6">
                     <button type="submit" name="submitbutton" onclick="return confirm('Are you sure you want to end exam?');" class="btn btn-primary btn-lg">End Exam<br>(There is a confirmation)</button>
                 </div>
             </div>
          </form>
     </section>
 
-    <!-- javascripts -->
+        <!-- javascripts -->
     <script src="<?php echo base_url(); ?>js/jquery.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
     <!-- nice scroll -->
@@ -480,17 +461,6 @@
     <script src="<?php echo base_url(); ?>js/form-component.js"></script>
     <!-- custome script for all page -->
     <script src="<?php echo base_url(); ?>js/scripts.js"></script>
-
-    <script>
-    //Indicate the active item onload
-        document.getElementById("question"+document.getElementById("oldItem").value).className = "active";
-    </script>
-
-    <script>
-    function showActive($question_id){ //Indicate active item onclick
-        document.getElementById("question"+$question_id).className = "active";
-    }
-    </script>
 
   </body>
 </html>
