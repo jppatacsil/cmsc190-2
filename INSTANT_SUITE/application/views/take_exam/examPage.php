@@ -101,6 +101,21 @@
         var timer = setTimeout('countdown('+timeleft+')', 1000);
    }
 
+   //Function to confirm if user will end
+   function confirmEnd(){
+        if(document.getElementById("unanswered").value != ""){
+            alert("You have not answered items: "+document.getElementById("unanswered").value+"."); 
+        }
+        var retVal = confirm("Are you REALLY sure you want to end exam?");    
+        if(retVal == true){
+            alert("REALLY SURE");
+            document.getElementById("confirmation").value = 1;
+        }else{
+            alert("NOT REALLY");
+            document.getElementById("confirmation").value = 0;
+        }
+   }
+
 </script>
 
 <style>
@@ -147,6 +162,22 @@
         font-size: 1.875em; /* 30px/16=1.875em */
     }
 
+    input[type="text"]
+    {
+        font-family: Georgia;
+        font-size:24px;
+    }
+
+    option{
+        font-family: Georgia;
+        font-size:20px;
+    }
+
+    option[selected="true"]{
+        font-family: Georgia;
+        font-size:20px;
+    }
+
     pre {
     display: block;
     opacity: 0.75;
@@ -183,6 +214,20 @@
                     $timeleft = $time->time_left;
                 }
 
+                //String variables to get the items with and without answers
+                $Ans = "";
+                $NoAns = "";
+                $itemNo = 1;
+                if($unanswered != false){
+                    foreach($unanswered as $item){ //Get all the answers of the student
+                        $Ans .= $itemNo."_";
+                        if($item->stud_answer == null){
+                            $NoAns .= $itemNo."_";
+                        }
+                        $itemNo++;
+                    }
+                }
+
             ?>
 
     <!--THE HEADER DIV-->
@@ -217,7 +262,7 @@
 
     <!--THE QUESTION DIV-->
     <section id="mainPanel" class="col-lg-10">
-        <form  method="POST" id="examform" name="examPaper" action="<?php echo base_url()."index.php/checker/showResults/"?>">
+        <form autocomplete="off"  method="POST" id="examform" name="examPaper" action="<?php echo base_url()."index.php/checker/showResults/"?>">
 
             <!--The hidden values necessary for passing data to results page-->
             <input type="hidden" id="exam_key" name="exam_key" value="<?php echo $exam_key; ?>">
@@ -227,6 +272,9 @@
             <input type="hidden" id="firstName" name="firstName" value="<?php echo $firstName; ?>">
             <input type="hidden" id="lastName" name="lastName" value="<?php echo $lastName; ?>">
             <input type="hidden" id="total_score" name="total_score" value="<?php echo $total_score; ?>">
+            <input type="hidden" id="unanswered" name="unanswered" value="<?php echo $NoAns; ?>"> <!--THE UNANSWERED ITEMS-->
+            <input type="hidden" id="confirmation" name="confirmation" value=""> <!--THE CONFIRMATION-->
+
 			<input type="hidden" id="oldItem" value=""> <!--Hidden value to update item-->
 			
 			<input type="hidden" id="stat" value=""> <!--Hidden value to update active item-->
@@ -256,12 +304,12 @@
 				<input type="hidden" id="old_answer'.$question_id.'" value="'.$answer.'">
                 <center>
                 <h1 style="color: white"><script type="text/javascript">document.getElementById()</script>'.$question.'</h1>
-                <select class="form-control col-lg-12" id="student_answer'.$question_id.'" name="student_answer">';
+                <select style:"font-size: 14px;" class="form-control col-lg-12" id="student_answer'.$question_id.'" name="student_answer">';
                         if($answer != NULL){
 							echo '<option selected="true" style="display:none;">'.$answer.'</option>';
 						}
 						else{
-							echo '<option style:"font-size: 24px" selected="true" value="" style="display:none;">Select best answer</option>';
+							echo '<option selected="true" value="" style="display:none;">Select best answer</option>';
 						}
                         foreach($choices as $choice){
                             if($choice->question_id == $question_id){ //only print choices that is related to the question
@@ -445,7 +493,7 @@
                     </ul>
                 </div>
                 <div id="endExam" class="col-md-4">
-                    <button type="submit" name="submitbutton" onclick="return confirm('Are you sure you want to end exam?');" class="btn btn-primary btn-lg">End Exam<br>(There is a confirmation)</button>
+                    <button name="submitbutton" onclick="confirmEnd();" class="btn btn-primary btn-lg">End Exam<br>(There is a confirmation)</button>
                 </div>
             </div>
          </form>

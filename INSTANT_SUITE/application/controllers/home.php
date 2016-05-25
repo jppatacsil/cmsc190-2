@@ -38,9 +38,9 @@ class home extends CI_Controller {
 	}
 
 	public function home_page(){
-			
+
 			if($this->session->userdata('is_logged_in')){ //if user is logged in, user is able to access home page
-				
+
 				if($this->displayClasses()!=false){
 					$data['classes'] = $this->displayClasses();
 					$this->load->view('home_page', $data);

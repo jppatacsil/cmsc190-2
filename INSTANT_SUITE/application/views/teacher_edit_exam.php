@@ -73,6 +73,17 @@
 
     document.getElementById('total_score').value = scoreTot;
   }
+
+  //Function to remove existing coverage
+  function removeField(counter){
+    document.getElementById("category"+counter).remove();
+    document.getElementById("number"+counter).remove();
+    document.getElementById("diff"+counter).remove();
+    document.getElementById("remove"+counter).remove();
+    document.getElementById("coverage"+counter).remove();
+
+    findTotal(); //Get new total items and score
+  }
 	
 	</script>
 
@@ -147,8 +158,10 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label" for="category">Coverage</label>
 									<div id="categoryInput" class="col-md-4 input_fields_wrap">
+                  <?php $counter = 0; ?>
 									<?php foreach($category as $row){
-										echo '<br><select class="col-lg-12" name="category[]"> ';
+                    $counter = $counter + 1;
+										echo '<br><div id="coverage'.$counter.'"><select id="category'.$counter.'" class="col-lg-12" name="category[]"> ';
 														echo '<option selected="true" style="display:none;">'.$row->category.'</option>';
 														foreach($categories as $cat){
 														echo '<option value="'.$cat->category.'">
@@ -156,9 +169,9 @@
 														</option>';
 														}
 										echo '</select>
-										<br><input type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
+										<br><input id="number'.$counter.'" type="number" class="col-lg-12" onchange="findTotal()" min="0" name="totalItems[]" placeholder="Total Items" value="'.$row->no_of_item.'">
 								    <br>
-										<select name="difficulty[]" onchange="computeScore()" class="col-lg-12">';
+										<select id="diff'.$counter.'" name="difficulty[]" onchange="computeScore()" class="col-lg-12">';
 											switch($row->difficulty){
 												case 1: echo '<option value = "1" selected="true" style="display:none;">EASY</option>'; break;
 												case 2: echo '<option value = "2" selected="true" style="display:none;">AVERAGE</option>'; break;
@@ -168,8 +181,8 @@
 											<option value="2">AVERAGE</option>
 											<option value="3">DIFFICULT</option>
 										</select>
-										<br>';
-										}?>
+										<br><a href="#" id="remove'.$counter.'" class="btn btn-danger btn-xs btn-block" onclick="removeField('.$counter.');">Remove</a></div>';
+                    }?>
 									</div>
 									<div class="col-md-4">
 									<input type="button" class="btn btn-success btn-sm add_field_button" value="Add another category">

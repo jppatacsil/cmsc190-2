@@ -129,7 +129,7 @@
                     <h4 class="modal-title">Exam Key</h4>
                     </div>
                         <div class="modal-body">
-                        <form class="form-horizontal" role="form" action="<?php echo base_url()."index.php/take_exam/examPage/"?>" method="post">
+                        <form autocomplete="off" class="form-horizontal" role="form" action="<?php echo base_url()."index.php/take_exam/examPage/"?>" method="post">
                         <div class="form-group">
                             <input type="text" required id="keyInput" class="form-control col-lg-12" name="examKey" placeholder="Enter key for exam here">
                         </div>

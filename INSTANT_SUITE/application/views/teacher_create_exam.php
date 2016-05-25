@@ -161,7 +161,7 @@
                <div class="form-group">
                 <label class="col-md-4 control-label" for="exam_duration">Exam Duration (in minutes)</label>
                 <div class="col-md-4">
-                  <input type="number" name="duration" step="5" required>
+                  <input type="number" name="duration" min="5" step="5" required>
                 </div>
               </div>
                              

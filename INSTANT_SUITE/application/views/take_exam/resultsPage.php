@@ -95,7 +95,7 @@
     <!--THE RESULTS DIV-->
     <section id="mainPanel">
 
-        <h2 style="color: white;">This is the moment of truth. The results for your exam is: </h1><br><br>
+        <h2 style="color: white;">Your raw score is: </h1><br><br>
 
         <h1 style="color: white; font-size: 72px; font-style: comic-sans; text-align: center;"><?php echo $computedScore.'/'.$total_score; ?></h1>
 

@@ -33,13 +33,32 @@
 
   var ansNum = 0;
 	
-  //For inserting new category in the list
+//For inserting new category in the list
   function insertCategory(){
       if($("#newCategory").val() != ""){ //If the newCategory input is not empty, then append new category to options
-        alert("Category inserted to list!");
-        $("#categoryList").append('<option value="' + $("#newCategory").val() + '">' + $("#newCategory").val() + '</option>');
+        
+        //Check if category exists already
+        if($("#categoryList option[value="+$("#newCategory").val()+"]").length > 0){
+          alert("CATEGORY ALREADY EXISTS!");
+          document.getElementById('newCategory').value = "";
+          return;
+        }
+
+        //Append to top of the list       
+        var list = document.getElementById("categoryList");
+        var option = document.createElement("option");
+        option.value = document.getElementById('newCategory').value;
+        option.text = document.getElementById('newCategory').value;
+        list.add(option, list[0]);
+
+        //Select the newly entered category
+        var newList = document.getElementById("categoryList").children[0];
+        newList.setAttribute("selected", "selected");
         document.getElementById('newCategory').value = "";
-      }else {alert("No category to insert!");}
+
+        alert("Category inserted to list!");
+
+      }else {alert("No category inserted!");}
   }
 
     //If spelling errors was checked

@@ -48,21 +48,49 @@
 		//Check the considerations to be considered
 		if($cons1 == 1 || $cons2 == 2){
 			$consideration = 1; //Question considers other answers
+		}else{
+			$consideration = 0;
 		}
+
+		$answer = strtolower($answer);
 
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
-			'answer' => strtolower($answer),
+			'answer' => $answer,
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
 			'consideration' => $consideration, 
 			);
-			
-		$query = $this->db->insert('questions',$questionDetails);
 
-		if($consideration != null){
+		//Check if question already exists before inserting
+		$existing = $this->db->query("SELECT type, question, answer, credit, category, emp_no, consideration 
+			FROM questions 
+			WHERE type = '$type'
+			AND question = '$questionProper'
+			AND answer = '$answer'
+			AND credit = '$points'
+			AND category = '$category'
+			AND emp_no = '$empNo'
+			AND consideration = '$consideration'
+			;");
+
+			if ($existing->num_rows() > 0) //If already existing
+			{
+			   $exists = true;
+			}
+			else{
+				$exists = false;
+			}
+			
+			if($exists == false){ //Insert if not yet existing
+				$query = $this->db->insert('questions',$questionDetails);
+			}else{
+				return $exists;
+			}
+
+			if($consideration != 0){
 			$question_id = $this->db->insert_id(); //Get the last inserted exam_no
 			$totalConsiderations = count($consAns); //Count the number of considered answers
 
@@ -83,35 +111,84 @@
 		public function addQuestion2($email, $category, $type, $questionProper, $points, $answer){
 		
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
+
+		$answer = strtolower($answer);
 		
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
-			'answer' => strtolower($answer),
+			'answer' => $answer,
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
 			);
-			
-		$query = $this->db->insert('questions',$questionDetails);
-		
+
+		//Check if question already exists before inserting
+		$existing = $this->db->query("SELECT type, question, answer, credit, category, emp_no 
+			FROM questions 
+			WHERE type='$type'
+			AND question='$questionProper'
+			AND answer = '$answer'
+			AND credit = '$points'
+			AND category = '$category'
+			AND emp_no = '$empNo'
+			;");
+
+			if ($existing->num_rows() > 0) //If already existing
+			{
+			   $exists = true;
+			}
+			else{
+				$exists = false;
+			}
+
+		if($exists == false){
+			$query = $this->db->insert('questions',$questionDetails);
+		}else{
+			return $exists;
+		}
+
 		}
 		
 		//Function to add multiple choice questions
 		public function addMCQ($email,$category,$type,$questionProper,$points,$choice,$answer){
 		
 		$empNo = $this->db->query("SELECT emp_no from teacher WHERE email_address = '$email';")->row()->emp_no;
-		
+		$answer = strtolower($answer);
+
 		$questionDetails = array(
 			'type' => $type,
 			'question' => $questionProper,
-			'answer' => strtolower($answer),
+			'answer' => $answer,
 			'credit' => $points,
 			'category' => $category,
 			'emp_no' => $empNo,
 			);
 			
-		$query = $this->db->insert('questions',$questionDetails);
+			//Check if question already exists before inserting
+			$existing = $this->db->query("SELECT type, question, answer, credit, category, emp_no 
+				FROM questions 
+				WHERE type='$type'
+				AND question='$questionProper'
+				AND answer = '$answer'
+				AND credit = '$points'
+				AND category = '$category'
+				AND emp_no = '$empNo'
+				;");
+
+				if ($existing->num_rows() > 0) //If already existing
+				{
+				   $exists = true;
+				}
+				else{
+					$exists = false;
+				}
+
+			if($exists == false){ //If not yet existing
+				$query = $this->db->insert('questions',$questionDetails);
+			}else{
+				return $exists;
+			}
 		
 		$question_id = $this->db->query("SELECT question_id from questions WHERE question = '$questionProper';")->row()->question_id;
 		
@@ -400,5 +477,16 @@
 
 			return $query->result();
 		}
+
+		//Function to get all unanswered items
+        public function getUnansweredItems($exam_key){
+            $query = $this->db->query("SELECT * FROM exam_set WHERE exam_key = '$exam_key' ORDER BY exam_set_id;");
+
+            if($query->num_rows() > 0){
+                return $query->result();
+            }else{
+                return false;
+            }
+        }
 
 }
