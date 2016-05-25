@@ -78,7 +78,6 @@ class take_exam extends CI_Controller {
 					$data['choices'] = $this->exam_model->getchoices($examKey);	//get the choices for the generated MCQ and Matching questions
 					$data['examinee'] = $this->exam_model->getExaminee($student_no);
 					$data['exam'] = $this->exam_model->getExamDetails($exam_no);
-					$data['unanswered'] = $unanswered = $this->exam_model->getUnansweredItems($examKey);
 
 				//echo '<script type="text/javascript">alert("RELOADING EXAM!");</script>'; //Alert invalid key
 				$this->load->view('take_exam/examPage', $data); //Reload back to instructions page
@@ -99,7 +98,6 @@ class take_exam extends CI_Controller {
 			$data['choices'] = $this->exam_model->getchoices($examKey);	//get the choices for the generated MCQ and Matching questions
 			$data['examinee'] = $this->exam_model->getExaminee($student_no); 	//get the examinee info based from student_no
 			$data['exam'] = $this->exam_model->getExamDetails($exam_no); 				//get the exam based from exam_no
-			$data['unanswered'] = $unanswered = $this->exam_model->getUnansweredItems($examKey);
 
 			$this->load->view('take_exam/examPage', $data);
 			}

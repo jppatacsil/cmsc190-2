@@ -86,6 +86,8 @@
         if(secs < 1){
             if(mins == 0){
                 alert("EXAM HAS ENDED!");
+                document.getElementById("time_end").value = 1;
+                alert("Too bad.\nYou have not answered items: "+document.getElementById("unanswered").value+".");
                 document.examPaper.submit(); //Submit the exam
             }
             else{
@@ -108,10 +110,8 @@
         }
         var retVal = confirm("Are you REALLY sure you want to end exam?");    
         if(retVal == true){
-            alert("REALLY SURE");
             document.getElementById("confirmation").value = 1;
         }else{
-            alert("NOT REALLY");
             document.getElementById("confirmation").value = 0;
         }
    }
@@ -213,21 +213,6 @@
 				foreach($timeleft as $time){ //get the exam_key of the exam_set
                     $timeleft = $time->time_left;
                 }
-
-                //String variables to get the items with and without answers
-                $Ans = "";
-                $NoAns = "";
-                $itemNo = 1;
-                if($unanswered != false){
-                    foreach($unanswered as $item){ //Get all the answers of the student
-                        $Ans .= $itemNo."_";
-                        if($item->stud_answer == null){
-                            $NoAns .= $itemNo."_";
-                        }
-                        $itemNo++;
-                    }
-                }
-
             ?>
 
     <!--THE HEADER DIV-->
@@ -272,8 +257,8 @@
             <input type="hidden" id="firstName" name="firstName" value="<?php echo $firstName; ?>">
             <input type="hidden" id="lastName" name="lastName" value="<?php echo $lastName; ?>">
             <input type="hidden" id="total_score" name="total_score" value="<?php echo $total_score; ?>">
-            <input type="hidden" id="unanswered" name="unanswered" value="<?php echo $NoAns; ?>"> <!--THE UNANSWERED ITEMS-->
             <input type="hidden" id="confirmation" name="confirmation" value=""> <!--THE CONFIRMATION-->
+            <input type="hidden" id="time_end" name="time_end" value="0"> <!--IF TIME ENDS-->
 
 			<input type="hidden" id="oldItem" value=""> <!--Hidden value to update item-->
 			
@@ -448,8 +433,13 @@
                 <div id="itemsPane" class="col-md-8">
                     <ul class="pagination">
                     <?php
-                     $counter = 1;
+                    $counter = 1;
+                    $NoAns = ""; //The items that has no answer
 					 foreach($items as $item){
+                        //Check if item is still unanswered
+                        if($item->stud_answer == null){
+                                $NoAns .= $counter."_";
+                            }
                         switch($item->type){
                             case 1: //MCQ
                                 echo '<li id="question'.$item->question_id.'"><a value="'.$item->question_id.'" onClick="showItem('.$item->question_id.'); showActive('.$item->question_id.');">'.$counter.'</a></li>';
@@ -493,6 +483,7 @@
                     </ul>
                 </div>
                 <div id="endExam" class="col-md-4">
+                    <input type="hidden" id="unanswered" name="unanswered" value="<?php echo $NoAns; ?>"> <!--THE UNANSWERED ITEMS-->
                     <button name="submitbutton" onclick="confirmEnd();" class="btn btn-primary btn-lg">End Exam<br>(There is a confirmation)</button>
                 </div>
             </div>

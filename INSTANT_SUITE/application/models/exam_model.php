@@ -477,16 +477,4 @@
 
 			return $query->result();
 		}
-
-		//Function to get all unanswered items
-        public function getUnansweredItems($exam_key){
-            $query = $this->db->query("SELECT * FROM exam_set WHERE exam_key = '$exam_key' ORDER BY exam_set_id;");
-
-            if($query->num_rows() > 0){
-                return $query->result();
-            }else{
-                return false;
-            }
-        }
-
 }

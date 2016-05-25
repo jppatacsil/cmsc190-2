@@ -113,7 +113,6 @@ class checker extends CI_Controller {
 			$data['choices'] = $this->exam_model->getchoices($exam_key);	//get the choices for the generated MCQ and Matching questions
 			$data['examinee'] = $this->exam_model->getExaminee($student_no);
 			$data['exam'] = $this->exam_model->getExamDetails($exam_no);
-			$data['unanswered'] = $unanswered = $this->exam_model->getUnansweredItems($examKey);
 
 			$this->load->view('take_exam/examPage', $data); //Reload the exam page again
 	}
@@ -127,12 +126,10 @@ class checker extends CI_Controller {
 		$firstName = $this->input->post('firstName');
 		$lastName = $this->input->post('lastName');
 		$total_score = $this->input->post('total_score');
-		$confirmation = $this->input->post('confirmation');
+		$confirmation = $this->input->post('confirmation'); //Check which option user chose
+		$time_end = $this->input->post('time_end'); //Check if time has ended
 
-		echo '<script type="text/javascript">alert("Your confirmation is: '.$confirmation.'");</script>';
-
-		if($confirmation == 0){ //Reload page again
-			echo '<script>alert("RELOAD EXAM!");</script>';
+		if($confirmation == 0 && $time_end == 0){ //Reload page again
 			$this->load->model('exam_model');		
 			$data['items'] = $this->exam_model->reloadExamSet($exam_key); //Reload exam items
 
@@ -149,12 +146,10 @@ class checker extends CI_Controller {
 			$data['choices'] = $this->exam_model->getchoices($exam_key);	//get the choices for the generated MCQ and Matching questions
 			$data['examinee'] = $this->exam_model->getExaminee($student_no);
 			$data['exam'] = $this->exam_model->getExamDetails($exam_no);
-			$data['unanswered'] = $unanswered = $this->exam_model->getUnansweredItems($exam_key);
 
 			$this->load->view('take_exam/examPage', $data); //Reload the exam page again
 
 		}else{ //Save exam result
-			echo '<script>alert("SUBMIT EXAM!");</script>';
 			$this->load->model('checker_model');
 			$computedScore = $this->checker_model->computeTotalScore($exam_key, $student_no);
 
@@ -170,72 +165,6 @@ class checker extends CI_Controller {
 			$this->checker_model->saveResult($exam_key, $student_no, $computedScore);
 			$this->load->view('take_exam/resultsPage', $data);
 		}
-
-		
-
-		//Prompt unanswered items
-		
-
-		/*$unanswered = $this->checker_model->getUnansweredItems($exam_key);
-		if($unanswered == false){
-	        //Save to results table if all items have already been answered
-	        $this->checker_model->saveResult($exam_key, $student_no, $computedScore);
-			$this->load->view('take_exam/resultsPage', $data);
-		}else{ //Prompt the unanswered item numbers
-
-			//String variables to get the items with and without answers
-			$Ans = "";
-			$NoAns = "";
-			$itemNo = 1;
-			foreach($unanswered as $item){ //Get all the answers of the student
-				$Ans .= $itemNo."_";
-				if($item->stud_answer == null){
-					$NoAns .= $itemNo."_";
-				}
-				$itemNo++;
-			}
-
-			echo '<script type="text/javascript">
-				alert("You have not answered items: '.$NoAns.'."); 
-				var retVal = confirm("Are you REALLY sure you want to end exam?");
-				</script>';
-
-					echo '$confirmVal = <script>retVal</script>';
-
-					echo '<script type="text/javascript">alert("'.$confirmVal.'");</script>';					
-
-				//Check which option was chosen
-					if($confirmVal == false){*/
-					/*************************RELOAD THE EXAM PAGE AGAIN****************************/
-					/*
-					echo '<script>alert("RELOAD EXAM!");</script>';
-					$this->load->model('exam_model');		
-					$data['items'] = $this->exam_model->reloadExamSet($exam_key); //Reload exam items
-
-					$examDetails = $this->exam_model->reloadExamDetails($exam_key); //Reload the details
-
-					foreach($examDetails as $row){ //Fetch the exam_no and student_no from details
-						$exam_no = $row->exam_no;
-						$student_no = $row->student_no;
-					}
-
-					//Reload other necessary informations
-						$data['timeleft'] = $this->exam_model->getTimeLeft($exam_key);
-						$data['matching'] = $this->exam_model->getMatching($exam_key); //get the matching type questions based from exam_key
-						$data['choices'] = $this->exam_model->getchoices($exam_key);	//get the choices for the generated MCQ and Matching questions
-						$data['examinee'] = $this->exam_model->getExaminee($student_no);
-						$data['exam'] = $this->exam_model->getExamDetails($exam_no);
-						$data['unanswered'] = $unanswered = $this->exam_model->getUnansweredItems($examKey);
-
-						$this->load->view('take_exam/examPage', $data); //Reload the exam page again
-						
-					}else{
-						echo '<script>alert("SUBMIT EXAM!");</script>';
-						$this->load->model('checker_model');
-						$this->checker_model->saveResult($exam_key, $student_no, $computedScore);
-						$this->load->view('take_exam/resultsPage', $data);
-					}*/
-		//}
 	}
 
 }
